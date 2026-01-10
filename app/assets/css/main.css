@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  letter-spacing: 1.5px;
+
+  --color-bg-1: #f3f5f7;
+  --color-bg-2: #e9e7f1;
+}

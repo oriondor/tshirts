@@ -28,7 +28,7 @@ const toggleMobileMenu = () => {
         </svg>
       </button>
 
-      <div class="logo">{Logo}</div>
+      <div class="logo-container"><logo /></div>
 
       <div class="nav-buttons" :class="{ 'mobile-open': isMobileMenuOpen }">
         <orio-nav-button variant="subdued">Products</orio-nav-button>
@@ -92,8 +92,14 @@ const toggleMobileMenu = () => {
   order: 1;
 }
 
-.logo {
+.logo-container {
   order: 2;
+  cursor: pointer;
+}
+
+.logo-container :deep(svg) {
+  max-width: 230px;
+  height: 100%;
 }
 
 .nav-buttons {
@@ -101,6 +107,7 @@ const toggleMobileMenu = () => {
   align-items: center;
   gap: 0.5rem;
   order: 3;
+  text-wrap: nowrap;
 }
 
 .mobile-auth-buttons {
@@ -124,6 +131,7 @@ const toggleMobileMenu = () => {
   }
 
   .logo {
+    top: 0;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);

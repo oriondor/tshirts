@@ -15,21 +15,14 @@ const designs = computed(() => {
 </script>
 
 <template>
-  <div class="designs">
+  <container>
     <designs-design
       v-for="design in designs"
       :key="design"
       :type="type"
       :name="design"
     />
-  </div>
+  </container>
 </template>
 
-<style scoped>
-.designs {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding: 3rem;
-}
-</style>
+<style scoped></style>

@@ -39,7 +39,7 @@ const designImage = computed(() => `/designs/${props.type}/${props.name}.png`);
   align-items: center;
   justify-content: center;
   opacity: 1;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.1s ease-in-out;
   width: 100%;
 }
 
@@ -63,7 +63,7 @@ const designImage = computed(() => `/designs/${props.type}/${props.name}.png`);
   width: 100%;
   height: auto;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.1s ease-in-out;
   pointer-events: none;
 }
 

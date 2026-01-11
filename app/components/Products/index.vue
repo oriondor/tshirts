@@ -3,20 +3,13 @@ import { products } from "@/assets/configs/products";
 </script>
 
 <template>
-  <div class="products">
+  <container>
     <products-product
       v-for="product in products"
       :key="product.id"
       v-bind="product"
     />
-  </div>
+  </container>
 </template>
 
-<style scoped>
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-}
-</style>
+<style scoped></style>

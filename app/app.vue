@@ -7,7 +7,7 @@ setTheme("inverse");
 <template>
   <NuxtLayout>
     <Navigation />
-    <NuxtPage />
+    <NuxtPage class="content" />
   </NuxtLayout>
 </template>
 
@@ -25,5 +25,12 @@ body,
 /* Disable double-tap zoom globally via touch-action */
 * {
   touch-action: manipulation;
+}
+
+.content {
+  margin: auto;
+  width: 60rem;
+  max-width: 100%;
+  padding-block: 2rem;
 }
 </style>

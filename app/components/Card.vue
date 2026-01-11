@@ -9,9 +9,12 @@ function handleClick() {
   isFlipping.value = true;
 }
 
-function onAnimationEnd() {
-  isFlipping.value = false;
-  emit("flipComplete");
+function onAnimationEnd(event: AnimationEvent) {
+  // Only respond to our flip animation, not inherited ones
+  if (isFlipping.value && event.animationName.includes("flipAndScale")) {
+    isFlipping.value = false;
+    emit("flipComplete");
+  }
 }
 </script>
 
@@ -46,7 +49,7 @@ function onAnimationEnd() {
 }
 
 .card.flipping {
-  animation: flipAndScale 0.25s ease-in-out forwards;
+  animation: flipAndScale 0.3s ease-in-out forwards !important;
 }
 
 @keyframes flipAndScale {

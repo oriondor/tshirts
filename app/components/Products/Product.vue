@@ -12,7 +12,7 @@ defineProps<ProductProps>();
 </script>
 
 <template>
-  <card @click="navigateTo(`/product/${id}`)">
+  <card @flip-complete="navigateTo(`/product/${id}`)">
     <img :src="image" />
     <orio-view-text type="title" size="large">{{ name }}</orio-view-text>
     <orio-button> CHECK COLLECTIONS </orio-button>

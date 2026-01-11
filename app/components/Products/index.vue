@@ -15,6 +15,8 @@ import { products } from "@/assets/configs/products";
 <style scoped>
 .products {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1rem;
 }
 </style>

@@ -9,7 +9,7 @@
 <style scoped>
 .container {
   margin: auto;
-  width: 50rem;
+  width: 55rem;
   max-width: 100%;
   padding: 3rem;
 }

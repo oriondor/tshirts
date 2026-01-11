@@ -9,6 +9,55 @@
       width="1024"
       height="328"
     >
+      <defs>
+        <linearGradient id="shine-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="black">
+            <animate
+              attributeName="offset"
+              values="-0.5; 1.5; 1.5"
+              keyTimes="0; 0.1; 1"
+              dur="7s"
+              repeatCount="indefinite"
+            />
+          </stop>
+          <stop offset="10%" stop-color="#666">
+            <animate
+              attributeName="offset"
+              values="-0.4; 1.6; 1.6"
+              keyTimes="0; 0.1; 1"
+              dur="7s"
+              repeatCount="indefinite"
+            />
+          </stop>
+          <stop offset="20%" stop-color="#fff">
+            <animate
+              attributeName="offset"
+              values="-0.3; 1.7; 1.7"
+              keyTimes="0; 0.1; 1"
+              dur="7s"
+              repeatCount="indefinite"
+            />
+          </stop>
+          <stop offset="30%" stop-color="#666">
+            <animate
+              attributeName="offset"
+              values="-0.2; 1.8; 1.8"
+              keyTimes="0; 0.1; 1"
+              dur="7s"
+              repeatCount="indefinite"
+            />
+          </stop>
+          <stop offset="40%" stop-color="black">
+            <animate
+              attributeName="offset"
+              values="-0.1; 1.9; 1.9"
+              keyTimes="0; 0.1; 1"
+              dur="7s"
+              repeatCount="indefinite"
+            />
+          </stop>
+        </linearGradient>
+      </defs>
       <g id="Layer 1">
         <path
           id="logo-red"
@@ -49,6 +98,10 @@
 }
 
 #logo-black-outline {
+  fill: url(#shine-gradient);
+}
+
+.logo:hover #logo-black-outline {
   fill: black;
 }
 

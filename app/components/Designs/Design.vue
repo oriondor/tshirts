@@ -2,6 +2,7 @@
 interface Props {
   type: "t-shirt" | "cup";
   name: string;
+  image: string;
 }
 
 const props = defineProps<Props>();
@@ -10,7 +11,7 @@ const overlayThreshold = 0.4;
 const topMargin = "35%";
 
 const baseProductImage = computed(() => `/products/${props.type}.png`);
-const designImage = computed(() => `/designs/${props.type}/${props.name}.png`);
+const designImage = computed(() => `/designs/${props.type}/${props.image}`);
 </script>
 
 <template>

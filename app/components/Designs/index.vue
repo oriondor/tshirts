@@ -18,9 +18,9 @@ const designs = computed(() => {
   <container>
     <designs-design
       v-for="design in designs"
-      :key="design"
-      :type="type"
-      :name="design"
+      :key="design.name"
+      :type
+      v-bind="design"
     />
   </container>
 </template>

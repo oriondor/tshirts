@@ -52,9 +52,11 @@ function onAnimationEnd() {
 @keyframes flipAndScale {
   0% {
     transform: rotateZ(0deg) scale(1);
+    opacity: 1;
   }
   100% {
-    transform: rotateZ(360deg) scale(5);
+    transform: rotateZ(250deg) scale(9);
+    opacity: 0;
   }
 }
 

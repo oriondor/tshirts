@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { ProductTypes } from "~/types/products";
+import type { ProductType } from "~/types/products";
 import { designs as designsConfig } from "@/assets/configs/designs";
 
 interface Props {
-  type: ProductTypes;
+  type: ProductType;
 }
 
 const props = defineProps<Props>();

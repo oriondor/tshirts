@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "change-case": "^5.4.4",
     "nuxt": "^4.2.2",
     "orio-ui": "^1.0.6",
     "vue": "^3.5.26",

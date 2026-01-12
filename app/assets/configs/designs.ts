@@ -1,10 +1,11 @@
 export const designs = {
   "t-shirt": [
     {
+      id: "explosion",
       name: "Explosion",
       description: "Very gooda design, buy my design it's very gooda",
       price: 30,
-      image: "explosion.png",
+      images: { purple: "explosion.png" },
     },
   ],
   cup: [],

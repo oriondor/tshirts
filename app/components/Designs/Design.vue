@@ -1,8 +1,9 @@
 <script setup lang="ts">
 interface Props {
   type: "t-shirt" | "cup";
+  id: string;
   name: string;
-  image: string;
+  images: Record<string, string>;
 }
 
 const props = defineProps<Props>();
@@ -11,11 +12,16 @@ const overlayThreshold = 0.4;
 const topMargin = "35%";
 
 const baseProductImage = computed(() => `/products/${props.type}.png`);
-const designImage = computed(() => `/designs/${props.type}/${props.image}`);
+const designImage = computed(
+  () => `/designs/${props.type}/${Object.values(props.images)[0]}`
+);
 </script>
 
 <template>
-  <card class="design-card">
+  <card
+    class="design-card"
+    @flip-complete="navigateTo(`/product/${type}/design/${id}`)"
+  >
     <div class="image-container">
       <div class="main-image">
         <img class="base-image" :src="baseProductImage" />

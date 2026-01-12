@@ -1,1 +1,1 @@
-export type ProductTypes = "t-shirt" | "cup";
+export type ProductType = "t-shirt" | "cup";

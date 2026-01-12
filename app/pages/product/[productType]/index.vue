@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ProductTypes } from "~/types/products";
+import type { ProductType } from "~/types/products";
 
 const route = useRoute();
-const type = computed(() => route.params.name as ProductTypes);
+const type = computed(() => route.params.productType as ProductType);
 </script>
 
 <template><designs :type /></template>

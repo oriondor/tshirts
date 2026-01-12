@@ -28,11 +28,15 @@ const toggleMobileMenu = () => {
         </svg>
       </button>
 
-      <div class="logo-container"><logo /></div>
+      <div class="logo-container"><logo @click="navigateTo('/')" /></div>
 
       <div class="nav-buttons" :class="{ 'mobile-open': isMobileMenuOpen }">
-        <orio-nav-button variant="subdued">Products</orio-nav-button>
-        <orio-nav-button variant="subdued">Print guide</orio-nav-button>
+        <orio-nav-button variant="subdued" @click="navigateTo('/')">
+          Products
+        </orio-nav-button>
+        <orio-nav-button variant="subdued" @click="navigateTo('/print-guide')">
+          Print guide
+        </orio-nav-button>
         <div class="mobile-auth-buttons">
           <orio-view-separator />
           <orio-button>Login</orio-button>
@@ -68,7 +72,9 @@ const toggleMobileMenu = () => {
 .navigation {
   width: 100%;
   background-color: var(--color-bg-1);
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .navigation-inner {

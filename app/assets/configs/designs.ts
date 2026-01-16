@@ -5,7 +5,7 @@ export const designs = {
       name: "Explosion",
       description: "Very gooda design, buy my design it's very gooda",
       price: 30,
-      images: { purple: "explosion.png" },
+      images: { blue: "blue.png", pink: "pink.png" },
     },
   ],
   cup: [],

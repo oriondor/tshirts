@@ -13,7 +13,7 @@ const topMargin = "35%";
 
 const baseProductImage = computed(() => `/products/${props.type}.png`);
 const designImage = computed(
-  () => `/designs/${props.type}/${Object.values(props.images)[0]}`
+  () => `/designs/${props.type}/${props.id}/${Object.values(props.images)[0]}`
 );
 </script>
 

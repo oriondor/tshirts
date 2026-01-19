@@ -8,6 +8,8 @@ const isScrolled = computed(() => scrollY.value > 0);
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
+
+const { count } = useCart();
 </script>
 
 <template>
@@ -56,11 +58,17 @@ const toggleMobileMenu = () => {
           class="desktop-only"
           aria-label="Profile"
         />
-        <orio-nav-button
-          variant="subdued"
-          icon="shopping-cart"
-          aria-label="Cart"
-        />
+        <orio-badge type="pill">
+          {{ count }}
+          <template #wrapping>
+            <orio-nav-button
+              variant="subdued"
+              icon="shopping-cart"
+              aria-label="Cart"
+              @click="navigateTo('/cart')"
+            />
+          </template>
+        </orio-badge>
       </div>
     </div>
 

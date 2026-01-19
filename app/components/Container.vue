@@ -1,5 +1,15 @@
+<script setup lang="ts">
+interface Props {
+  direction?: "column" | "row";
+}
+
+withDefaults(defineProps<Props>(), {
+  direction: "row",
+});
+</script>
+
 <template>
-  <div class="container">
+  <div class="container" :class="[direction]">
     <slot />
   </div>
 </template>
@@ -10,6 +20,11 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+}
+
+.container.column {
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .container > * {

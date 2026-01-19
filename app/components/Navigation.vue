@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { useWindowScroll } from "@vueuse/core";
+
 const isMobileMenuOpen = ref(false);
+const { y: scrollY } = useWindowScroll();
+const isScrolled = computed(() => scrollY.value > 0);
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -7,7 +11,7 @@ const toggleMobileMenu = () => {
 </script>
 
 <template>
-  <div class="navigation">
+  <div class="navigation" :class="{ scrolled: isScrolled }">
     <div class="navigation-inner">
       <button
         class="burger-menu"
@@ -71,15 +75,22 @@ const toggleMobileMenu = () => {
 <style scoped>
 .navigation {
   width: 100%;
+  height: var(--nav-height);
   background-color: var(--color-bg-1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 8px transparent;
+  transition: box-shadow 0.2s ease;
+}
+
+.navigation.scrolled {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .navigation-inner {
   margin: auto;
-  max-width: 40rem;
+  max-width: 60rem;
   padding: 1rem;
   display: flex;
   align-items: center;

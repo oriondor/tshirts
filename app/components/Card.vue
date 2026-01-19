@@ -50,6 +50,7 @@ function onAnimationEnd(event: AnimationEvent) {
 
 .card.flipping {
   animation: flipAndScale 0.3s ease-in-out forwards !important;
+  z-index: 1000;
 }
 
 @keyframes flipAndScale {

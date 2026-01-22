@@ -1,14 +1,14 @@
 <script setup lang="ts">
 const maxFiles = 6;
 
-const files = ref<File[]>([]);
+const modelValue = defineModel<File[]>({ default: () => [] });
 
 const previewUrls = computed(() =>
-  files.value.map((file) => URL.createObjectURL(file)),
+  modelValue.value.map((file) => URL.createObjectURL(file)),
 );
 
 function removeFile(index: number) {
-  files.value.splice(index, 1);
+  modelValue.value.splice(index, 1);
 }
 
 onUnmounted(() => {
@@ -19,13 +19,13 @@ onUnmounted(() => {
 <template>
   <orio-control-element v-bind="$attrs">
     <orio-upload
-      v-model="files"
+      v-model="modelValue"
       v-slot="{ isOverDropZone, openDialog }"
       :allowed-types="['image/png', 'image/jpeg']"
       :max-files
     >
       <div class="upload-container" @click="openDialog">
-        <div class="file" v-for="(file, index) in files" :key="file.name">
+        <div class="file" v-for="(file, index) in modelValue" :key="file.name">
           <orio-button
             class="remove"
             icon="close"
@@ -33,7 +33,7 @@ onUnmounted(() => {
           />
           <img :src="previewUrls[index]" :alt="file.name" />
         </div>
-        <div v-if="!files.length" class="empty">
+        <div v-if="!modelValue.length" class="empty">
           <div>
             {{ isOverDropZone ? "Drop" : "Upload" }} up to {{ maxFiles }} images
             here

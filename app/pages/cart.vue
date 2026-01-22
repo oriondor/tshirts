@@ -3,14 +3,14 @@ const { items, removeItem } = useCart();
 </script>
 
 <template>
-  <container direction="column">
+  <orio-animated-container direction="column">
     <cart-item
       v-for="(item, index) in items"
       :key="item.id"
       v-model="items[index]"
       @remove="removeItem(index)"
     />
-  </container>
+  </orio-animated-container>
 </template>
 
 <style scoped></style>

@@ -31,7 +31,7 @@ const { checkValidity, errors } = useValidation([
 
 const amount = ref(1);
 
-const properties = ref<Record<string, string>>({ name: "", files: [] });
+const properties = ref<Record<string, string | []>>({ name: "", files: [] });
 
 function addToCart() {
   if (!checkValidity()) return;

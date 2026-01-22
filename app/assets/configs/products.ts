@@ -25,16 +25,20 @@ export const products = [
         label: "T-shirt color",
       },
       {
+        id: "name",
         name: "name",
         component: "Input",
         label: "Name",
+        placeholder: "Main name on the t-shirt",
       },
       {
         name: "secondary",
         component: "Input",
         label: "Secondary text (optional)",
+        placeholder: "Happy anniversary, you stink, etc.",
       },
       {
+        id: "files",
         name: "files",
         component: "FilesUpload",
         label: "Upload files",

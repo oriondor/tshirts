@@ -37,6 +37,6 @@ const { design } = useDesign(
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
   padding: 0.5rem 1rem;
-  height: 5rem;
+  height: 8rem;
 }
 </style>

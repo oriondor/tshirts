@@ -9,6 +9,7 @@ const propertyModules = import.meta.glob<{ default: any }>("./*.vue", {
 interface Props {
   productType: ProductType;
   design: any;
+  errors: Record<string, string | null>;
 }
 const props = defineProps<Props>();
 const modelValue = defineModel<Record<string, string>>({ default: {} });
@@ -39,6 +40,7 @@ const propertyComponents = computed(() => {
       :is="property.component"
       :design="design"
       v-bind="property.props"
+      :error="errors[property.name]"
     />
   </div>
 </template>

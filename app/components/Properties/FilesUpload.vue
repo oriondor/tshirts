@@ -4,7 +4,7 @@ const maxFiles = 6;
 const files = ref<File[]>([]);
 
 const previewUrls = computed(() =>
-  files.value.map((file) => URL.createObjectURL(file))
+  files.value.map((file) => URL.createObjectURL(file)),
 );
 
 function removeFile(index: number) {
@@ -24,7 +24,7 @@ onUnmounted(() => {
       :allowed-types="['image/png', 'image/jpeg']"
       :max-files
     >
-      <div class="container" @click="openDialog">
+      <div class="upload-container" @click="openDialog">
         <div class="file" v-for="(file, index) in files" :key="file.name">
           <orio-button
             class="remove"
@@ -34,8 +34,10 @@ onUnmounted(() => {
           <img :src="previewUrls[index]" :alt="file.name" />
         </div>
         <div v-if="!files.length" class="empty">
-          {{ isOverDropZone ? "Drop" : "Upload" }} up to {{ maxFiles }} images
-          here
+          <div>
+            {{ isOverDropZone ? "Drop" : "Upload" }} up to {{ maxFiles }} images
+            here
+          </div>
           <orio-button>Add images</orio-button>
         </div>
       </div>
@@ -44,16 +46,16 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.container {
+.upload-container {
   max-width: 100%;
   width: 30rem;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
   border: 1px dashed var(--color-border);
   border-radius: var(--border-radius-md);
   padding: 0.75rem;
-  margin-block: 0.5rem;
   color: var(--color-muted);
   cursor: pointer;
 }

@@ -3,13 +3,14 @@ import { products } from "@/assets/configs/products";
 </script>
 
 <template>
-  <container>
+  <orio-animated-container v-slot="{ play }">
     <products-product
       v-for="product in products"
       :key="product.id"
       v-bind="product"
+      @mouseenter="play"
     />
-  </container>
+  </orio-animated-container>
 </template>
 
 <style scoped></style>

@@ -34,6 +34,8 @@ const subtotal = computed(() => modelValue.value * (props.price ?? 0));
 .item-amount {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .amount-field {
@@ -41,6 +43,8 @@ const subtotal = computed(() => modelValue.value * (props.price ?? 0));
 }
 
 .total-price {
-  min-width: 8rem;
+  text-align: center;
+  min-width: 7rem;
+  justify-content: center;
 }
 </style>

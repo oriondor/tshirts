@@ -10,3 +10,9 @@
   --nav-height: 6.25rem;
   --foot-height: 4rem;
 }
+
+@media (max-width: 768px) {
+  :root {
+    --foot-height: 9rem;
+  }
+}

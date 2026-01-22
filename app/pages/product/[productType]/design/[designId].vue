@@ -11,11 +11,30 @@ const { addItem } = useCart();
 
 const { design, getImagePath } = useDesign(productType, designId);
 
+const name = computed(() => properties.value.name);
+const files = computed(() => properties.value.files);
+
+const { checkValidity, errors } = useValidation([
+  {
+    model: name,
+    id: "name",
+    validator: isFilled,
+    message: "Name cannot be empty",
+  },
+  {
+    model: files,
+    id: "files",
+    validator: isFilled,
+    message: "Upload at least one image",
+  },
+]);
+
 const amount = ref(1);
 
-const properties = ref<Record<string, string>>({});
+const properties = ref<Record<string, string>>({ name: "", files: [] });
 
 function addToCart() {
+  if (!checkValidity()) return;
   if (!design.value) return;
   addItem({
     id: design.value.id,
@@ -66,7 +85,7 @@ watch(
             {{ design.description }}
           </orio-view-text>
         </div>
-        <Properties v-model="properties" :design :product-type />
+        <Properties v-model="properties" :design :product-type :errors />
       </div>
     </div>
     <Footer>
@@ -88,6 +107,7 @@ watch(
   padding-inline: 1rem;
   padding-bottom: var(--foot-height);
   align-items: flex-start;
+  max-width: 100%;
 }
 
 .item-images {
@@ -99,6 +119,7 @@ watch(
   display: flex;
   flex-direction: column;
   flex: 1;
+  max-width: 100%;
 }
 
 .text-information {

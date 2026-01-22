@@ -15,14 +15,15 @@ const designs = computed(() => {
 </script>
 
 <template>
-  <container>
+  <orio-animated-container v-slot="{ play }">
     <designs-design
       v-for="design in designs"
       :key="design.name"
       :type
       v-bind="design"
+      @mouseenter="play"
     />
-  </container>
+  </orio-animated-container>
 </template>
 
 <style scoped></style>

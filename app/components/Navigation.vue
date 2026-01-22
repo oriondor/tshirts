@@ -10,6 +10,7 @@ const toggleMobileMenu = () => {
 };
 
 const { count } = useCart();
+const { loggedIn } = useUserSession();
 </script>
 
 <template>
@@ -45,8 +46,12 @@ const { count } = useCart();
         </orio-nav-button>
         <div class="mobile-auth-buttons">
           <orio-view-separator />
-          <orio-button>Login</orio-button>
-          <orio-button variant="secondary">Sign up</orio-button>
+          <orio-button v-if="loggedIn" @click="navigateTo('/profile')">
+            Profile
+          </orio-button>
+          <orio-button v-else @click="navigateTo('/profile')">
+            Login / Sign up
+          </orio-button>
         </div>
       </div>
 
@@ -57,6 +62,7 @@ const { count } = useCart();
           icon="user"
           class="desktop-only"
           aria-label="Profile"
+          @click="navigateTo('/profile')"
         />
         <orio-badge type="pill">
           {{ count }}

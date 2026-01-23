@@ -12,6 +12,7 @@ const form = reactive({
 });
 const error = ref("");
 const loading = ref(false);
+const signupComplete = ref(false);
 
 const { checkValidity, errors } = useValidation([
   {
@@ -55,7 +56,7 @@ async function handleSubmit() {
         name: form.name,
       },
     });
-    emit("success");
+    signupComplete.value = true;
   } catch (err: any) {
     error.value = err.data?.message || "Signup failed";
   } finally {
@@ -65,7 +66,17 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <form class="signup-form" @submit.prevent="handleSubmit">
+  <div v-if="signupComplete" class="verification-sent">
+    <orio-view-text type="title">Check your email</orio-view-text>
+    <p>We've sent a verification link to <strong>{{ form.email }}</strong></p>
+    <p class="switch-text">
+      Didn't receive it?
+      <a href="#" @click.prevent="emit('switchToLogin')">Try logging in</a>
+      or check your spam folder.
+    </p>
+  </div>
+
+  <form v-else class="signup-form" @submit.prevent="handleSubmit">
     <orio-view-text type="title">Sign Up</orio-view-text>
 
     <div v-if="error" class="error-message">{{ error }}</div>
@@ -112,11 +123,16 @@ async function handleSubmit() {
 </template>
 
 <style scoped>
-.signup-form {
+.signup-form,
+.verification-sent {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+}
+
+.verification-sent {
+  text-align: center;
 }
 
 .error-message {

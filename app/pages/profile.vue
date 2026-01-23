@@ -1,10 +1,4 @@
 <script setup lang="ts">
-interface User {
-  id: string;
-  email: string;
-  name: string | null;
-}
-
 const { loggedIn, user, fetch: fetchSession, clear } = useUserSession();
 
 const authMode = ref<"login" | "signup">("login");
@@ -42,16 +36,14 @@ async function handleLogout() {
 
 <style scoped>
 .profile-page {
-  min-height: calc(100vh - var(--nav-height));
   display: flex;
-  align-items: center;
   justify-content: center;
   padding: 2rem;
 }
 
 .auth-container {
-  width: 100%;
-  max-width: 24rem;
+  min-width: 35rem;
+  max-width: 100%;
   padding: 2rem;
   background: var(--color-bg-1);
   border-radius: var(--border-radius-lg);

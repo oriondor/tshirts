@@ -1,13 +1,9 @@
 <script setup lang="ts">
-interface User {
-  id: string;
-  email: string;
-  name: string | null;
+interface Props {
+  user: User;
 }
 
-defineProps<{
-  user: User;
-}>();
+defineProps<Props>();
 
 const emit = defineEmits<{
   logout: [];

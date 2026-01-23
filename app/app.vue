@@ -7,7 +7,9 @@ setTheme("inverse");
 <template>
   <NuxtLayout>
     <Navigation />
-    <NuxtPage class="content" />
+    <div class="content">
+      <NuxtPage />
+    </div>
   </NuxtLayout>
 </template>
 

@@ -21,20 +21,27 @@ export default defineOAuthGoogleEventHandler({
         .limit(1);
 
       if (existingUser) {
-        // Link Google account to existing user
+        // Link Google account to existing user and verify email
         [user] = await db
           .update(users)
-          .set({ googleId: googleUser.sub, updatedAt: new Date() })
+          .set({
+            googleId: googleUser.sub,
+            emailVerified: true,
+            verificationToken: null,
+            verificationTokenExpiry: null,
+            updatedAt: new Date(),
+          })
           .where(eq(users.id, existingUser.id))
           .returning();
       } else {
-        // Create new user
+        // Create new user (Google users are pre-verified)
         [user] = await db
           .insert(users)
           .values({
             email: googleUser.email,
             name: googleUser.name,
             googleId: googleUser.sub,
+            emailVerified: true,
           })
           .returning();
       }

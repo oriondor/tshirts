@@ -10,6 +10,9 @@ const form = reactive({
 });
 const error = ref("");
 const loading = ref(false);
+const needsVerification = ref(false);
+const resendLoading = ref(false);
+const resendSuccess = ref(false);
 
 const { checkValidity, errors } = useValidation([
   {
@@ -36,6 +39,7 @@ async function handleSubmit() {
   if (!checkValidity()) return;
 
   error.value = "";
+  needsVerification.value = false;
   loading.value = true;
 
   try {
@@ -45,9 +49,27 @@ async function handleSubmit() {
     });
     emit("success");
   } catch (err: any) {
+    if (err.statusCode === 403) {
+      needsVerification.value = true;
+    }
     error.value = err.data?.message || "Login failed";
   } finally {
     loading.value = false;
+  }
+}
+
+async function handleResendVerification() {
+  resendLoading.value = true;
+  resendSuccess.value = false;
+
+  try {
+    await $fetch("/api/auth/resend-verification", {
+      method: "POST",
+      body: { email: form.email },
+    });
+    resendSuccess.value = true;
+  } finally {
+    resendLoading.value = false;
   }
 }
 </script>
@@ -56,7 +78,20 @@ async function handleSubmit() {
   <form class="login-form" @submit.prevent="handleSubmit">
     <orio-view-text type="title">Login</orio-view-text>
 
-    <div v-if="error" class="error-message">{{ error }}</div>
+    <div v-if="error" class="error-message">
+      {{ error }}
+      <template v-if="needsVerification">
+        <br />
+        <a
+          v-if="!resendSuccess"
+          href="#"
+          @click.prevent="handleResendVerification"
+        >
+          {{ resendLoading ? "Sending..." : "Resend verification email" }}
+        </a>
+        <span v-else>Verification email sent!</span>
+      </template>
+    </div>
 
     <orio-input
       v-model="form.email"

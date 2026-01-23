@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { capitalCase } from "change-case";
 
-const props = defineProps<{
+interface Props {
   provider: string;
-}>();
+}
+
+const props = defineProps<Props>();
 
 function handleClick() {
   window.location.href = `/api/auth/${props.provider}`;

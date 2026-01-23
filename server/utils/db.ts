@@ -1,6 +1,13 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { pgTable, uuid, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  uuid,
+  text,
+  timestamp,
+  varchar,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 // Schema
 export const users = pgTable("users", {
@@ -9,6 +16,9 @@ export const users = pgTable("users", {
   name: varchar("name", { length: 255 }),
   googleId: varchar("google_id", { length: 255 }).unique(),
   passwordHash: text("password_hash"),
+  emailVerified: boolean("email_verified").notNull().default(false),
+  verificationToken: varchar("verification_token", { length: 64 }),
+  verificationTokenExpiry: timestamp("verification_token_expiry"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

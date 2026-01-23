@@ -1,5 +1,7 @@
 import { eq } from "drizzle-orm";
+import { nanoid } from "nanoid";
 import { getDb, users } from "../../utils/db";
+import { sendVerificationEmail } from "../../utils/email";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -36,8 +38,10 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  // Hash password
+  // Hash password and generate verification token
   const passwordHash = await hashPassword(password);
+  const verificationToken = nanoid(32);
+  const verificationTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
   // Create user
   const [user] = await db
@@ -46,17 +50,17 @@ export default defineEventHandler(async (event) => {
       email,
       name: name || email.split("@")[0],
       passwordHash,
+      emailVerified: false,
+      verificationToken,
+      verificationTokenExpiry,
     })
     .returning();
 
-  // Set session
-  await setUserSession(event, {
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-    },
-  });
+  // Send verification email
+  await sendVerificationEmail(email, verificationToken);
 
-  return { success: true, user: { id: user.id, email: user.email, name: user.name } };
+  return {
+    success: true,
+    message: "Please check your email to verify your account",
+  };
 });

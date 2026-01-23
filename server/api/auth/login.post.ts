@@ -35,6 +35,14 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  // Check if email is verified
+  if (!user.emailVerified) {
+    throw createError({
+      statusCode: 403,
+      message: "Please verify your email first",
+    });
+  }
+
   // Set session
   await setUserSession(event, {
     user: {

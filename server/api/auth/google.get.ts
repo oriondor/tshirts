@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { getDb, users } from "../../utils/db";
+import { getDb, users } from "../../db";
 
 export default defineOAuthGoogleEventHandler({
   async onSuccess(event, { user: googleUser }) {

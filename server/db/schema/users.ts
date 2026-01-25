@@ -1,5 +1,3 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 import {
   pgTable,
   uuid,
@@ -9,7 +7,6 @@ import {
   boolean,
 } from "drizzle-orm/pg-core";
 
-// Schema
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
   email: varchar("email", { length: 255 }).notNull().unique(),
@@ -25,19 +22,3 @@ export const users = pgTable("users", {
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
-
-// Database connection (lazy initialization)
-let db: ReturnType<typeof drizzle> | null = null;
-let client: ReturnType<typeof postgres> | null = null;
-
-export function getDb() {
-  if (!db) {
-    const connectionString = process.env.DATABASE_URL;
-    if (!connectionString) {
-      throw new Error("DATABASE_URL is not defined");
-    }
-    client = postgres(connectionString);
-    db = drizzle(client);
-  }
-  return db;
-}

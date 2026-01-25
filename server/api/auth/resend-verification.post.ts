@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
-import { getDb, users } from "../../utils/db";
+import { getDb, users } from "../../db";
 import { sendVerificationEmail } from "../../utils/email";
 
 export default defineEventHandler(async (event) => {

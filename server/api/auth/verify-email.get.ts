@@ -1,5 +1,5 @@
 import { eq, and, gt } from "drizzle-orm";
-import { getDb, users } from "../../utils/db";
+import { getDb, users } from "../../db";
 
 export default defineEventHandler(async (event) => {
   const { token } = getQuery(event);

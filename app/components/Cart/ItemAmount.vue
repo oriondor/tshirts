@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const { formatDecimal } = useDecimalFormatter();
-
 interface Props {
   price: number;
 }
@@ -10,7 +8,7 @@ const props = defineProps<Props>();
 // Quantity
 const modelValue = defineModel<number>({ default: 0 });
 
-const subtotal = computed(() => modelValue.value * (props.price ?? 0));
+const total = computed(() => modelValue.value * (props.price ?? 0));
 </script>
 
 <template>
@@ -21,11 +19,7 @@ const subtotal = computed(() => modelValue.value * (props.price ?? 0));
       :max="100"
       class="amount-field"
     />
-    <client-only>
-      <orio-view-text type="italics" size="large" class="total-price">
-        €{{ formatDecimal(subtotal) }}
-      </orio-view-text>
-    </client-only>
+    <cart-item-amount-view :total />
     <slot name="actions" />
   </div>
 </template>
@@ -40,11 +34,5 @@ const subtotal = computed(() => modelValue.value * (props.price ?? 0));
 
 .amount-field {
   max-width: 6rem;
-}
-
-.total-price {
-  text-align: center;
-  min-width: 7rem;
-  justify-content: center;
 }
 </style>

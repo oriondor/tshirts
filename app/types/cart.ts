@@ -3,5 +3,6 @@ export interface CartItem {
   designId: string;
   productType: string;
   quantity: number;
-  properties: Record<string, string>;
+  price: number;
+  properties: Record<string, string | File[]>;
 }

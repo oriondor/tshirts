@@ -1,4 +1,12 @@
 <script setup lang="ts">
+interface Props {
+  disabled?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  disabled: false,
+});
+
 const maxFiles = 6;
 
 const modelValue = defineModel<File[]>({ default: () => [] });
@@ -8,6 +16,7 @@ const previewUrls = computed(() =>
 );
 
 function removeFile(index: number) {
+  if (props.disabled) return;
   modelValue.value.splice(index, 1);
 }
 
@@ -23,10 +32,16 @@ onUnmounted(() => {
       v-slot="{ isOverDropZone, openDialog }"
       :allowed-types="['image/png', 'image/jpeg']"
       :max-files
+      :disabled
     >
-      <div class="upload-container" @click="openDialog">
+      <div
+        class="upload-container"
+        :class="{ disabled }"
+        @click="!disabled && openDialog()"
+      >
         <div class="file" v-for="(file, index) in modelValue" :key="file.name">
           <orio-button
+            v-if="!disabled"
             class="remove"
             icon="close"
             @click.prevent.stop="removeFile(index)"
@@ -34,11 +49,14 @@ onUnmounted(() => {
           <img :src="previewUrls[index]" :alt="file.name" />
         </div>
         <div v-if="!modelValue.length" class="empty">
-          <div>
-            {{ isOverDropZone ? "Drop" : "Upload" }} up to {{ maxFiles }} images
-            here
-          </div>
-          <orio-button>Add images</orio-button>
+          <template v-if="!disabled">
+            <div>
+              {{ isOverDropZone ? "Drop" : "Upload" }} up to {{ maxFiles }} images
+              here
+            </div>
+            <orio-button>Add images</orio-button>
+          </template>
+          <div v-else>No images</div>
         </div>
       </div>
     </orio-upload>
@@ -58,6 +76,11 @@ onUnmounted(() => {
   padding: 0.75rem;
   color: var(--color-muted);
   cursor: pointer;
+}
+
+.upload-container.disabled {
+  cursor: default;
+  border-style: solid;
 }
 
 .file {

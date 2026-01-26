@@ -31,16 +31,17 @@ const { checkValidity, errors } = useValidation([
 
 const amount = ref(1);
 
-const properties = ref<Record<string, string | []>>({ name: "", files: [] });
+const properties = ref<Record<string, string | File[]>>({ name: "", files: [] });
 
 function addToCart() {
   if (!checkValidity()) return;
   if (!design.value) return;
   addItem({
-    id: design.value.id,
+    id: crypto.randomUUID(),
     productType,
     designId,
     quantity: amount.value,
+    price: design.value.price,
     properties: properties.value,
   });
 }

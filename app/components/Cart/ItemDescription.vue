@@ -3,7 +3,7 @@ import type { ProductType } from "~/types/products";
 
 interface Props {
   design: any;
-  properties: Record<string, string>;
+  properties: Record<string, string | File[]>;
 }
 
 const props = defineProps<Props>();

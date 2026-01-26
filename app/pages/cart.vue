@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const { items, removeItem, isLoaded, load, total } = useCart();
 
+const { createOrder } = useCheckout();
+
 onMounted(load);
 </script>
 
@@ -19,7 +21,7 @@ onMounted(load);
     <div class="subtotal">
       <orio-view-text type="title">Subtotal:</orio-view-text>
       <cart-item-amount-view :total />
-      <orio-button>CHECKOUT</orio-button>
+      <orio-button @click="createOrder(items)">CHECKOUT</orio-button>
     </div>
   </Footer>
 </template>

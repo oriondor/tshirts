@@ -1,6 +1,6 @@
 export const products = [
   {
-    id: "t-shirt",
+    id: "t-shirt", // Never change it, it can break a db relation
     name: "T-Shirt",
     description: "Sample description",
     image: "/products/t-shirt.png",

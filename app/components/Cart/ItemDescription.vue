@@ -23,7 +23,7 @@ const { getImagePath } = useDesign(
       </orio-view-text>
       <orio-view-text type="subtitle" size="small">
         {{ properties["design-color"] }} / {{ properties.size }} /
-        {{ properties["t-shirt-color"] }}
+        {{ properties["product-color"] }}
       </orio-view-text>
     </div>
   </div>

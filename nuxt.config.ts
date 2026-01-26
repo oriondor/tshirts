@@ -7,6 +7,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     session: {
       maxAge: 60 * 60 * 24 * 7, // 1 week
+      cookie: {
+        secure: process.env.NODE_ENV === 'production',
+      },
     },
     oauth: {
       google: {

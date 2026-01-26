@@ -80,13 +80,15 @@ export function useCheckout() {
 
   function mapCartItemToOrderItem(item: CartItem): CartItemForOrder {
     const { productType, designId, quantity, price: unitPrice } = item;
+    console.log(item.properties);
+
     const {
-      designColor,
+      "design-color": designColor,
       size,
-      productColor,
+      "product-color": productColor,
       name,
-      secondaryText,
-      specialRequest,
+      secondary: secondaryText,
+      request: specialRequest,
     } = item.properties as Record<string, string>; // We won't unpack images here
 
     return {

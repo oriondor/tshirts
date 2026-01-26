@@ -19,7 +19,7 @@ export const products = [
         label: "Size",
       },
       {
-        name: "t-shirt-color",
+        name: "product-color",
         component: "SwitchSelect",
         options: ["White", "Black", "Grey"],
         label: "T-shirt color",

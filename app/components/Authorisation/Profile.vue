@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { User } from "~/types/user";
+
 interface Props {
   user: User;
 }
@@ -26,7 +28,10 @@ async function handleLogout() {
   <div class="profile">
     <div class="profile-header">
       <div class="avatar">
-        {{ user.name?.charAt(0)?.toUpperCase() || user.email.charAt(0).toUpperCase() }}
+        {{
+          user.name?.charAt(0)?.toUpperCase() ||
+          user.email.charAt(0).toUpperCase()
+        }}
       </div>
       <div class="profile-info">
         <orio-view-text type="title" size="small">

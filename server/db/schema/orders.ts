@@ -10,8 +10,8 @@ import {
 import { users } from "./users";
 
 export const orderStatusEnum = pgEnum("order_status", [
-  "pending",
-  "confirmed",
+  "unpaid",
+  "paid",
   "processing",
   "shipped",
   "delivered",
@@ -23,7 +23,7 @@ export const orders = pgTable("orders", {
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id),
-  status: orderStatusEnum("status").notNull().default("pending"),
+  status: orderStatusEnum("status").notNull().default("unpaid"),
   totalPrice: decimal("total_price", { precision: 10, scale: 2 }).notNull(),
   currency: varchar("currency", { length: 3 }).notNull().default("EUR"),
   notes: text("notes"),
@@ -34,8 +34,8 @@ export const orders = pgTable("orders", {
 export type Order = typeof orders.$inferSelect;
 export type NewOrder = typeof orders.$inferInsert;
 export type OrderStatus =
-  | "pending"
-  | "confirmed"
+  | "unpaid"
+  | "paid"
   | "processing"
   | "shipped"
   | "delivered"

@@ -15,13 +15,13 @@ export const products = [
       {
         name: "size",
         component: "SwitchSelect",
-        options: ["xs", "s", "m", "l", "xl", "xxl"],
+        options: ["XS", "S", "M", "L", "XL", "XXL"],
         label: "Size",
       },
       {
         name: "t-shirt-color",
         component: "SwitchSelect",
-        options: ["white", "black", "grey"],
+        options: ["White", "Black", "Grey"],
         label: "T-shirt color",
       },
       {
@@ -46,7 +46,7 @@ export const products = [
       {
         name: "request",
         component: "Textarea",
-        label: "Special request to designer",
+        label: "Special request to designer (optional)",
         placeholder: "Can you adjust the brightness for the second picture...",
       },
     ],

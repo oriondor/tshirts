@@ -51,8 +51,8 @@ onUnmounted(() => {
         <div v-if="!modelValue.length" class="empty">
           <template v-if="!disabled">
             <div>
-              {{ isOverDropZone ? "Drop" : "Upload" }} up to {{ maxFiles }} images
-              here
+              {{ isOverDropZone ? "Drop" : "Upload" }} up to
+              {{ maxFiles }} images here
             </div>
             <orio-button>Add images</orio-button>
           </template>
@@ -66,7 +66,7 @@ onUnmounted(() => {
 <style scoped>
 .upload-container {
   max-width: 100%;
-  width: 30rem;
+  min-width: 30rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

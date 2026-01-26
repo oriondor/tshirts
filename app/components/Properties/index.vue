@@ -12,7 +12,9 @@ interface Props {
   errors: Record<string, string | null>;
 }
 const props = defineProps<Props>();
-const modelValue = defineModel<Record<string, string>>({ default: {} });
+const modelValue = defineModel<Record<string, string | File[]>>({
+  default: {},
+});
 
 const productConfig = computed(() => {
   return products.find((p) => p.id === props.productType);

@@ -113,12 +113,18 @@ watch(loggedIn, async (isLoggedIn) => {
               </div>
 
               <div class="item-pricing">
-                <span>{{ item.quantity }} x {{ formatPrice(item.unitPrice, order.currency) }}</span>
+                <span
+                  >{{ item.quantity }} x
+                  {{ formatPrice(item.unitPrice, order.currency) }}</span
+                >
                 <span class="item-subtotal">{{ getItemSubtotal(item) }}</span>
               </div>
             </div>
 
-            <div v-if="item.images && item.images.length > 0" class="item-images">
+            <div
+              v-if="item.images && item.images.length > 0"
+              class="item-images"
+            >
               <h4>Uploaded Images</h4>
               <div class="images-grid">
                 <a
@@ -128,7 +134,10 @@ watch(loggedIn, async (isLoggedIn) => {
                   target="_blank"
                   class="image-thumbnail"
                 >
-                  <img :src="getImageUrl(image.storagePath)" :alt="image.originalFilename" />
+                  <img
+                    :src="getImageUrl(image.storagePath)"
+                    :alt="image.originalFilename"
+                  />
                   <span class="image-name">{{ image.originalFilename }}</span>
                 </a>
               </div>

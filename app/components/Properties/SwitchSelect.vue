@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { capitalCase } from "change-case";
-
 interface Props {
   options: string[];
   label: string;
@@ -24,7 +22,7 @@ onMounted(() => {
         :model-value="modelValue === option"
         @update:model-value="modelValue = option"
       >
-        {{ capitalCase(option) }}
+        {{ option }}
       </orio-switch-button>
     </div>
   </orio-control-element>

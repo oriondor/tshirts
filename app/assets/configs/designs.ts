@@ -4,9 +4,10 @@ export const designs = {
       id: "personalised-person",
       name: "Personalised t-shirt with person",
       productType: "t-shirt",
-      description: "Very gooda design, buy my design it's very gooda",
+      description:
+        "This is a T-shirt that has a person printed on it. You can change how it looks if you want.",
       price: 29.99,
-      images: { blue: "blue.png", pink: "pink.png" },
+      images: { Blue: "Blue.png", Pink: "Pink.png" },
     },
   ],
   cup: [],

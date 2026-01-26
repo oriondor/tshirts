@@ -29,52 +29,35 @@ function openDB(): Promise<IDBDatabase> {
   });
 }
 
-async function getAllItems(): Promise<StoredCartItem[]> {
+async function withStore<T>(
+  mode: IDBTransactionMode,
+  callback: (store: IDBObjectStore) => IDBRequest<T>,
+): Promise<T> {
   const db = await openDB();
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction(STORE_NAME, "readonly");
+    const transaction = db.transaction(STORE_NAME, mode);
     const store = transaction.objectStore(STORE_NAME);
-    const request = store.getAll();
+    const request = callback(store);
 
     request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve(request.result || []);
+    request.onsuccess = () => resolve(request.result);
   });
 }
 
-async function saveItem(item: StoredCartItem): Promise<void> {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(STORE_NAME, "readwrite");
-    const store = transaction.objectStore(STORE_NAME);
-    const request = store.put(item);
-
-    request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve();
-  });
+function getAllItems(): Promise<StoredCartItem[]> {
+  return withStore("readonly", (store) => store.getAll());
 }
 
-async function deleteItem(id: string): Promise<void> {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(STORE_NAME, "readwrite");
-    const store = transaction.objectStore(STORE_NAME);
-    const request = store.delete(id);
-
-    request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve();
-  });
+function saveItem(item: StoredCartItem): Promise<void> {
+  return withStore("readwrite", (store) => store.put(item));
 }
 
-async function clearAll(): Promise<void> {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(STORE_NAME, "readwrite");
-    const store = transaction.objectStore(STORE_NAME);
-    const request = store.clear();
+function deleteItem(id: string): Promise<void> {
+  return withStore("readwrite", (store) => store.delete(id));
+}
 
-    request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve();
-  });
+function clearAll(): Promise<void> {
+  return withStore("readwrite", (store) => store.clear());
 }
 
 // Singleton state - persists across all calls to useCartStorage()

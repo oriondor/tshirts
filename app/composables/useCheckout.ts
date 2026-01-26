@@ -40,8 +40,8 @@ export interface OrderItemImage {
 }
 
 export const statusLabels: Record<string, string> = {
-  pending: "Pending",
-  confirmed: "Confirmed",
+  unpaid: "Unpaid",
+  paid: "Paid",
   processing: "Processing",
   shipped: "Shipped",
   delivered: "Delivered",
@@ -49,8 +49,8 @@ export const statusLabels: Record<string, string> = {
 };
 
 export const statusColors: Record<string, string> = {
-  pending: "var(--color-alert)",
-  confirmed: "var(--color-info)",
+  unpaid: "var(--color-alert)",
+  paid: "var(--color-info)",
   processing: "var(--color-info)",
   shipped: "var(--color-info-soft)",
   delivered: "var(--color-success)",

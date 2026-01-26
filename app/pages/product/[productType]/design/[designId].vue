@@ -31,7 +31,22 @@ const { checkValidity, errors } = useValidation([
 
 const amount = ref(1);
 
-const properties = ref<Record<string, string | File[]>>({ name: "", files: [] });
+const properties = ref<Record<string, string | File[]>>({
+  name: "",
+  files: [],
+});
+
+function setDefaults() {
+  // Only reset text fields and files, but keep sizes, design and t-shirt color in place...
+  properties.value = {
+    ...properties.value,
+    name: "",
+    secondary: "",
+    files: [],
+    request: "",
+  };
+  amount.value = 1;
+}
 
 function addToCart() {
   if (!checkValidity()) return;
@@ -44,6 +59,7 @@ function addToCart() {
     price: design.value.price,
     properties: properties.value,
   });
+  setDefaults();
 }
 
 const currentImage = ref(

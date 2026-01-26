@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { User } from "~/types/user";
+
 const { loggedIn, user, fetch: fetchSession, clear } = useUserSession();
 
 const authMode = ref<"login" | "signup">("login");

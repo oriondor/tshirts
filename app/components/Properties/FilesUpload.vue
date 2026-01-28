@@ -66,7 +66,7 @@ onUnmounted(() => {
 <style scoped>
 .upload-container {
   max-width: 100%;
-  min-width: 30rem;
+  min-width: 20rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

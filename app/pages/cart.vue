@@ -51,4 +51,10 @@ onMounted(load);
   display: flex;
   justify-content: flex-end;
 }
+
+@media (max-width: 768px) {
+  .footer {
+    --foot-height: 4rem;
+  }
+}
 </style>

@@ -1,6 +1,21 @@
 <script setup lang="ts">
 import type { ProductType } from "~/types/products";
 
+function generateId(): string {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  if (import.meta.env.PROD) {
+    throw new Error("crypto.randomUUID is not available. Ensure the site is served over HTTPS.");
+  }
+  // Fallback for non-secure contexts in development (HTTP on non-localhost)
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 const route = useRoute();
 const productType = route.params.productType as ProductType;
 const designId = route.params.designId as string;
@@ -52,7 +67,7 @@ function addToCart() {
   if (!checkValidity()) return;
   if (!design.value) return;
   addItem({
-    id: crypto.randomUUID(),
+    id: generateId(),
     productType,
     designId,
     quantity: amount.value,

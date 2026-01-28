@@ -22,6 +22,7 @@ function onAnimationEnd(event: AnimationEvent) {
   <div
     class="card"
     :class="{ flipping: isFlipping }"
+    :style="{ '--rotate': `${Math.random() > 0.2 ? 50 : -50}deg` }"
     @click="handleClick"
     @animationend="onAnimationEnd"
   >
@@ -55,11 +56,11 @@ function onAnimationEnd(event: AnimationEvent) {
 
 @keyframes flipAndScale {
   0% {
-    transform: rotateZ(0deg) scale(1);
+    transform: rotateZ(0deg) scale(0.2);
     opacity: 1;
   }
   100% {
-    transform: rotateZ(250deg) scale(9);
+    transform: rotateZ(var(--rotate)) scale(2);
     opacity: 0;
   }
 }

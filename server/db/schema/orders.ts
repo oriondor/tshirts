@@ -8,6 +8,7 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 import { users } from "./users";
+import { addresses } from "./addresses";
 
 export const orderStatusEnum = pgEnum("order_status", [
   "unpaid",
@@ -23,6 +24,7 @@ export const orders = pgTable("orders", {
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id),
+  addressId: uuid("address_id").references(() => addresses.id),
   status: orderStatusEnum("status").notNull().default("unpaid"),
   totalPrice: decimal("total_price", { precision: 10, scale: 2 }).notNull(),
   currency: varchar("currency", { length: 3 }).notNull().default("EUR"),

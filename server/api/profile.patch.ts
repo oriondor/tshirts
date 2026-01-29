@@ -2,15 +2,7 @@ import { eq } from "drizzle-orm";
 import { getDb, users } from "../db";
 
 export default defineEventHandler(async (event) => {
-  const session = await getUserSession(event);
-  const userId = (session?.user as { id?: string } | undefined)?.id;
-  if (!userId) {
-    throw createError({
-      statusCode: 401,
-      message: "Authentication required",
-    });
-  }
-
+  const userId = await requireAuth(event);
   const body = await readBody(event);
   const { name } = body;
 

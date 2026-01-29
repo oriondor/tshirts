@@ -68,12 +68,14 @@ async function handleSubmit() {
 <template>
   <div v-if="signupComplete" class="verification-sent">
     <orio-view-text type="title">Check your email</orio-view-text>
-    <p>We've sent a verification link to <strong>{{ form.email }}</strong></p>
-    <p class="switch-text">
+    <orio-view-text type="text">
+      We've sent a verification link to <strong>{{ form.email }}</strong>
+    </orio-view-text>
+    <orio-view-text type="subtitle" class="switch-text">
       Didn't receive it?
       <a href="#" @click.prevent="emit('switchToLogin')">Try logging in</a>
       or check your spam folder.
-    </p>
+    </orio-view-text>
   </div>
 
   <form v-else class="signup-form" @submit.prevent="handleSubmit">
@@ -115,10 +117,10 @@ async function handleSubmit() {
 
     <AuthorisationOAuthButton provider="google" />
 
-    <p class="switch-text">
+    <orio-view-text type="subtitle" class="switch-text">
       Already have an account?
       <a href="#" @click.prevent="emit('switchToLogin')">Login</a>
-    </p>
+    </orio-view-text>
   </form>
 </template>
 
@@ -144,9 +146,7 @@ async function handleSubmit() {
 }
 
 .switch-text {
-  text-align: center;
-  color: var(--color-muted);
-  font-size: 0.875rem;
+  justify-content: center;
 }
 
 .switch-text a {

@@ -9,8 +9,8 @@ defineProps<Props>();
 
 <template>
   <div class="property-display">
-    <span class="label">{{ label }}</span>
-    <span class="value">{{ value }}</span>
+    <orio-view-text type="subtitle" size="small">{{ label }}</orio-view-text>
+    <orio-view-text type="title" size="small">{{ value }}</orio-view-text>
   </div>
 </template>
 
@@ -20,14 +20,5 @@ defineProps<Props>();
   justify-content: space-between;
   align-items: center;
   padding: 0.25rem 0;
-}
-
-.label {
-  color: var(--color-muted);
-  font-size: 0.875rem;
-}
-
-.value {
-  font-weight: 500;
 }
 </style>

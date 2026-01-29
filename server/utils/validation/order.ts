@@ -1,5 +1,3 @@
-import type { MultiPartData } from "h3";
-
 export interface OrderItemInput {
   productType: string;
   designId: string;
@@ -16,11 +14,8 @@ export interface OrderItemInput {
 export interface CreateOrderInput {
   items: OrderItemInput[];
   notes?: string;
+  addressId?: string;
 }
-
-const ALLOWED_MIME_TYPES = ["image/png", "image/jpeg"];
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-const MAX_FILES_PER_ITEM = 6;
 
 export function validateOrderInput(data: unknown): CreateOrderInput {
   if (!data || typeof data !== "object") {
@@ -97,35 +92,6 @@ export function validateOrderInput(data: unknown): CreateOrderInput {
   return {
     items: validatedItems,
     notes: typeof input.notes === "string" ? input.notes : undefined,
+    addressId: typeof input.addressId === "string" ? input.addressId : undefined,
   };
 }
-
-export function validateFile(file: MultiPartData): void {
-  if (!file.type || !ALLOWED_MIME_TYPES.includes(file.type)) {
-    throw createError({
-      statusCode: 400,
-      message: `Invalid file type: ${file.type}. Only PNG and JPEG are allowed.`,
-    });
-  }
-
-  if (!file.data || file.data.length > MAX_FILE_SIZE) {
-    throw createError({
-      statusCode: 400,
-      message: `File too large. Maximum size is ${MAX_FILE_SIZE / 1024 / 1024}MB.`,
-    });
-  }
-}
-
-export function validateFilesCount(
-  files: MultiPartData[],
-  itemIndex: number,
-): void {
-  if (files.length > MAX_FILES_PER_ITEM) {
-    throw createError({
-      statusCode: 400,
-      message: `Item ${itemIndex + 1}: Maximum ${MAX_FILES_PER_ITEM} files allowed per item.`,
-    });
-  }
-}
-
-export { ALLOWED_MIME_TYPES, MAX_FILE_SIZE, MAX_FILES_PER_ITEM };

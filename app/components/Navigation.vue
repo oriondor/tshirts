@@ -93,7 +93,7 @@ const { loggedIn } = useUserSession();
   background-color: var(--color-bg-1);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 50;
   box-shadow: 0 2px 8px transparent;
   transition: box-shadow 0.2s ease;
 }

@@ -90,82 +90,104 @@ async function handleLogout() {
   <div class="profile-page">
     <template v-if="loggedIn && typedUser">
       <div class="profile-content">
-        <div class="profile-header">
-          <div class="avatar">{{ userInitial }}</div>
-          <template v-if="!isEditing">
-            <h1 class="user-name">{{ typedUser.name || "User" }}</h1>
-            <p class="user-email">{{ typedUser.email }}</p>
-          </template>
-          <template v-else>
-            <div class="edit-form">
-              <orio-input
-                v-model="editName"
-                placeholder="Your name"
-                class="name-input"
-              />
-              <div class="edit-actions">
+        <div class="profile-information">
+          <div class="profile-header">
+            <div class="avatar">{{ userInitial }}</div>
+            <template v-if="!isEditing">
+              <orio-view-text type="title" size="large">
+                {{ typedUser.name || "User" }}
+              </orio-view-text>
+              <orio-view-text type="subtitle">
+                {{ typedUser.email }}
+              </orio-view-text>
+            </template>
+            <template v-else>
+              <div class="edit-form">
+                <orio-input
+                  v-model="editName"
+                  placeholder="Your name"
+                  class="name-input"
+                />
+                <div class="edit-actions">
+                  <orio-button
+                    variant="secondary"
+                    :disabled="saving"
+                    @click="cancelEditing"
+                  >
+                    Cancel
+                  </orio-button>
+                  <orio-button :disabled="saving" @click="saveProfile">
+                    {{ saving ? "Saving..." : "Save" }}
+                  </orio-button>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <div class="profile-sections">
+            <div class="section">
+              <div class="section-header">
+                <orio-view-text type="title">Account</orio-view-text>
                 <orio-button
-                  variant="secondary"
-                  :disabled="saving"
-                  @click="cancelEditing"
+                  v-if="!isEditing"
+                  variant="subdued"
+                  icon="edit"
+                  @click="startEditing"
                 >
-                  Cancel
-                </orio-button>
-                <orio-button :disabled="saving" @click="saveProfile">
-                  {{ saving ? "Saving..." : "Save" }}
+                  Edit
                 </orio-button>
               </div>
+              <div class="info-grid">
+                <div class="info-item">
+                  <orio-view-text type="subtitle" size="small">
+                    Name
+                  </orio-view-text>
+                  <orio-view-text type="title">
+                    {{ typedUser.name || "Not set" }}
+                  </orio-view-text>
+                </div>
+                <div class="info-item">
+                  <orio-view-text type="subtitle" size="small">
+                    Email
+                  </orio-view-text>
+                  <orio-view-text type="title">
+                    {{ typedUser.email }}
+                  </orio-view-text>
+                </div>
+              </div>
             </div>
-          </template>
+          </div>
         </div>
 
-        <div class="profile-sections">
+        <div class="details">
           <div class="section">
-            <div class="section-header">
-              <h2>Account</h2>
-              <orio-button
-                v-if="!isEditing"
-                variant="subdued"
-                @click="startEditing"
-              >
-                Edit
-              </orio-button>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <span class="info-label">Name</span>
-                <span class="info-value">{{
-                  typedUser.name || "Not set"
-                }}</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">Email</span>
-                <span class="info-value">{{ typedUser.email }}</span>
-              </div>
-            </div>
+            <address-manager mode="profile" />
           </div>
 
           <NuxtLink to="/orders" class="section section-link">
             <div class="section-header">
-              <h2>Orders</h2>
-              <span class="arrow">&#8250;</span>
+              <orio-view-text type="title">Orders</orio-view-text>
+              <orio-icon name="chevron-right" />
             </div>
             <div class="orders-summary">
-              <span v-if="ordersLoading" class="orders-count">Loading...</span>
-              <span v-else class="orders-count">
+              <orio-view-text v-if="ordersLoading" type="title" size="large">
+                Loading...
+              </orio-view-text>
+              <orio-view-text v-else type="title" size="large">
                 {{ orders.length }}
                 {{ orders.length === 1 ? "order" : "orders" }}
-              </span>
-              <span class="orders-hint">View order history</span>
+              </orio-view-text>
+              <orio-view-text type="subtitle">
+                View order history
+              </orio-view-text>
             </div>
           </NuxtLink>
-        </div>
 
-        <div class="profile-footer">
           <orio-button
             variant="secondary"
             :disabled="loggingOut"
             @click="handleLogout"
+            class="logout-button"
           >
             {{ loggingOut ? "Logging out..." : "Log out" }}
           </orio-button>
@@ -175,12 +197,12 @@ async function handleLogout() {
 
     <template v-else>
       <div class="auth-container">
-        <AuthorisationLoginForm
+        <authorisation-login-form
           v-if="authMode === 'login'"
           @success="handleAuthSuccess"
           @switch-to-signup="authMode = 'signup'"
         />
-        <AuthorisationSignupForm
+        <authorisation-signup-form
           v-else
           @success="handleAuthSuccess"
           @switch-to-login="authMode = 'login'"
@@ -193,12 +215,35 @@ async function handleLogout() {
 <style scoped>
 .profile-page {
   min-height: 100%;
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 .profile-content {
-  max-width: 32rem;
   margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.profile-information {
+  height: fit-content;
+  flex: 1;
+  min-width: 28rem;
+}
+
+@media (min-width: 970px) {
+  .profile-information {
+    position: sticky;
+    top: var(--nav-height);
+  }
+}
+
+.details {
+  flex: 1;
+  min-width: 29rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .profile-header {
@@ -221,17 +266,6 @@ async function handleLogout() {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 1rem;
-}
-
-.user-name {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0 0 0.25rem;
-}
-
-.user-email {
-  color: var(--color-muted);
-  margin: 0;
 }
 
 .edit-form {
@@ -281,17 +315,6 @@ async function handleLogout() {
   margin-bottom: 1rem;
 }
 
-.section-header h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0;
-}
-
-.arrow {
-  font-size: 1.25rem;
-  color: var(--color-muted);
-}
-
 .info-grid {
   display: flex;
   flex-direction: column;
@@ -304,35 +327,14 @@ async function handleLogout() {
   align-items: center;
 }
 
-.info-label {
-  color: var(--color-muted);
-  font-size: 0.9rem;
-}
-
-.info-value {
-  font-weight: 500;
-}
-
 .orders-summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.orders-count {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.orders-hint {
-  color: var(--color-muted);
-  font-size: 0.875rem;
-}
-
-.profile-footer {
-  padding: 2rem 0;
-  display: flex;
-  justify-content: center;
+:deep(.logout-button) {
+  width: 100%;
 }
 
 .auth-container {
@@ -344,18 +346,10 @@ async function handleLogout() {
 }
 
 @media (max-width: 480px) {
-  .profile-page {
-    padding: 1rem;
-  }
-
   .avatar {
     width: 4rem;
     height: 4rem;
     font-size: 1.5rem;
-  }
-
-  .user-name {
-    font-size: 1.25rem;
   }
 
   .section {

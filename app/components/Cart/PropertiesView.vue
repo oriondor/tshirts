@@ -43,7 +43,9 @@ const files = computed(() => {
       :value="prop.value"
     />
     <div v-if="files.length" class="files-section">
-      <span class="files-label">Uploaded images</span>
+      <orio-view-text type="subtitle" size="small">
+        Uploaded images
+      </orio-view-text>
       <properties-files-upload :model-value="files" disabled />
     </div>
   </div>
@@ -59,10 +61,5 @@ const files = computed(() => {
 
 .files-section {
   margin-top: 0.5rem;
-}
-
-.files-label {
-  color: var(--color-muted);
-  font-size: 0.875rem;
 }
 </style>

@@ -117,10 +117,10 @@ async function handleResendVerification() {
 
     <AuthorisationOAuthButton provider="google" />
 
-    <p class="switch-text">
+    <orio-view-text type="subtitle" class="switch-text">
       Don't have an account?
       <a href="#" @click.prevent="emit('switchToSignup')">Sign up</a>
-    </p>
+    </orio-view-text>
   </form>
 </template>
 
@@ -141,9 +141,7 @@ async function handleResendVerification() {
 }
 
 .switch-text {
-  text-align: center;
-  color: var(--color-muted);
-  font-size: 0.875rem;
+  justify-content: center;
 }
 
 .switch-text a {

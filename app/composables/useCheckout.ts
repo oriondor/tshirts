@@ -108,6 +108,7 @@ export function useCheckout() {
   async function createOrder(
     items: CartItem[],
     notes?: string,
+    addressId?: string,
   ): Promise<Order | null> {
     loading.value = true;
     error.value = null;
@@ -119,6 +120,7 @@ export function useCheckout() {
       const orderData = {
         items: items.map(mapCartItemToOrderItem),
         notes,
+        addressId,
       };
       formData.append(
         "data",
@@ -162,7 +164,7 @@ export function useCheckout() {
     error.value = null;
 
     try {
-      const response = await $fetch<{ orders: Order[] }>("/api/orders");
+      const response = await useApi<{ orders: Order[] }>("/api/orders");
       return response.orders;
     } catch (e) {
       const errorMessage =
@@ -179,7 +181,7 @@ export function useCheckout() {
     error.value = null;
 
     try {
-      const response = await $fetch<{ order: Order }>(`/api/orders/${orderId}`);
+      const response = await useApi<{ order: Order }>(`/api/orders/${orderId}`);
       return response.order;
     } catch (e) {
       const errorMessage =

@@ -11,6 +11,7 @@ import {
 const route = useRoute();
 const { loggedIn } = useUserSession();
 const { fetchOrder, getImageUrl, loading, error } = useCheckout();
+const { formatAddressLines } = useAddresses();
 const order = ref<Order | null>(null);
 
 function getItemSubtotal(item: OrderItem): string {
@@ -90,6 +91,22 @@ watch(loggedIn, async (isLoggedIn) => {
           <orio-view-text type="subtitle">
             Placed on {{ formatDate(order.createdAt) }}
           </orio-view-text>
+        </div>
+
+        <div v-if="order.address" class="order-address">
+          <orio-view-text type="title" class="section-title">
+            Shipping Address
+          </orio-view-text>
+          <div class="address-content">
+            <orio-view-text
+              v-for="(line, index) in formatAddressLines(order.address)"
+              :key="index"
+              :type="index === 0 ? 'title' : 'text'"
+              size="small"
+            >
+              {{ line }}
+            </orio-view-text>
+          </div>
         </div>
 
         <div class="order-items">
@@ -258,6 +275,18 @@ watch(loggedIn, async (isLoggedIn) => {
 
 .section-title {
   margin-bottom: 1rem;
+}
+
+.order-address {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--color-bg);
+  border-radius: var(--border-radius-md);
+}
+
+.address-content {
+  display: flex;
+  flex-direction: column;
 }
 
 .order-item-card {

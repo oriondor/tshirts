@@ -1,5 +1,11 @@
 import { eq, and } from "drizzle-orm";
-import { getDb, orders, orderItems, orderItemImages, addresses } from "../../db";
+import {
+  getDb,
+  orders,
+  orderItems,
+  orderItemImages,
+  addresses,
+} from "../../db";
 import {
   validateOrderInput,
   validateFile,
@@ -12,6 +18,7 @@ export default defineEventHandler(async (event) => {
 
   // Parse multipart form data
   const formData = await readMultipartFormData(event);
+
   if (!formData) {
     throw createError({
       statusCode: 400,
@@ -78,7 +85,10 @@ export default defineEventHandler(async (event) => {
       .select()
       .from(addresses)
       .where(
-        and(eq(addresses.id, orderData.addressId), eq(addresses.userId, userId)),
+        and(
+          eq(addresses.id, orderData.addressId),
+          eq(addresses.userId, userId),
+        ),
       )
       .limit(1);
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { items, removeItem, isLoaded, load, total, clear } = useCart();
-const { createOrder } = useCheckout();
+const { createOrder, error: orderError, loading: orderLoading } = useCheckout();
 const { loggedIn } = useUserSession();
 
 const selectedAddressId = ref<string | null>(null);
@@ -51,15 +51,31 @@ onMounted(() => {
   <div v-else>Loading...</div>
   <Footer>
     <div class="subtotal">
+      <orio-view-text
+        v-if="orderError"
+        type="text"
+        size="small"
+        class="order-error"
+      >
+        {{ orderError }}
+      </orio-view-text>
+      <orio-view-text
+        v-else-if="loggedIn && items.length && !selectedAddressId"
+        type="subtitle"
+        size="small"
+        class="address-hint"
+      >
+        Select a shipping address to checkout
+      </orio-view-text>
       <orio-view-text type="title">Subtotal:</orio-view-text>
       <cart-item-amount-view :total />
       <orio-button
         v-if="loggedIn"
         icon="shopping-bag"
-        :disabled="!canCheckout"
+        :disabled="!canCheckout || orderLoading"
         @click="processOrder"
       >
-        CHECKOUT
+        {{ orderLoading ? "PROCESSING..." : "CHECKOUT" }}
       </orio-button>
       <orio-button
         v-else
@@ -77,7 +93,18 @@ onMounted(() => {
 .subtotal {
   width: 100%;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 1rem;
+}
+
+.address-hint {
+  margin-right: auto;
+}
+
+.order-error {
+  margin-right: auto;
+  color: var(--color-danger) !important;
 }
 
 .shipping-section {

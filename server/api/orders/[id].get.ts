@@ -1,5 +1,5 @@
 import { eq, and } from "drizzle-orm";
-import { getDb, orders, orderItems, orderItemImages } from "../../db";
+import { getDb, orders, orderItems, orderItemImages, addresses } from "../../db";
 
 export default defineEventHandler(async (event) => {
   const userId = await requireAuth(event);
@@ -26,6 +26,17 @@ export default defineEventHandler(async (event) => {
       statusCode: 404,
       message: "Order not found",
     });
+  }
+
+  // Get address if exists
+  let address = null;
+  if (order.addressId) {
+    const [orderAddress] = await db
+      .select()
+      .from(addresses)
+      .where(eq(addresses.id, order.addressId))
+      .limit(1);
+    address = orderAddress || null;
   }
 
   // Get order items
@@ -67,6 +78,7 @@ export default defineEventHandler(async (event) => {
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
       items: itemsWithImages,
+      address,
     },
   };
 });

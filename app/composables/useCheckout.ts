@@ -1,4 +1,5 @@
 import type { CartItem, CartItemForOrder } from "~/types/cart";
+import type { Address } from "~/types/address";
 
 export interface Order {
   id: string;
@@ -10,6 +11,7 @@ export interface Order {
   updatedAt?: string;
   items?: OrderItem[];
   itemCount?: number;
+  address?: Address | null;
 }
 
 export interface OrderItem {
@@ -149,9 +151,9 @@ export function useCheckout() {
       }
 
       throw new Error("Failed to create order");
-    } catch (e) {
+    } catch (e: any) {
       const errorMessage =
-        e instanceof Error ? e.message : "Failed to create order";
+        e?.data?.message || e?.statusMessage || e?.message || "Failed to create order";
       error.value = errorMessage;
       return null;
     } finally {

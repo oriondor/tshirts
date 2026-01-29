@@ -31,7 +31,7 @@ body,
 
 .content {
   margin: auto;
-  width: 60rem;
+  width: 70rem;
   max-width: 100%;
   height: calc(100vh + var(--nav-height));
   padding-block: 2rem;

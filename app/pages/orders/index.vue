@@ -29,7 +29,9 @@ watch(loggedIn, async (isLoggedIn) => {
 <template>
   <div class="orders-page">
     <div class="orders-container">
-      <h1>My Orders</h1>
+      <orio-view-text type="title" size="large" class="page-title">
+        My Orders
+      </orio-view-text>
 
       <template v-if="!loggedIn">
         <div class="auth-required">
@@ -62,7 +64,9 @@ watch(loggedIn, async (isLoggedIn) => {
             class="order-card"
           >
             <div class="order-header">
-              <span class="order-id">Order #{{ order.id.slice(0, 8) }}</span>
+              <orio-view-text type="title">
+                Order #{{ order.id.slice(0, 8) }}
+              </orio-view-text>
               <span
                 class="order-status"
                 :style="{ backgroundColor: statusColors[order.status] }"
@@ -71,11 +75,15 @@ watch(loggedIn, async (isLoggedIn) => {
               </span>
             </div>
             <div class="order-details">
-              <span class="order-date">{{ formatDate(order.createdAt) }}</span>
-              <span class="order-items">{{ order.itemCount }} item(s)</span>
-              <span class="order-total">{{
-                formatPrice(order.totalPrice, order.currency)
-              }}</span>
+              <orio-view-text type="subtitle" size="small">
+                {{ formatDate(order.createdAt) }}
+              </orio-view-text>
+              <orio-view-text type="subtitle" size="small">
+                {{ order.itemCount }} item(s)
+              </orio-view-text>
+              <orio-view-text type="title" class="order-total">
+                {{ formatPrice(order.totalPrice, order.currency) }}
+              </orio-view-text>
             </div>
           </NuxtLink>
         </div>
@@ -99,9 +107,8 @@ watch(loggedIn, async (isLoggedIn) => {
   border-radius: var(--border-radius-lg);
 }
 
-h1 {
+.page-title {
   margin-bottom: 2rem;
-  font-size: 1.5rem;
 }
 
 .auth-required,
@@ -140,7 +147,9 @@ h1 {
   border-radius: var(--border-radius-md);
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .order-card:hover {
@@ -155,11 +164,6 @@ h1 {
   margin-bottom: 1rem;
 }
 
-.order-id {
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
 .order-status {
   padding: 0.25rem 0.75rem;
   border-radius: var(--border-radius-sm);
@@ -170,13 +174,9 @@ h1 {
 .order-details {
   display: flex;
   gap: 2rem;
-  color: var(--color-muted);
-  font-size: 0.9rem;
 }
 
 .order-total {
   margin-left: auto;
-  font-weight: 600;
-  color: var(--color-text);
 }
 </style>

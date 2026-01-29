@@ -18,6 +18,23 @@ function getItemSubtotal(item: OrderItem): string {
   return formatPrice(subtotal.toFixed(2), order.value?.currency || "EUR");
 }
 
+const propertyLabels: Record<string, string> = {
+  size: "Size",
+  productColor: "Color",
+  designColor: "Design Color",
+  name: "Name",
+  secondaryText: "Secondary Text",
+};
+
+function getItemProperties(item: OrderItem) {
+  return Object.entries(propertyLabels)
+    .filter(([key]) => item[key as keyof OrderItem])
+    .map(([key, label]) => ({
+      label,
+      value: item[key as keyof OrderItem] as string,
+    }));
+}
+
 onMounted(async () => {
   if (loggedIn.value) {
     const orderId = route.params.id as string;
@@ -60,7 +77,9 @@ watch(loggedIn, async (isLoggedIn) => {
       <template v-else>
         <div class="order-header">
           <div class="order-title">
-            <h1>Order #{{ order.id.slice(0, 8) }}</h1>
+            <orio-view-text type="title" size="large">
+              Order #{{ order.id.slice(0, 8) }}
+            </orio-view-text>
             <span
               class="order-status"
               :style="{ backgroundColor: statusColors[order.status] }"
@@ -68,11 +87,15 @@ watch(loggedIn, async (isLoggedIn) => {
               {{ statusLabels[order.status] }}
             </span>
           </div>
-          <p class="order-date">Placed on {{ formatDate(order.createdAt) }}</p>
+          <orio-view-text type="subtitle">
+            Placed on {{ formatDate(order.createdAt) }}
+          </orio-view-text>
         </div>
 
         <div class="order-items">
-          <h2>Items</h2>
+          <orio-view-text type="title" class="section-title">
+            Items
+          </orio-view-text>
           <div
             v-for="item in order.items"
             :key="item.id"
@@ -80,44 +103,40 @@ watch(loggedIn, async (isLoggedIn) => {
           >
             <div class="item-info">
               <div class="item-header">
-                <span class="item-type">{{ item.productType }}</span>
-                <span class="item-design">Design: {{ item.designId }}</span>
+                <orio-view-text type="title">
+                  {{ item.productType }}
+                </orio-view-text>
+                <orio-view-text type="subtitle" size="small">
+                  Design: {{ item.designId }}
+                </orio-view-text>
               </div>
 
               <div class="item-properties">
-                <div v-if="item.size" class="property">
-                  <span class="property-label">Size:</span>
-                  <span class="property-value">{{ item.size }}</span>
-                </div>
-                <div v-if="item.productColor" class="property">
-                  <span class="property-label">Color:</span>
-                  <span class="property-value">{{ item.productColor }}</span>
-                </div>
-                <div v-if="item.designColor" class="property">
-                  <span class="property-label">Design Color:</span>
-                  <span class="property-value">{{ item.designColor }}</span>
-                </div>
-                <div v-if="item.name" class="property">
-                  <span class="property-label">Name:</span>
-                  <span class="property-value">{{ item.name }}</span>
-                </div>
-                <div v-if="item.secondaryText" class="property">
-                  <span class="property-label">Secondary Text:</span>
-                  <span class="property-value">{{ item.secondaryText }}</span>
-                </div>
+                <properties-property-display
+                  v-for="prop in getItemProperties(item)"
+                  :key="prop.label"
+                  :label="prop.label"
+                  :value="prop.value"
+                />
               </div>
 
               <div v-if="item.specialRequest" class="special-request">
-                <span class="property-label">Special Request:</span>
-                <p>{{ item.specialRequest }}</p>
+                <orio-view-text type="subtitle" size="small">
+                  Special Request
+                </orio-view-text>
+                <orio-view-text type="text">{{
+                  item.specialRequest
+                }}</orio-view-text>
               </div>
 
               <div class="item-pricing">
-                <span
-                  >{{ item.quantity }} x
-                  {{ formatPrice(item.unitPrice, order.currency) }}</span
-                >
-                <span class="item-subtotal">{{ getItemSubtotal(item) }}</span>
+                <orio-view-text type="subtitle">
+                  {{ item.quantity }} x
+                  {{ formatPrice(item.unitPrice, order.currency) }}
+                </orio-view-text>
+                <orio-view-text type="title">{{
+                  getItemSubtotal(item)
+                }}</orio-view-text>
               </div>
             </div>
 
@@ -125,7 +144,9 @@ watch(loggedIn, async (isLoggedIn) => {
               v-if="item.images && item.images.length > 0"
               class="item-images"
             >
-              <h4>Uploaded Images</h4>
+              <orio-view-text type="subtitle" size="small">
+                Uploaded Images
+              </orio-view-text>
               <div class="images-grid">
                 <a
                   v-for="image in item.images"
@@ -138,7 +159,9 @@ watch(loggedIn, async (isLoggedIn) => {
                     :src="getImageUrl(image.storagePath)"
                     :alt="image.originalFilename"
                   />
-                  <span class="image-name">{{ image.originalFilename }}</span>
+                  <orio-view-text type="subtitle" size="small" :line-clamp="1">
+                    {{ image.originalFilename }}
+                  </orio-view-text>
                 </a>
               </div>
             </div>
@@ -146,14 +169,18 @@ watch(loggedIn, async (isLoggedIn) => {
         </div>
 
         <div v-if="order.notes" class="order-notes">
-          <h2>Notes</h2>
-          <p>{{ order.notes }}</p>
+          <orio-view-text type="title" class="section-title"
+            >Notes</orio-view-text
+          >
+          <orio-view-text type="text">{{ order.notes }}</orio-view-text>
         </div>
 
         <div class="order-summary">
-          <div class="summary-row total">
-            <span>Total</span>
-            <span>{{ formatPrice(order.totalPrice, order.currency) }}</span>
+          <div class="summary-row">
+            <orio-view-text type="title" size="large">Total</orio-view-text>
+            <orio-view-text type="title" size="large">
+              {{ formatPrice(order.totalPrice, order.currency) }}
+            </orio-view-text>
           </div>
         </div>
       </template>
@@ -222,11 +249,6 @@ watch(loggedIn, async (isLoggedIn) => {
   margin-bottom: 0.5rem;
 }
 
-.order-title h1 {
-  font-size: 1.5rem;
-  margin: 0;
-}
-
 .order-status {
   padding: 0.25rem 0.75rem;
   border-radius: var(--border-radius-sm);
@@ -234,14 +256,7 @@ watch(loggedIn, async (isLoggedIn) => {
   font-size: 0.875rem;
 }
 
-.order-date {
-  color: var(--color-muted);
-  margin: 0;
-}
-
-.order-items h2,
-.order-notes h2 {
-  font-size: 1.2rem;
+.section-title {
   margin-bottom: 1rem;
 }
 
@@ -259,36 +274,11 @@ watch(loggedIn, async (isLoggedIn) => {
   margin-bottom: 1rem;
 }
 
-.item-type {
-  font-weight: 600;
-  font-size: 1.1rem;
-  text-transform: capitalize;
-}
-
-.item-design {
-  color: var(--color-muted);
-  font-size: 0.9rem;
-}
-
 .item-properties {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.property {
   display: flex;
   flex-direction: column;
-}
-
-.property-label {
-  font-size: 0.8rem;
-  color: var(--color-muted);
-}
-
-.property-value {
-  font-weight: 500;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
 }
 
 .special-request {
@@ -298,33 +288,21 @@ watch(loggedIn, async (isLoggedIn) => {
   border-radius: var(--border-radius-sm);
 }
 
-.special-request p {
-  margin: 0.5rem 0 0 0;
-}
-
 .item-pricing {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 1rem;
   border-top: 1px solid var(--color-border);
-  color: var(--color-muted);
-}
-
-.item-subtotal {
-  font-weight: 600;
-  color: var(--color-text);
 }
 
 .item-images {
   margin-top: 1.5rem;
   padding-top: 1rem;
   border-top: 1px solid var(--color-border);
-}
-
-.item-images h4 {
-  font-size: 0.9rem;
-  margin-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .images-grid {
@@ -349,25 +327,11 @@ watch(loggedIn, async (isLoggedIn) => {
   border: 1px solid var(--color-border);
 }
 
-.image-name {
-  font-size: 0.75rem;
-  color: var(--color-muted);
-  margin-top: 0.25rem;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .order-notes {
   margin-top: 2rem;
   padding: 1rem;
   background: var(--color-bg);
   border-radius: var(--border-radius-md);
-}
-
-.order-notes p {
-  margin: 0;
 }
 
 .order-summary {
@@ -380,10 +344,5 @@ watch(loggedIn, async (isLoggedIn) => {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
-}
-
-.summary-row.total {
-  font-size: 1.25rem;
-  font-weight: 600;
 }
 </style>

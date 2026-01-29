@@ -2,15 +2,7 @@ import { eq, desc } from "drizzle-orm";
 import { getDb, orders, orderItems } from "../../db";
 
 export default defineEventHandler(async (event) => {
-  // Require authentication
-  const session = await getUserSession(event);
-  const userId = (session?.user as { id?: string } | undefined)?.id;
-  if (!userId) {
-    throw createError({
-      statusCode: 401,
-      message: "Authentication required",
-    });
-  }
+  const userId = await requireAuth(event);
   const db = getDb();
 
   // Get all orders for this user

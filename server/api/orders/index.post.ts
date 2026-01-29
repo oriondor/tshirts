@@ -1,5 +1,5 @@
-import { eq } from "drizzle-orm";
-import { getDb, orders, orderItems, orderItemImages } from "../../db";
+import { eq, and } from "drizzle-orm";
+import { getDb, orders, orderItems, orderItemImages, addresses } from "../../db";
 import {
   validateOrderInput,
   validateFile,
@@ -8,15 +8,7 @@ import {
 import { saveOrderFile } from "../../utils/storage";
 
 export default defineEventHandler(async (event) => {
-  // Require authentication
-  const session = await getUserSession(event);
-  const userId = (session?.user as { id?: string } | undefined)?.id;
-  if (!userId) {
-    throw createError({
-      statusCode: 401,
-      message: "Authentication required",
-    });
-  }
+  const userId = await requireAuth(event);
 
   // Parse multipart form data
   const formData = await readMultipartFormData(event);
@@ -79,11 +71,32 @@ export default defineEventHandler(async (event) => {
 
   const db = getDb();
 
+  // If addressId is provided, verify it belongs to the user
+  let addressId: string | undefined;
+  if (orderData.addressId) {
+    const [address] = await db
+      .select()
+      .from(addresses)
+      .where(
+        and(eq(addresses.id, orderData.addressId), eq(addresses.userId, userId)),
+      )
+      .limit(1);
+
+    if (!address) {
+      throw createError({
+        statusCode: 400,
+        message: "Invalid address",
+      });
+    }
+    addressId = address.id;
+  }
+
   // Create order
   const [order] = await db
     .insert(orders)
     .values({
       userId,
+      addressId,
       totalPrice,
       notes: orderData.notes,
     })

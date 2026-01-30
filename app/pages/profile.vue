@@ -215,7 +215,7 @@ async function handleLogout() {
 <style scoped>
 .profile-page {
   min-height: 100%;
-  padding: 1rem;
+  padding-inline: 1rem;
 }
 
 .profile-content {

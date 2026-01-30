@@ -13,10 +13,40 @@ const { loggedIn } = useUserSession();
 const { fetchOrder, getImageUrl, loading, error } = useCheckout();
 const { formatAddressLines } = useAddresses();
 const order = ref<Order | null>(null);
+const paymentLoading = ref(false);
+const paymentError = ref<string | null>(null);
 
 function getItemSubtotal(item: OrderItem): string {
   const subtotal = parseFloat(item.unitPrice) * item.quantity;
   return formatPrice(subtotal.toFixed(2), order.value?.currency || "EUR");
+}
+
+async function handlePayNow() {
+  if (!order.value) return;
+
+  paymentLoading.value = true;
+  paymentError.value = null;
+
+  try {
+    const response = await $fetch<{
+      success: boolean;
+      checkoutUrl: string;
+      cartId: string;
+    }>("/api/shopify/create-checkout", {
+      method: "POST",
+      body: { orderId: order.value.id },
+    });
+
+    if (response.success && response.checkoutUrl) {
+      // Redirect to Shopify checkout
+      window.location.href = response.checkoutUrl;
+    }
+  } catch (e: any) {
+    paymentError.value =
+      e?.data?.message || e?.message || "Failed to create checkout";
+  } finally {
+    paymentLoading.value = false;
+  }
 }
 
 const propertyLabels: Record<string, string> = {
@@ -200,6 +230,22 @@ watch(loggedIn, async (isLoggedIn) => {
             </orio-view-text>
           </div>
         </div>
+
+        <div v-if="order.status === 'unpaid'" class="payment-section">
+          <div v-if="paymentError" class="payment-error">
+            {{ paymentError }}
+          </div>
+          <button
+            class="pay-now-button"
+            :disabled="paymentLoading"
+            @click="handlePayNow"
+          >
+            {{ paymentLoading ? "Creating checkout..." : "Pay Now" }}
+          </button>
+          <orio-view-text type="subtitle" size="small" class="payment-note">
+            You will be redirected to Shopify to complete your payment
+          </orio-view-text>
+        </div>
       </template>
     </div>
   </div>
@@ -373,5 +419,55 @@ watch(loggedIn, async (isLoggedIn) => {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
+}
+
+.payment-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.payment-error {
+  color: var(--color-danger);
+  padding: 0.75rem 1rem;
+  background: var(--color-danger-soft, rgba(220, 38, 38, 0.1));
+  border-radius: var(--border-radius-md);
+  width: 100%;
+  text-align: center;
+}
+
+.pay-now-button {
+  width: 100%;
+  max-width: 300px;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    opacity 0.2s;
+}
+
+.pay-now-button:hover:not(:disabled) {
+  background: var(--color-accent-hover, var(--color-accent));
+  opacity: 0.9;
+}
+
+.pay-now-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.payment-note {
+  color: var(--color-text-muted, #666);
+  text-align: center;
 }
 </style>

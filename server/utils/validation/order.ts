@@ -9,6 +9,7 @@ export interface OrderItemInput {
   name?: string;
   secondaryText?: string;
   specialRequest?: string;
+  merchandiseId?: string;
 }
 
 export interface CreateOrderInput {
@@ -86,12 +87,15 @@ export function validateOrderInput(data: unknown): CreateOrderInput {
         typeof item.specialRequest === "string"
           ? item.specialRequest
           : undefined,
+      merchandiseId:
+        typeof item.merchandiseId === "string" ? item.merchandiseId : undefined,
     });
   }
 
   return {
     items: validatedItems,
     notes: typeof input.notes === "string" ? input.notes : undefined,
-    addressId: typeof input.addressId === "string" ? input.addressId : undefined,
+    addressId:
+      typeof input.addressId === "string" ? input.addressId : undefined,
   };
 }

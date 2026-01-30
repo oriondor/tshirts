@@ -132,6 +132,7 @@ export default defineEventHandler(async (event) => {
         name: item.name,
         secondaryText: item.secondaryText,
         specialRequest: item.specialRequest,
+        merchandiseId: item.merchandiseId,
       })
       .returning();
 

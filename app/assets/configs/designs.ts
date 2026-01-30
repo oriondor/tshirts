@@ -2,6 +2,7 @@ export const designs = {
   "t-shirt": [
     {
       id: "personalised-person",
+      merchandiseId: "52399291203912",
       name: "Personalised t-shirt with person",
       productType: "t-shirt",
       description:

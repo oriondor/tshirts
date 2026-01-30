@@ -1,5 +1,7 @@
 import type { CartItem, CartItemForOrder } from "~/types/cart";
 import type { Address } from "~/types/address";
+import type { ProductType } from "~/types/products";
+import { designs } from "~/assets/configs/designs";
 
 export interface Order {
   id: string;
@@ -93,6 +95,12 @@ export function useCheckout() {
       request: specialRequest,
     } = item.properties as Record<string, string>; // We won't unpack images here
 
+    // Look up merchandiseId from design config
+    const design = designs[productType as ProductType]?.find(
+      (d) => d.id === designId,
+    );
+    const merchandiseId = design?.merchandiseId;
+
     return {
       productType,
       designId,
@@ -104,6 +112,7 @@ export function useCheckout() {
       name,
       secondaryText,
       specialRequest,
+      merchandiseId,
     };
   }
 
@@ -153,7 +162,10 @@ export function useCheckout() {
       throw new Error("Failed to create order");
     } catch (e: any) {
       const errorMessage =
-        e?.data?.message || e?.statusMessage || e?.message || "Failed to create order";
+        e?.data?.message ||
+        e?.statusMessage ||
+        e?.message ||
+        "Failed to create order";
       error.value = errorMessage;
       return null;
     } finally {

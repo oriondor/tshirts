@@ -24,6 +24,7 @@ export const orderItems = pgTable("order_items", {
   name: varchar("name", { length: 255 }),
   secondaryText: varchar("secondary_text", { length: 255 }),
   specialRequest: text("special_request"),
+  merchandiseId: varchar("merchandise_id", { length: 100 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

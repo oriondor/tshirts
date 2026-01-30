@@ -17,5 +17,9 @@ export default defineNuxtConfig({
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       },
     },
+    shopify: {
+      storeDomain: process.env.SHOPIFY_STORE_DOMAIN,
+      storefrontAccessToken: process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
   },
 });

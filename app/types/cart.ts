@@ -18,4 +18,5 @@ export interface CartItemForOrder {
   name?: string;
   secondaryText?: string;
   specialRequest?: string;
+  merchandiseId?: string;
 }

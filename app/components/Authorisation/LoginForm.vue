@@ -43,7 +43,7 @@ async function handleSubmit() {
   loading.value = true;
 
   try {
-    await $fetch("/api/auth/login", {
+    await useApi("/api/auth/login", {
       method: "POST",
       body: form,
     });
@@ -63,7 +63,7 @@ async function handleResendVerification() {
   resendSuccess.value = false;
 
   try {
-    await $fetch("/api/auth/resend-verification", {
+    await useApi("/api/auth/resend-verification", {
       method: "POST",
       body: { email: form.email },
     });

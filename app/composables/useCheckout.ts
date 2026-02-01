@@ -147,7 +147,7 @@ export function useCheckout() {
         }
       });
 
-      const response = await $fetch<{ success: boolean; order: Order }>(
+      const response = await useApi<{ success: boolean; order: Order }>(
         "/api/orders",
         {
           method: "POST",

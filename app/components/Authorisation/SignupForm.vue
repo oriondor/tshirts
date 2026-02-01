@@ -48,7 +48,7 @@ async function handleSubmit() {
   loading.value = true;
 
   try {
-    await $fetch("/api/auth/signup", {
+    await useApi("/api/auth/signup", {
       method: "POST",
       body: {
         email: form.email,

@@ -32,3 +32,39 @@ export async function sendVerificationEmail(email: string, token: string) {
     `,
   });
 }
+
+export async function sendOrderStatusEmail(
+  email: string,
+  orderId: string,
+  status: "processing" | "shipped",
+) {
+  const appUrl = process.env.APP_URL || "http://localhost:3000";
+  const orderUrl = `${appUrl}/orders/${orderId}`;
+
+  const subjects = {
+    processing: "Your order is being processed",
+    shipped: "Your order has been shipped",
+  };
+
+  const messages = {
+    processing: `
+      <h1>Your order is being processed!</h1>
+      <p>Great news! We've started working on your order.</p>
+      <p>You can track your order status here:</p>
+      <a href="${orderUrl}">View Order</a>
+    `,
+    shipped: `
+      <h1>Your order has been shipped!</h1>
+      <p>Your order is on its way to you.</p>
+      <p>You can track your order status here:</p>
+      <a href="${orderUrl}">View Order</a>
+    `,
+  };
+
+  await getResend().emails.send({
+    from: process.env.EMAIL_FROM || "noreply@flipmashirt.com",
+    to: email,
+    subject: subjects[status],
+    html: messages[status],
+  });
+}

@@ -64,7 +64,7 @@ function cancelEditing() {
 async function saveProfile() {
   saving.value = true;
   try {
-    await $fetch("/api/profile", {
+    await useApi("/api/profile", {
       method: "PATCH",
       body: { name: editName.value },
     });
@@ -78,7 +78,7 @@ async function saveProfile() {
 async function handleLogout() {
   loggingOut.value = true;
   try {
-    await $fetch("/api/auth/logout", { method: "POST" });
+    await useApi("/api/auth/logout", { method: "POST" });
     clear();
   } finally {
     loggingOut.value = false;
@@ -160,10 +160,6 @@ async function handleLogout() {
         </div>
 
         <div class="details">
-          <div class="section">
-            <address-manager mode="profile" />
-          </div>
-
           <NuxtLink to="/orders" class="section section-link">
             <div class="section-header">
               <orio-view-text type="title">Orders</orio-view-text>
@@ -182,6 +178,10 @@ async function handleLogout() {
               </orio-view-text>
             </div>
           </NuxtLink>
+
+          <div class="section">
+            <address-manager mode="profile" />
+          </div>
 
           <orio-button
             variant="secondary"

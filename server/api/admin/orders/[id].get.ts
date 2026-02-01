@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const userId = await requireAuth(event);
+  await requireAdmin(event);
   const orderId = getRouterParam(event, "id");
 
   if (!orderId) {
@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const order = await getOrderById(orderId, { userId });
+  const order = await getOrderById(orderId, { includeUser: true });
 
   if (!order) {
     throw createError({

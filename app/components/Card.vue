@@ -22,7 +22,7 @@ function onAnimationEnd(event: AnimationEvent) {
   <div
     class="card"
     :class="{ flipping: isFlipping }"
-    :style="{ '--rotate': `${Math.random() > 0.2 ? 50 : -50}deg` }"
+    :style="{ '--rotate': `${Math.floor(Math.random() * 101) - 50}deg` }"
     @click="handleClick"
     @animationend="onAnimationEnd"
   >

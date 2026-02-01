@@ -53,6 +53,7 @@ export default defineOAuthGoogleEventHandler({
         id: user.id,
         email: user.email,
         name: user.name,
+        isAdmin: user.isAdmin,
       },
     });
 

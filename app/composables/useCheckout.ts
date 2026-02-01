@@ -2,10 +2,11 @@ import type { CartItem, CartItemForOrder } from "~/types/cart";
 import type { Address } from "~/types/address";
 import type { ProductType } from "~/types/products";
 import { designs } from "~/assets/configs/designs";
+import type { OrderStatus } from "~~/server/db";
 
 export interface Order {
   id: string;
-  status: string;
+  status: OrderStatus;
   totalPrice: string;
   currency: string;
   notes?: string;

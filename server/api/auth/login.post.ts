@@ -49,8 +49,9 @@ export default defineEventHandler(async (event) => {
       id: user.id,
       email: user.email,
       name: user.name,
+      isAdmin: user.isAdmin,
     },
   });
 
-  return { success: true, user: { id: user.id, email: user.email, name: user.name } };
+  return { success: true, user: { id: user.id, email: user.email, name: user.name, isAdmin: user.isAdmin } };
 });

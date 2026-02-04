@@ -1,19 +1,29 @@
 <script setup lang="ts">
+import {
+  defaultImageProps,
+  type ImageProps,
+} from "~/assets/configs/designs";
+
 interface Props {
   type: "t-shirt" | "cup";
   id: string;
   name: string;
   images: Record<string, string>;
+  imageProps?: Record<string, ImageProps>;
 }
 
 const props = defineProps<Props>();
 
-const overlayThreshold = 0.4;
-const topMargin = "35%";
+const firstColor = computed(() => Object.keys(props.images)[0]);
 
-const baseProductImage = computed(() => `/products/${props.type}.png`);
+const currentImageProps = computed(() => ({
+  ...defaultImageProps,
+  ...props.imageProps?.[firstColor.value],
+}));
+
+const baseProductImage = computed(() => `/products/base-${props.type}.png`);
 const designImage = computed(
-  () => `/designs/${props.type}/${props.id}/${Object.values(props.images)[0]}`
+  () => `/designs/${props.type}/${props.id}/${Object.values(props.images)[0]}`,
 );
 </script>
 
@@ -57,8 +67,9 @@ const designImage = computed(
 
 .design-overlay {
   position: absolute;
-  top: v-bind("topMargin");
-  width: v-bind("overlayThreshold * 100 + '%'");
+  top: v-bind("currentImageProps.topMargin");
+  left: v-bind("currentImageProps.leftMargin");
+  width: v-bind("currentImageProps.overlayThreshold * 100 + '%'");
   height: auto;
   object-fit: contain;
 }

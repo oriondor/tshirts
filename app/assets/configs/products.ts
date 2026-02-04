@@ -1,10 +1,11 @@
 export const products = [
   {
-    id: "t-shirt", // Never change it, it can break a db relation
-    name: "T-Shirt",
-    description: "Sample description",
-    image: "/products/t-shirt.png",
-    basePrice: 30,
+    id: "designer-custom-t-shirt", // Never change it, it can break a db relation
+    name: "Designer custom T-Shirt",
+    description:
+      "Select from one or more predefined designs to create your personalized t-shirt",
+    image: "/products/designer-custom-t-shirt.png",
+    basePrice: 29.99,
     available: true,
     properties: [
       {
@@ -48,6 +49,33 @@ export const products = [
         component: "Textarea",
         label: "Special request to designer (optional)",
         placeholder: "Can you adjust the brightness for the second picture...",
+      },
+    ],
+  },
+  {
+    id: "known-prints-t-shirt", // Never change it, it can break a db relation
+    name: "Awesome prints T-Shirt",
+    description: "Check out our cool prints",
+    image: "/products/known-prints-t-shirt.png",
+    basePrice: 29.99,
+    available: true,
+    properties: [
+      {
+        name: "design-color",
+        component: "DesignColor",
+        label: "Design color",
+      },
+      {
+        name: "size",
+        component: "SwitchSelect",
+        options: ["XS", "S", "M", "L", "XL", "XXL"],
+        label: "Size",
+      },
+      {
+        name: "product-color",
+        component: "SwitchSelect",
+        options: ["White", "Black", "Grey"],
+        label: "T-shirt color",
       },
     ],
   },

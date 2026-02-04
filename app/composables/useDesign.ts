@@ -1,5 +1,5 @@
 import type { ProductType } from "~/types/products";
-import { designs } from "~/assets/configs/designs";
+import { designs, defaultImageProps, type ImageProps } from "~/assets/configs/designs";
 
 export function useDesign(productType: ProductType, designId: string) {
   const design = computed(() =>
@@ -13,6 +13,12 @@ export function useDesign(productType: ProductType, designId: string) {
   function getImagePath(color: string) {
     if (!design.value) return "";
     return `${basePath}/${design.value.images[color]}`;
+  }
+
+  function getImageProps(color: string): Required<ImageProps> {
+    if (!design.value) return defaultImageProps;
+    const props = design.value.imageProps?.[color];
+    return { ...defaultImageProps, ...props };
   }
 
   const allImagePaths = computed(() => {
@@ -30,6 +36,7 @@ export function useDesign(productType: ProductType, designId: string) {
     design,
     exists,
     getImagePath,
+    getImageProps,
     allImagePaths,
     availableColors,
   };

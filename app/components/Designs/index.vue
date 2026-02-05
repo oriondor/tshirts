@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { ProductType } from "~/types/products";
+import type { ProductId } from "~/types/products";
 import { designs as designsConfig } from "@/assets/configs/designs";
 
 interface Props {
-  type: ProductType;
+  productId: ProductId;
 }
 
 const props = defineProps<Props>();
 
-// Get designs for the current product type
+// Get designs for the current product
 const designs = computed(() => {
-  return designsConfig[props.type] || [];
+  return designsConfig[props.productId] || [];
 });
 </script>
 
@@ -19,7 +19,6 @@ const designs = computed(() => {
     <designs-design
       v-for="design in designs"
       :key="design.name"
-      :type
       v-bind="design"
       @mouseenter="play"
     />

@@ -4,7 +4,6 @@ export const products = [
     name: "Designer custom T-Shirt",
     description:
       "Select from one or more predefined designs to create your personalized t-shirt",
-    image: "/products/designer-custom-t-shirt.png",
     basePrice: 29.99,
     available: true,
     properties: [
@@ -56,7 +55,6 @@ export const products = [
     id: "known-prints-t-shirt", // Never change it, it can break a db relation
     name: "Awesome prints T-Shirt",
     description: "Check out our cool prints",
-    image: "/products/known-prints-t-shirt.png",
     basePrice: 29.99,
     available: true,
     properties: [
@@ -83,7 +81,6 @@ export const products = [
     id: "cup",
     name: "Cup",
     description: "Sample desriotipn",
-    image: "/products/cup.png",
     basePrice: 15,
     available: true,
     properties: [],

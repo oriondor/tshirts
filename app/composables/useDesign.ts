@@ -1,18 +1,26 @@
-import type { ProductType } from "~/types/products";
-import { designs, defaultImageProps, type ImageProps } from "~/assets/configs/designs";
+import type { ProductId } from "~/types/products";
+import {
+  designs,
+  defaultImageProps,
+  type ImageProps,
+} from "~/assets/configs/designs";
+import { products } from "~/assets/configs/products";
 
-export function useDesign(productType: ProductType, designId: string) {
+export function useDesign(productId: ProductId, designId: string) {
   const design = computed(() =>
-    designs[productType]?.find(({ id }) => id === designId),
+    designs[productId]?.find(({ id }) => id === designId),
   );
+
+  const product = computed(() => products?.find(({ id }) => id === productId));
 
   const exists = computed(() => !!design.value);
 
-  const basePath = `/designs/${productType}/${designId}`;
+  const basePath = `/designs/${productId}/${designId}`;
 
   function getImagePath(color: string) {
     if (!design.value) return "";
-    return `${basePath}/${design.value.images[color]}`;
+    const imageName = design.value.images[color] ?? Object.values(design.value.images)[0];
+    return imageName ? `${basePath}/${imageName}` : "";
   }
 
   function getImageProps(color: string): Required<ImageProps> {
@@ -34,6 +42,7 @@ export function useDesign(productType: ProductType, designId: string) {
 
   return {
     design,
+    product,
     exists,
     getImagePath,
     getImageProps,

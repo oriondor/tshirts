@@ -5,7 +5,7 @@ import {
 } from "~/assets/configs/designs";
 
 interface Props {
-  type: "t-shirt" | "cup";
+  productId: string;
   id: string;
   name: string;
   images: Record<string, string>;
@@ -21,20 +21,24 @@ const currentImageProps = computed(() => ({
   ...props.imageProps?.[firstColor.value],
 }));
 
-const baseProductImage = computed(() => `/products/base-${props.type}.png`);
+const currentBaseImage = computed(() => {
+  const overrideBase = props.imageProps?.[firstColor.value]?.baseImage;
+  if (overrideBase) return `/products/${props.productId}/${overrideBase}`;
+  return `/products/${props.productId}/base.png`;
+});
 const designImage = computed(
-  () => `/designs/${props.type}/${props.id}/${Object.values(props.images)[0]}`,
+  () => `/designs/${props.productId}/${props.id}/${Object.values(props.images)[0]}`,
 );
 </script>
 
 <template>
   <card
     class="design-card"
-    @flip-complete="navigateTo(`/product/${type}/design/${id}`)"
+    @flip-complete="navigateTo(`/product/${productId}/design/${id}`)"
   >
     <div class="image-container">
       <div class="main-image">
-        <img class="base-image" :src="baseProductImage" />
+        <img class="base-image" :src="currentBaseImage" />
         <img class="design-overlay" :src="designImage" />
       </div>
       <img class="design-image" :src="designImage" />

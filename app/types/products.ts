@@ -1,1 +1,1 @@
-export type ProductType = "t-shirt" | "cup";
+export type ProductId = "designer-custom-t-shirt" | "known-prints-t-shirt" | "cup";

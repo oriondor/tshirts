@@ -5,7 +5,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const { availableColors } = useDesign(
-  props.design.productType,
+  props.design.productId,
   props.design.id,
 );
 </script>

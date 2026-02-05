@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CartItem } from "~/types/cart";
-import type { ProductType } from "~/types/products";
+import type { ProductId } from "~/types/products";
 
 const emit = defineEmits<{
   remove: [];
@@ -9,7 +9,7 @@ const emit = defineEmits<{
 const modelValue = defineModel<CartItem>();
 
 const { design } = useDesign(
-  modelValue.value!.productType as ProductType,
+  modelValue.value!.productId as ProductId,
   modelValue.value!.designId,
 );
 
@@ -42,7 +42,7 @@ const expanded = ref(false);
     </div>
     <div class="cart-item-details">
       <cart-properties-view
-        :product-type="modelValue.productType as ProductType"
+        :product-id="modelValue.productId as ProductId"
         :properties="modelValue.properties"
       />
     </div>

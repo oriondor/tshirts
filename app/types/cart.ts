@@ -1,14 +1,14 @@
 export interface CartItem {
   id: string;
   designId: string;
-  productType: string;
+  productId: string;
   quantity: number;
   price: number;
   properties: Record<string, string | File[]>;
 }
 
 export interface CartItemForOrder {
-  productType: string;
+  productId: string;
   designId: string;
   quantity: number;
   unitPrice: number;

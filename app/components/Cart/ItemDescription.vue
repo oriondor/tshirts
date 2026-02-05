@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProductType } from "~/types/products";
+import type { ProductId } from "~/types/products";
 
 interface Props {
   design: any;
@@ -9,7 +9,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const { getImagePath } = useDesign(
-  props.design.productType as ProductType,
+  props.design.productId as ProductId,
   props.design.id,
 );
 </script>

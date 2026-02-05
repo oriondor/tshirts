@@ -14,7 +14,7 @@ export const orderItems = pgTable("order_items", {
   orderId: uuid("order_id")
     .notNull()
     .references(() => orders.id, { onDelete: "cascade" }),
-  productType: varchar("product_type", { length: 50 }).notNull(),
+  productId: varchar("product_id", { length: 50 }).notNull(),
   designId: varchar("design_id", { length: 100 }).notNull(),
   quantity: integer("quantity").notNull(),
   unitPrice: decimal("unit_price", { precision: 10, scale: 2 }).notNull(),

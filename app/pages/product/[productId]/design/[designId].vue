@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import type { ProductType } from "~/types/products";
+import type { ValidationRule } from "orio-ui/runtime";
+import type { ProductId } from "~/types/products";
 
 function generateId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
     return crypto.randomUUID();
   }
   if (import.meta.env.PROD) {
-    throw new Error("crypto.randomUUID is not available. Ensure the site is served over HTTPS.");
+    throw new Error(
+      "crypto.randomUUID is not available. Ensure the site is served over HTTPS.",
+    );
   }
   // Fallback for non-secure contexts in development (HTTP on non-localhost)
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
@@ -17,19 +20,19 @@ function generateId(): string {
 }
 
 const route = useRoute();
-const productType = route.params.productType as ProductType;
+const productId = route.params.productId as ProductId;
 const designId = route.params.designId as string;
 
 const { formatDecimal } = useDecimalFormatter();
 
 const { addItem } = useCart();
 
-const { design, getImagePath } = useDesign(productType, designId);
+const { design, product, getImagePath } = useDesign(productId, designId);
 
 const name = computed(() => properties.value.name);
 const files = computed(() => properties.value.files);
 
-const { checkValidity, errors } = useValidation([
+const availableValidations = [
   {
     model: name,
     id: "name",
@@ -42,7 +45,9 @@ const { checkValidity, errors } = useValidation([
     validator: isFilled,
     message: "Upload at least one image",
   },
-]);
+];
+
+const { checkValidity, errors, changeRules } = useValidation();
 
 const amount = ref(1);
 
@@ -68,7 +73,7 @@ function addToCart() {
   if (!design.value) return;
   addItem({
     id: generateId(),
-    productType,
+    productId,
     designId,
     quantity: amount.value,
     price: design.value.price,
@@ -89,6 +94,19 @@ watch(
     );
   },
 );
+
+onMounted(() => {
+  // Add validation rules
+  const addRules: ValidationRule[] = [];
+  const productRulesIds =
+    product.value?.properties
+      .map((property) => property.id ?? null)
+      .filter((id) => !!id) ?? [];
+  availableValidations.forEach((rule) => {
+    if (productRulesIds.includes(rule.id)) addRules.push(rule);
+  });
+  changeRules(addRules);
+});
 </script>
 
 <template>
@@ -99,7 +117,7 @@ watch(
         class="item-images"
         :images="
           Object.values(design.images).map(
-            (image: string) => `/designs/${productType}/${designId}/${image}`,
+            (image: string) => `/designs/${productId}/${designId}/${image}`,
           )
         "
       />
@@ -117,7 +135,7 @@ watch(
             {{ design.description }}
           </orio-view-text>
         </div>
-        <Properties v-model="properties" :design :product-type :errors />
+        <Properties v-model="properties" :design :product-id :errors />
       </div>
     </div>
     <Footer>

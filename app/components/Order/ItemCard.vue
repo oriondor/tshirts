@@ -13,7 +13,7 @@ const { getImageUrl } = useCheckout();
 const propertyLabels: Record<string, string> = {
   size: "Size",
   productColor: "Color",
-  designColor: "Design Color",
+  variant: "Variant",
   name: "Name",
   secondaryText: "Secondary Text",
 };

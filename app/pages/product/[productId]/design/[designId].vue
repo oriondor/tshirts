@@ -83,14 +83,14 @@ function addToCart() {
 }
 
 const currentImage = ref(
-  getImagePath(properties.value["design-color"] as string),
+  getImagePath(properties.value.variant as string),
 );
 
 watch(
-  () => properties.value["design-color"],
+  () => properties.value.variant,
   () => {
     currentImage.value = getImagePath(
-      properties.value["design-color"] as string,
+      properties.value.variant as string,
     );
   },
 );

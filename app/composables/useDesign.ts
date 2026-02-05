@@ -36,7 +36,7 @@ export function useDesign(productId: ProductId, designId: string) {
     );
   });
 
-  const availableColors = computed(() =>
+  const availableVariants = computed(() =>
     design.value ? Object.keys(design.value.images) : [],
   );
 
@@ -47,6 +47,6 @@ export function useDesign(productId: ProductId, designId: string) {
     getImagePath,
     getImageProps,
     allImagePaths,
-    availableColors,
+    availableVariants,
   };
 }

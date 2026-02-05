@@ -16,13 +16,13 @@ const { getImagePath } = useDesign(
 
 <template>
   <div v-if="design" class="item-preview">
-    <img :src="getImagePath(properties['design-color'] as string)" />
+    <img :src="getImagePath(properties.variant as string)" />
     <div class="item-props">
       <orio-view-text type="title" size="small">
         {{ design.name }}
       </orio-view-text>
       <orio-view-text type="subtitle" size="small">
-        {{ properties["design-color"] }} / {{ properties.size }} /
+        {{ properties.variant }} / {{ properties.size }} /
         {{ properties["product-color"] }}
       </orio-view-text>
     </div>

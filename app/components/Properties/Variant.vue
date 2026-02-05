@@ -4,7 +4,7 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-const { availableColors } = useDesign(
+const { availableVariants } = useDesign(
   props.design.productId,
   props.design.id,
 );
@@ -12,7 +12,7 @@ const { availableColors } = useDesign(
 
 <template>
   <properties-switch-select
-    :options="availableColors"
+    :options="availableVariants"
     v-bind="{ ...props, ...$attrs }"
   />
 </template>

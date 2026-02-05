@@ -24,7 +24,7 @@ export interface OrderItem {
   designId: string;
   quantity: number;
   unitPrice: string;
-  designColor?: string;
+  variant?: string;
   size?: string;
   productColor?: string;
   name?: string;
@@ -88,7 +88,7 @@ export function useCheckout() {
     console.log(item.properties);
 
     const {
-      "design-color": designColor,
+      variant,
       size,
       "product-color": productColor,
       name,
@@ -107,7 +107,7 @@ export function useCheckout() {
       designId,
       quantity,
       unitPrice,
-      designColor,
+      variant,
       size,
       productColor,
       name,

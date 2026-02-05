@@ -12,7 +12,7 @@ export interface CartItemForOrder {
   designId: string;
   quantity: number;
   unitPrice: number;
-  designColor?: string;
+  variant?: string;
   size?: string;
   productColor?: string;
   name?: string;

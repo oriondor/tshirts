@@ -110,8 +110,8 @@ export default defineEventHandler(async (event) => {
     if (item.size) attributes.push({ key: "Size", value: item.size });
     if (item.productColor)
       attributes.push({ key: "Color", value: item.productColor });
-    if (item.designColor)
-      attributes.push({ key: "Design Color", value: item.designColor });
+    if (item.variant)
+      attributes.push({ key: "Variant", value: item.variant });
     if (item.name) attributes.push({ key: "Name", value: item.name });
     if (item.secondaryText)
       attributes.push({ key: "Secondary Text", value: item.secondaryText });

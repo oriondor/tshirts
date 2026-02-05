@@ -3,7 +3,7 @@ export interface OrderItemInput {
   designId: string;
   quantity: number;
   unitPrice: number;
-  designColor?: string;
+  variant?: string;
   size?: string;
   productColor?: string;
   name?: string;
@@ -75,8 +75,8 @@ export function validateOrderInput(data: unknown): CreateOrderInput {
       designId: item.designId,
       quantity,
       unitPrice,
-      designColor:
-        typeof item.designColor === "string" ? item.designColor : undefined,
+      variant:
+        typeof item.variant === "string" ? item.variant : undefined,
       size: typeof item.size === "string" ? item.size : undefined,
       productColor:
         typeof item.productColor === "string" ? item.productColor : undefined,

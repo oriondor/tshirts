@@ -8,9 +8,9 @@ export const products = [
     available: true,
     properties: [
       {
-        name: "design-color",
-        component: "DesignColor",
-        label: "Design color",
+        name: "variant",
+        component: "Variant",
+        label: "Variant",
       },
       {
         name: "size",
@@ -59,9 +59,9 @@ export const products = [
     available: true,
     properties: [
       {
-        name: "design-color",
-        component: "DesignColor",
-        label: "Design color",
+        name: "variant",
+        component: "Variant",
+        label: "Variant",
       },
       {
         name: "size",

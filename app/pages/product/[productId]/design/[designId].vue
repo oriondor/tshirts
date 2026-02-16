@@ -27,7 +27,8 @@ const { formatDecimal } = useDecimalFormatter();
 
 const { addItem } = useCart();
 
-const { design, product, getImagePath } = useDesign(productId, designId);
+const { design, product, getImagePath, getBaseImage, getImageProps } =
+  useDesign(productId, designId);
 
 const name = computed(() => properties.value.name);
 const files = computed(() => properties.value.files);
@@ -82,16 +83,12 @@ function addToCart() {
   setDefaults();
 }
 
-const currentImage = ref(
-  getImagePath(properties.value.variant as string),
-);
+const currentImage = ref(getImagePath(properties.value.variant as string));
 
 watch(
   () => properties.value.variant,
   () => {
-    currentImage.value = getImagePath(
-      properties.value.variant as string,
-    );
+    currentImage.value = getImagePath(properties.value.variant as string);
   },
 );
 
@@ -114,13 +111,22 @@ onMounted(() => {
     <div class="design">
       <orio-gallery-carousel
         v-model:active-image="currentImage"
+        size="400:"
         class="item-images"
         :images="
           Object.values(design.images).map(
             (image: string) => `/designs/${productId}/${designId}/${image}`,
           )
         "
-      />
+      >
+        <template #image="{ image }">
+          <designs-overlay-image
+            :base="getBaseImage(properties.variant as string)"
+            :overlay="image"
+            :params="getImageProps(properties.variant as string)"
+          />
+        </template>
+      </orio-gallery-carousel>
       <div class="item-information">
         <div class="text-information">
           <orio-view-text type="title" size="large">

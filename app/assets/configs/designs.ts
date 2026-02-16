@@ -46,9 +46,9 @@ export const designs = {
           leftMargin: "27%",
         },
         Back: {
-          overlayThreshold: 0.46,
-          topMargin: "38%",
-          leftMargin: "27%",
+          overlayThreshold: 0.42,
+          topMargin: "36%",
+          leftMargin: "31.5%",
           baseImage: "back.png",
         },
       },

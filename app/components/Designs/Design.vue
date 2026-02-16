@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import {
-  defaultImageProps,
-  type ImageProps,
-} from "~/assets/configs/designs";
+import { defaultImageProps, type ImageProps } from "~/assets/configs/designs";
+import type { ProductId } from "~/types/products";
 
 interface Props {
   productId: string;
@@ -14,6 +12,8 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const { getBaseImage } = useDesign(props.productId as ProductId, props.id);
+
 const firstColor = computed(() => Object.keys(props.images)[0]);
 
 const currentImageProps = computed(() => ({
@@ -21,13 +21,12 @@ const currentImageProps = computed(() => ({
   ...props.imageProps?.[firstColor.value],
 }));
 
-const currentBaseImage = computed(() => {
-  const overrideBase = props.imageProps?.[firstColor.value]?.baseImage;
-  if (overrideBase) return `/products/${props.productId}/${overrideBase}`;
-  return `/products/${props.productId}/base.png`;
-});
+// Variant is the key of the first image
+const variant = computed(() => Object.keys(props.images)[0]!);
+
 const designImage = computed(
-  () => `/designs/${props.productId}/${props.id}/${Object.values(props.images)[0]}`,
+  () =>
+    `/designs/${props.productId}/${props.id}/${props.images[variant.value]}`,
 );
 </script>
 
@@ -38,8 +37,11 @@ const designImage = computed(
   >
     <div class="image-container">
       <div class="main-image">
-        <img class="base-image" :src="currentBaseImage" />
-        <img class="design-overlay" :src="designImage" />
+        <designs-overlay-image
+          :overlay="designImage"
+          :base="getBaseImage(variant)"
+          :params="currentImageProps"
+        />
       </div>
       <img class="design-image" :src="designImage" />
     </div>
@@ -62,20 +64,6 @@ const designImage = computed(
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
   width: 100%;
-}
-
-.base-image {
-  width: 100%;
-  height: auto;
-}
-
-.design-overlay {
-  position: absolute;
-  top: v-bind("currentImageProps.topMargin");
-  left: v-bind("currentImageProps.leftMargin");
-  width: v-bind("currentImageProps.overlayThreshold * 100 + '%'");
-  height: auto;
-  object-fit: contain;
 }
 
 .design-image {

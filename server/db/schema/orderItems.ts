@@ -14,11 +14,11 @@ export const orderItems = pgTable("order_items", {
   orderId: uuid("order_id")
     .notNull()
     .references(() => orders.id, { onDelete: "cascade" }),
-  productType: varchar("product_type", { length: 50 }).notNull(),
+  productId: varchar("product_id", { length: 50 }).notNull(),
   designId: varchar("design_id", { length: 100 }).notNull(),
   quantity: integer("quantity").notNull(),
   unitPrice: decimal("unit_price", { precision: 10, scale: 2 }).notNull(),
-  designColor: varchar("design_color", { length: 50 }),
+  variant: varchar("variant", { length: 50 }),
   size: varchar("size", { length: 10 }),
   productColor: varchar("product_color", { length: 50 }),
   name: varchar("name", { length: 255 }),

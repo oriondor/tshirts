@@ -1,9 +1,9 @@
 export interface OrderItemInput {
-  productType: string;
+  productId: string;
   designId: string;
   quantity: number;
   unitPrice: number;
-  designColor?: string;
+  variant?: string;
   size?: string;
   productColor?: string;
   name?: string;
@@ -40,10 +40,10 @@ export function validateOrderInput(data: unknown): CreateOrderInput {
   for (let i = 0; i < input.items.length; i++) {
     const item = input.items[i] as Record<string, unknown>;
 
-    if (!item.productType || typeof item.productType !== "string") {
+    if (!item.productId || typeof item.productId !== "string") {
       throw createError({
         statusCode: 400,
-        message: `Item ${i + 1}: productType is required`,
+        message: `Item ${i + 1}: productId is required`,
       });
     }
 
@@ -71,12 +71,12 @@ export function validateOrderInput(data: unknown): CreateOrderInput {
     }
 
     validatedItems.push({
-      productType: item.productType,
+      productId: item.productId,
       designId: item.designId,
       quantity,
       unitPrice,
-      designColor:
-        typeof item.designColor === "string" ? item.designColor : undefined,
+      variant:
+        typeof item.variant === "string" ? item.variant : undefined,
       size: typeof item.size === "string" ? item.size : undefined,
       productColor:
         typeof item.productColor === "string" ? item.productColor : undefined,

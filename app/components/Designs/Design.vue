@@ -1,31 +1,47 @@
 <script setup lang="ts">
+import { defaultImageProps, type ImageProps } from "~/assets/configs/designs";
+import type { ProductId } from "~/types/products";
+
 interface Props {
-  type: "t-shirt" | "cup";
+  productId: string;
   id: string;
   name: string;
   images: Record<string, string>;
+  imageProps?: Record<string, ImageProps>;
 }
 
 const props = defineProps<Props>();
 
-const overlayThreshold = 0.4;
-const topMargin = "35%";
+const { getBaseImage } = useDesign(props.productId as ProductId, props.id);
 
-const baseProductImage = computed(() => `/products/${props.type}.png`);
+const firstColor = computed(() => Object.keys(props.images)[0]);
+
+const currentImageProps = computed(() => ({
+  ...defaultImageProps,
+  ...props.imageProps?.[firstColor.value],
+}));
+
+// Variant is the key of the first image
+const variant = computed(() => Object.keys(props.images)[0]!);
+
 const designImage = computed(
-  () => `/designs/${props.type}/${props.id}/${Object.values(props.images)[0]}`
+  () =>
+    `/designs/${props.productId}/${props.id}/${props.images[variant.value]}`,
 );
 </script>
 
 <template>
   <card
     class="design-card"
-    @flip-complete="navigateTo(`/product/${type}/design/${id}`)"
+    @flip-complete="navigateTo(`/product/${productId}/design/${id}`)"
   >
     <div class="image-container">
       <div class="main-image">
-        <img class="base-image" :src="baseProductImage" />
-        <img class="design-overlay" :src="designImage" />
+        <designs-overlay-image
+          :overlay="designImage"
+          :base="getBaseImage(variant)"
+          :params="currentImageProps"
+        />
       </div>
       <img class="design-image" :src="designImage" />
     </div>
@@ -48,19 +64,6 @@ const designImage = computed(
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
   width: 100%;
-}
-
-.base-image {
-  width: 100%;
-  height: auto;
-}
-
-.design-overlay {
-  position: absolute;
-  top: v-bind("topMargin");
-  width: v-bind("overlayThreshold * 100 + '%'");
-  height: auto;
-  object-fit: contain;
 }
 
 .design-image {

@@ -12,11 +12,6 @@ defineProps<Props>();
 <template>
   <div class="order-items">
     <orio-view-text type="title" class="section-title">Items</orio-view-text>
-    <order-item-card
-      v-for="item in items"
-      :key="item.id"
-      :item="item"
-      :currency="currency"
-    />
+    <order-item-card v-for="item in items" :key="item.id" :item :currency />
   </div>
 </template>

@@ -68,5 +68,7 @@ function onAnimationEnd(event: AnimationEvent) {
 :deep(img) {
   max-width: 100%;
   border-radius: var(--border-radius-lg);
+  aspect-ratio: 1/1;
+  height: 100%;
 }
 </style>

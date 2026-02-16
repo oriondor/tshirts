@@ -1,6 +1,6 @@
 import type { CartItem, CartItemForOrder } from "~/types/cart";
 import type { Address } from "~/types/address";
-import type { ProductType } from "~/types/products";
+import type { ProductId } from "~/types/products";
 import { designs } from "~/assets/configs/designs";
 import type { OrderStatus } from "~~/server/db";
 
@@ -20,11 +20,11 @@ export interface Order {
 export interface OrderItem {
   id: string;
   orderId: string;
-  productType: string;
+  productId: string;
   designId: string;
   quantity: number;
   unitPrice: string;
-  designColor?: string;
+  variant?: string;
   size?: string;
   productColor?: string;
   name?: string;
@@ -84,11 +84,11 @@ export function useCheckout() {
   const error = ref<string | null>(null);
 
   function mapCartItemToOrderItem(item: CartItem): CartItemForOrder {
-    const { productType, designId, quantity, price: unitPrice } = item;
+    const { productId, designId, quantity, price: unitPrice } = item;
     console.log(item.properties);
 
     const {
-      "design-color": designColor,
+      variant,
       size,
       "product-color": productColor,
       name,
@@ -97,17 +97,17 @@ export function useCheckout() {
     } = item.properties as Record<string, string>; // We won't unpack images here
 
     // Look up merchandiseId from design config
-    const design = designs[productType as ProductType]?.find(
+    const design = designs[productId as ProductId]?.find(
       (d) => d.id === designId,
     );
     const merchandiseId = design?.merchandiseId;
 
     return {
-      productType,
+      productId,
       designId,
       quantity,
       unitPrice,
-      designColor,
+      variant,
       size,
       productColor,
       name,

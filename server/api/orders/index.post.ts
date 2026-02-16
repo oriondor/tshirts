@@ -122,11 +122,11 @@ export default defineEventHandler(async (event) => {
       .insert(orderItems)
       .values({
         orderId: order!.id,
-        productType: item.productType,
+        productId: item.productId,
         designId: item.designId,
         quantity: item.quantity,
         unitPrice: item.unitPrice.toFixed(2),
-        designColor: item.designColor,
+        variant: item.variant,
         size: item.size,
         productColor: item.productColor,
         name: item.name,

@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { ProductType } from "~/types/products";
+import type { ProductId } from "~/types/products";
 import { products } from "~/assets/configs/products";
 
 interface Props {
-  productType: ProductType;
+  productId: ProductId;
   properties: Record<string, string | File[]>;
 }
 
 const props = defineProps<Props>();
 
 const productConfig = computed(() => {
-  return products.find((p) => p.id === props.productType);
+  return products.find((p) => p.id === props.productId);
 });
 
 const textProperties = computed(() => {

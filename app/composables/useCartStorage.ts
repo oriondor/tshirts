@@ -7,7 +7,7 @@ const STORE_NAME = "cart-items";
 interface StoredCartItem {
   id: string;
   designId: string;
-  productType: string;
+  productId: string;
   quantity: number;
   price: number;
   properties: Record<string, string | File[]>;

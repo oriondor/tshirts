@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProductType } from "~/types/products";
+import type { ProductId } from "~/types/products";
 import { products } from "~/assets/configs/products";
 
 const propertyModules = import.meta.glob<{ default: any }>("./*.vue", {
@@ -7,7 +7,7 @@ const propertyModules = import.meta.glob<{ default: any }>("./*.vue", {
 });
 
 interface Props {
-  productType: ProductType;
+  productId: ProductId;
   design: any;
   errors: Record<string, string | null>;
 }
@@ -17,7 +17,7 @@ const modelValue = defineModel<Record<string, string | File[]>>({
 });
 
 const productConfig = computed(() => {
-  return products.find((p) => p.id === props.productType);
+  return products.find((p) => p.id === props.productId);
 });
 
 const propertyComponents = computed(() => {

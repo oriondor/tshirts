@@ -13,7 +13,7 @@ const { getImageUrl } = useCheckout();
 const propertyLabels: Record<string, string> = {
   size: "Size",
   productColor: "Color",
-  designColor: "Design Color",
+  variant: "Variant",
   name: "Name",
   secondaryText: "Secondary Text",
 };
@@ -38,7 +38,7 @@ function getItemSubtotal(): string {
     <div class="item-info">
       <div class="item-header">
         <orio-view-text type="title">
-          {{ item.productType }}
+          {{ item.productId }}
         </orio-view-text>
         <orio-view-text type="subtitle" size="small">
           Design: {{ item.designId }}

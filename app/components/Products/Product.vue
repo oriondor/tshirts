@@ -3,12 +3,13 @@ export interface ProductProps {
   id: string;
   name: string;
   description: string;
-  image: string;
   basePrice: number;
   available: boolean;
 }
 
-defineProps<ProductProps>();
+const props = defineProps<ProductProps>();
+
+const image = computed(() => `/products/${props.id}/preview.png`);
 </script>
 
 <template>

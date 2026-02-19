@@ -56,12 +56,18 @@ const { loggedIn } = useUserSession();
       </div>
 
       <div class="icon-buttons">
-        <orio-nav-button variant="subdued" icon="search" aria-label="Search" />
+        <orio-nav-button
+          variant="subdued"
+          icon="search"
+          aria-label="Search"
+          size="lg"
+        />
         <orio-nav-button
           variant="subdued"
           icon="user"
           class="desktop-only"
           aria-label="Profile"
+          size="lg"
           @click="navigateTo('/profile')"
         />
         <orio-badge type="pill">
@@ -71,6 +77,7 @@ const { loggedIn } = useUserSession();
               variant="subdued"
               icon="shopping-cart"
               aria-label="Cart"
+              size="lg"
               @click="navigateTo('/cart')"
             />
           </template>

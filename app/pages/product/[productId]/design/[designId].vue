@@ -107,59 +107,57 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="design">
-    <div class="design">
-      <orio-gallery-carousel
-        v-model:active-image="currentImage"
-        size="400:"
-        class="item-images"
-        :images="
-          Object.values(design.images).map(
-            (image: string) => `/designs/${productId}/${designId}/${image}`,
-          )
-        "
-      >
-        <template #image="{ image }">
-          <designs-overlay-image
-            :base="getBaseImage(properties.variant as string)"
-            :overlay="image"
-            :params="getImageProps(properties.variant as string)"
-          />
-        </template>
-      </orio-gallery-carousel>
-      <div class="item-information">
-        <div class="text-information">
-          <orio-view-text type="title" size="large">
-            {{ design.name }}
+  <div v-if="design" class="design">
+    <orio-gallery-carousel
+      v-model:active-image="currentImage"
+      size="400:"
+      class="item-images"
+      :images="
+        Object.values(design.images).map(
+          (image: string) => `/designs/${productId}/${designId}/${image}`,
+        )
+      "
+    >
+      <template #image="{ image }">
+        <designs-overlay-image
+          :base="getBaseImage(properties.variant as string)"
+          :overlay="image"
+          :params="getImageProps(properties.variant as string)"
+        />
+      </template>
+    </orio-gallery-carousel>
+    <div class="item-information">
+      <div class="text-information">
+        <orio-view-text type="title" size="large">
+          {{ design.name }}
+        </orio-view-text>
+        <client-only>
+          <orio-view-text type="italics" size="large">
+            €{{ formatDecimal(design.price) }}
           </orio-view-text>
-          <client-only>
-            <orio-view-text type="italics" size="large">
-              €{{ formatDecimal(design.price) }}
-            </orio-view-text>
-          </client-only>
-          <orio-view-text type="subtitle">
-            {{ design.description }}
-          </orio-view-text>
-        </div>
-        <Properties v-model="properties" :design :product-id :errors />
+        </client-only>
+        <orio-view-text type="subtitle">
+          {{ design.description }}
+        </orio-view-text>
       </div>
+      <Properties v-model="properties" :design :product-id :errors />
     </div>
-    <Footer>
-      <cart-item-description :design :properties />
-      <cart-item-amount v-model="amount" :price="design.price">
-        <template #actions>
-          <orio-button @click="addToCart"> Add to cart </orio-button>
-        </template>
-      </cart-item-amount>
-    </Footer>
   </div>
+  <Footer v-if="design">
+    <cart-item-description :design :properties />
+    <cart-item-amount v-model="amount" :price="design.price">
+      <template #actions>
+        <orio-button @click="addToCart"> Add to cart </orio-button>
+      </template>
+    </cart-item-amount>
+  </Footer>
+  <orio-empty-state v-if="!design" icon="search" title="Design not found" />
 </template>
 
 <style scoped>
 .design {
   display: flex;
   gap: 1.5rem;
-  padding-block: 2rem;
   padding-inline: 1rem;
   padding-bottom: var(--foot-height);
   align-items: flex-start;
@@ -169,6 +167,7 @@ onMounted(() => {
 .item-images {
   position: sticky;
   top: calc(var(--nav-height) + 2rem);
+  overflow: hidden;
 }
 
 .item-information {

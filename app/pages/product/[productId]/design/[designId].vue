@@ -30,6 +30,25 @@ const { addItem } = useCart();
 const { design, product, getImagePath, getBaseImage, getImageProps } =
   useDesign(productId, designId);
 
+const amount = ref(1);
+
+const properties = ref<Record<string, string | File[]>>({
+  name: "",
+  files: [],
+});
+
+// Sync select-type properties (variant, size, product-color, etc.) to the URL.
+// Text inputs and file uploads are intentionally excluded — FilesUpload produces
+// non-serialisable File[] values; text fields are user-specific and would
+// clutter the URL without adding shareable value.
+// The watcher inside useUrlSync catches all subsequent changes too, so values
+// set by SwitchSelect on mount will also be reflected in the URL.
+const urlSyncKeys = (product.value?.properties ?? [])
+  .filter((p) => p.component && p.component !== "FilesUpload")
+  .map((p) => p.name);
+
+useUrlSync(properties, urlSyncKeys);
+
 const name = computed(() => properties.value.name);
 const files = computed(() => properties.value.files);
 
@@ -49,13 +68,6 @@ const availableValidations = [
 ];
 
 const { checkValidity, errors, changeRules } = useValidation();
-
-const amount = ref(1);
-
-const properties = ref<Record<string, string | File[]>>({
-  name: "",
-  files: [],
-});
 
 function setDefaults() {
   // Only reset text fields and files, but keep sizes, design and t-shirt color in place...
@@ -110,13 +122,14 @@ onMounted(() => {
   <div v-if="design" class="design">
     <orio-gallery-carousel
       v-model:active-image="currentImage"
-      size="400:"
+      size=":600"
       class="item-images"
       :images="
         Object.values(design.images).map(
           (image: string) => `/designs/${productId}/${designId}/${image}`,
         )
       "
+      appearance="minimal"
     >
       <template #image="{ image }">
         <designs-overlay-image

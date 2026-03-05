@@ -10,7 +10,11 @@ const { options } = toRefs(props);
 const modelValue = defineModel();
 
 onMounted(() => {
-  modelValue.value = options.value[0];
+  // Keep any pre-set value (e.g. from URL) as long as it is a valid option.
+  // Fall back to the first option if absent or no longer valid.
+  if (!options.value.includes(modelValue.value as string)) {
+    modelValue.value = options.value[0];
+  }
 });
 </script>
 

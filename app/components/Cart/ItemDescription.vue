@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ProductId } from "~/types/products";
+import { designLinkFromCartItem } from "~/utils/designLink";
 
 interface Props {
   design: any;
@@ -12,10 +13,14 @@ const { getImagePath } = useDesign(
   props.design.productId as ProductId,
   props.design.id,
 );
+
+const productLink = computed(() =>
+  designLinkFromCartItem(props.design.productId, props.design.id, props.properties),
+);
 </script>
 
 <template>
-  <div v-if="design" class="item-preview">
+  <nuxt-link v-if="design" :to="productLink" class="item-preview">
     <img :src="getImagePath(properties.variant as string)" />
     <div class="item-props">
       <orio-view-text type="title" size="small">
@@ -26,7 +31,7 @@ const { getImagePath } = useDesign(
         {{ properties["product-color"] }}
       </orio-view-text>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 
 <style scoped lang="scss">
@@ -34,6 +39,12 @@ const { getImagePath } = useDesign(
   height: 100%;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    opacity: 0.8;
+  }
 
   img {
     height: 100%;

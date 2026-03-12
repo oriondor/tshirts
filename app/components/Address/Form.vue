@@ -49,14 +49,14 @@ defineExpose({ checkValidity });
 
 <template>
   <div class="address-form">
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.recipientName"
       label="Recipient Name"
       placeholder="Full name"
       :error="errors.recipientName"
     />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.phone"
       label="Phone (optional)"
       placeholder="+49 123 456789"
@@ -64,14 +64,14 @@ defineExpose({ checkValidity });
     />
 
     <div class="form-row">
-      <orio-input
+      <orio-input layout="inner"
         v-model="modelValue.street"
         label="Street"
         placeholder="Street name"
         :error="errors.street"
         class="street-input"
       />
-      <orio-input
+      <orio-input layout="inner"
         v-model="modelValue.streetNumber"
         label="Nr."
         placeholder="123"
@@ -80,21 +80,21 @@ defineExpose({ checkValidity });
       />
     </div>
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.additionalInfo"
       label="Additional Info (optional)"
       placeholder="Apartment, floor, etc."
     />
 
     <div class="form-row">
-      <orio-input
+      <orio-input layout="inner"
         v-model="modelValue.postalCode"
         label="Postal Code"
         placeholder="12345"
         :error="errors.postalCode"
         class="postal-input"
       />
-      <orio-input
+      <orio-input layout="inner"
         v-model="modelValue.city"
         label="City"
         placeholder="City"
@@ -103,13 +103,13 @@ defineExpose({ checkValidity });
       />
     </div>
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.country"
       label="Country"
       placeholder="Country"
     />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.label"
       label="Label (optional)"
       placeholder="e.g., Home, Work"

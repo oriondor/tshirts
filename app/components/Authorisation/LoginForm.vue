@@ -93,7 +93,7 @@ async function handleResendVerification() {
       </template>
     </div>
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="form.email"
       type="email"
       label="Email"
@@ -101,7 +101,7 @@ async function handleResendVerification() {
       :error="errors.email"
     />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="form.password"
       type="password"
       label="Password"

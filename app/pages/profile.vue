@@ -103,7 +103,7 @@ async function handleLogout() {
             </template>
             <template v-else>
               <div class="edit-form">
-                <orio-input
+                <orio-input layout="inner"
                   v-model="editName"
                   placeholder="Your name"
                   class="name-input"

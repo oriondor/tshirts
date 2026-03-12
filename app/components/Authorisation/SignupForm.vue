@@ -83,9 +83,9 @@ async function handleSubmit() {
 
     <div v-if="error" class="error-message">{{ error }}</div>
 
-    <orio-input v-model="form.name" label="Name" placeholder="Your name" />
+    <orio-input layout="inner" v-model="form.name" label="Name" placeholder="Your name" />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="form.email"
       type="email"
       label="Email"
@@ -93,7 +93,7 @@ async function handleSubmit() {
       :error="errors.email"
     />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="form.password"
       type="password"
       label="Password"
@@ -101,7 +101,7 @@ async function handleSubmit() {
       :error="errors.password"
     />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="form.confirmPassword"
       type="password"
       label="Confirm Password"

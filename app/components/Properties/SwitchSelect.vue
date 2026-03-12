@@ -19,11 +19,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <orio-control-element :label>
+  <orio-control-element :label size="lg">
     <div class="property-container">
       <orio-switch-button
         v-for="option in options"
         :model-value="modelValue === option"
+        size="lg"
         @update:model-value="modelValue = option"
       >
         {{ option }}

@@ -2,6 +2,7 @@
 
 :root {
   font-family: "Roboto", Helvetica, Arial, sans-serif;
+
   letter-spacing: 1.5px;
 
   --color-bg-1: #f3f5f7;
@@ -15,4 +16,8 @@
   :root {
     --foot-height: 9rem;
   }
+}
+
+.badge {
+  letter-spacing: normal;
 }

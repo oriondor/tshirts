@@ -13,6 +13,7 @@ export interface CartItemForOrder {
   quantity: number;
   unitPrice: number;
   variant?: string;
+  placement?: string;
   size?: string;
   productColor?: string;
   name?: string;

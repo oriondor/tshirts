@@ -18,8 +18,8 @@ const designs = computed(() => {
   <orio-animated-container v-slot="{ play }">
     <designs-design
       v-for="design in designs"
-      :key="design.name"
-      v-bind="design"
+      :key="design.id"
+      :design
       @mouseenter="play"
     />
   </orio-animated-container>

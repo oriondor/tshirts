@@ -89,6 +89,7 @@ export function useCheckout() {
 
     const {
       variant,
+      placement,
       size,
       "product-color": productColor,
       name,
@@ -108,6 +109,7 @@ export function useCheckout() {
       quantity,
       unitPrice,
       variant,
+      placement,
       size,
       productColor,
       name,

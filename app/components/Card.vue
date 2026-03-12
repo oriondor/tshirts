@@ -38,15 +38,12 @@ function onAnimationEnd(event: AnimationEvent) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  background-color: var(--color-bg-1);
-  border-radius: var(--border-radius-lg);
+  gap: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.25s ease;
 }
 
-.card:hover {
-  background-color: var(--color-bg-2);
+.card:hover :deep(img) {
+  opacity: 0.85;
 }
 
 .card.flipping {
@@ -67,8 +64,8 @@ function onAnimationEnd(event: AnimationEvent) {
 
 :deep(img) {
   max-width: 100%;
-  border-radius: var(--border-radius-lg);
   aspect-ratio: 1/1;
   height: 100%;
+  transition: opacity 0.2s ease;
 }
 </style>

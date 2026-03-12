@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ValidationRule } from "orio-ui/runtime";
 import type { ProductId } from "~/types/products";
+import { isPrerenderedDesign } from "~/assets/configs/designs";
 
 function generateId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -11,7 +12,6 @@ function generateId(): string {
       "crypto.randomUUID is not available. Ensure the site is served over HTTPS.",
     );
   }
-  // Fallback for non-secure contexts in development (HTTP on non-localhost)
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0;
     const v = c === "x" ? r : (r & 0x3) | 0x8;
@@ -27,8 +27,17 @@ const { formatDecimal } = useDecimalFormatter();
 
 const { addItem } = useCart();
 
-const { design, product, getImagePath, getBaseImage, getImageProps } =
-  useDesign(productId, designId);
+const {
+  design,
+  product,
+  prerendered,
+  getImagePath,
+  getBaseImage,
+  getImageProps,
+  getPrerenderedImagePath,
+  allPrerenderedImages,
+  allImagePaths,
+} = useDesign(productId, designId);
 
 const amount = ref(1);
 
@@ -37,12 +46,6 @@ const properties = ref<Record<string, string | File[]>>({
   files: [],
 });
 
-// Sync select-type properties (variant, size, product-color, etc.) to the URL.
-// Text inputs and file uploads are intentionally excluded — FilesUpload produces
-// non-serialisable File[] values; text fields are user-specific and would
-// clutter the URL without adding shareable value.
-// The watcher inside useUrlSync catches all subsequent changes too, so values
-// set by SwitchSelect on mount will also be reflected in the URL.
 const urlSyncKeys = (product.value?.properties ?? [])
   .filter((p) => p.component && p.component !== "FilesUpload")
   .map((p) => p.name);
@@ -70,7 +73,6 @@ const availableValidations = [
 const { checkValidity, errors, changeRules } = useValidation();
 
 function setDefaults() {
-  // Only reset text fields and files, but keep sizes, design and t-shirt color in place...
   properties.value = {
     ...properties.value,
     name: "",
@@ -95,17 +97,41 @@ function addToCart() {
   setDefaults();
 }
 
-const currentImage = ref(getImagePath(properties.value.variant as string));
+// --- Image management ---
+
+// For pre-rendered: switch active image when color/placement changes
+const currentImage = ref("");
+
+function updateCurrentImage() {
+  if (!design.value) return;
+  if (prerendered.value) {
+    const color = (
+      (properties.value["product-color"] as string) || ""
+    ).toLowerCase();
+    const placement = (
+      (properties.value.placement as string) || ""
+    ).toLowerCase();
+    if (color && placement) {
+      currentImage.value = getPrerenderedImagePath(color, placement);
+    }
+  } else {
+    currentImage.value = getImagePath(properties.value.variant as string);
+  }
+}
 
 watch(
-  () => properties.value.variant,
-  () => {
-    currentImage.value = getImagePath(properties.value.variant as string);
-  },
+  () => [
+    properties.value["product-color"],
+    properties.value.placement,
+    properties.value.variant,
+  ],
+  updateCurrentImage,
 );
 
+// Set initial image once properties are hydrated from URL
 onMounted(() => {
-  // Add validation rules
+  nextTick(updateCurrentImage);
+
   const addRules: ValidationRule[] = [];
   const productRulesIds =
     product.value?.properties
@@ -116,22 +142,25 @@ onMounted(() => {
   });
   changeRules(addRules);
 });
+
+// Gallery images
+const galleryImages = computed(() => {
+  if (!design.value) return [];
+  if (prerendered.value) return allPrerenderedImages.value;
+  return allImagePaths.value;
+});
 </script>
 
 <template>
   <div v-if="design" class="design">
     <orio-gallery-carousel
       v-model:active-image="currentImage"
-      size=":600"
+      size=":500"
       class="item-images"
-      :images="
-        Object.values(design.images).map(
-          (image: string) => `/designs/${productId}/${designId}/${image}`,
-        )
-      "
+      :images="galleryImages"
       appearance="minimal"
     >
-      <template #image="{ image }">
+      <template v-if="!prerendered" #image="{ image }">
         <designs-overlay-image
           :base="getBaseImage(properties.variant as string)"
           :overlay="image"

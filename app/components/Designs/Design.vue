@@ -1,52 +1,94 @@
 <script setup lang="ts">
-import { defaultImageProps, type ImageProps } from "~/assets/configs/designs";
+import {
+  isPrerenderedDesign,
+  defaultImageProps,
+  type ImageProps,
+  type Design,
+} from "~/assets/configs/designs";
 import type { ProductId } from "~/types/products";
 
-interface Props {
-  productId: string;
-  id: string;
-  name: string;
-  images: Record<string, string>;
-  imageProps?: Record<string, ImageProps>;
-}
+const props = defineProps<{ design: Design }>();
 
-const props = defineProps<Props>();
+const { formatDecimal } = useDecimalFormatter();
 
-const { getBaseImage } = useDesign(props.productId as ProductId, props.id);
+const { getBaseImage, getPrerenderedImagePath } = useDesign(
+  props.design.productId as ProductId,
+  props.design.id,
+);
 
-const firstColor = computed(() => Object.keys(props.images)[0]);
+const isPrerendered = isPrerenderedDesign(props.design);
+
+// Pre-rendered: show first color front, second color front on hover
+const mainImage = computed(() => {
+  if (!isPrerendered) return "";
+  return getPrerenderedImagePath(
+    props.design.colors[0],
+    props.design.placements[0],
+  );
+});
+
+const hoverImage = computed(() => {
+  if (!isPrerendered) return "";
+  const hoverColor = props.design.colors[1] ?? props.design.colors[0];
+  return getPrerenderedImagePath(hoverColor, props.design.placements[0]);
+});
+
+// Overlay: keep existing behavior
+const overlayDesign = computed(() => {
+  if (isPrerendered) return null;
+  return props.design as {
+    images: Record<string, string>;
+    imageProps?: Record<string, ImageProps>;
+  };
+});
+
+const firstVariant = computed(() => {
+  if (!overlayDesign.value) return "";
+  return Object.keys(overlayDesign.value.images)[0];
+});
+
+const designImage = computed(() => {
+  if (!overlayDesign.value) return "";
+  return `/designs/${props.design.productId}/${props.design.id}/${overlayDesign.value.images[firstVariant.value]}`;
+});
 
 const currentImageProps = computed(() => ({
   ...defaultImageProps,
-  ...props.imageProps?.[firstColor.value],
+  ...overlayDesign.value?.imageProps?.[firstVariant.value],
 }));
-
-// Variant is the key of the first image
-const variant = computed(() => Object.keys(props.images)[0]!);
-
-const designImage = computed(
-  () =>
-    `/designs/${props.productId}/${props.id}/${props.images[variant.value]}`,
-);
 </script>
 
 <template>
   <card
     class="design-card"
-    @flip-complete="navigateTo(`/product/${productId}/design/${id}`)"
+    @flip-complete="
+      navigateTo(`/product/${design.productId}/design/${design.id}`)
+    "
   >
-    <div class="image-container">
+    <!-- Pre-rendered: swap color on hover -->
+    <div v-if="isPrerendered" class="image-container">
+      <img class="main-image" :src="mainImage" />
+      <img class="hover-image" :src="hoverImage" />
+    </div>
+
+    <!-- Overlay: existing behavior -->
+    <div v-else class="image-container">
       <div class="main-image">
         <designs-overlay-image
           :overlay="designImage"
-          :base="getBaseImage(variant)"
+          :base="getBaseImage(firstVariant)"
           :params="currentImageProps"
         />
       </div>
-      <img class="design-image" :src="designImage" />
+      <img class="hover-image" :src="designImage" />
     </div>
-    <orio-view-text type="title" size="large">{{ name }}</orio-view-text>
-    <orio-button> CUSTOMIZE </orio-button>
+
+    <orio-view-text type="title" size="large">{{ design.name }}</orio-view-text>
+    <client-only>
+      <orio-view-text type="subtitle">
+        €{{ formatDecimal(design.price) }}
+      </orio-view-text>
+    </client-only>
   </card>
 </template>
 
@@ -57,23 +99,22 @@ const designImage = computed(
 }
 
 .main-image {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 1;
-  transition: opacity 0.1s ease-in-out;
+  transition: opacity 0.2s ease;
   width: 100%;
 }
 
-.design-image {
+.hover-image {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: auto;
   opacity: 0;
-  transition: opacity 0.1s ease-in-out;
+  transition: opacity 0.2s ease;
   pointer-events: none;
 }
 
@@ -81,7 +122,7 @@ const designImage = computed(
   opacity: 0;
 }
 
-.design-card:hover .design-image {
+.design-card:hover .hover-image {
   opacity: 1;
 }
 </style>

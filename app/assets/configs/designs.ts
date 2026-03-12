@@ -11,7 +11,37 @@ export const defaultImageProps: Required<ImageProps> = {
   leftMargin: "30%",
 };
 
-export const designs = {
+export interface PrerenderedDesign {
+  id: string;
+  merchandiseId: string;
+  name: string;
+  productId: string;
+  description: string;
+  price: number;
+  colors: string[];
+  placements: string[];
+}
+
+export interface OverlayDesign {
+  id: string;
+  merchandiseId: string;
+  name: string;
+  productId: string;
+  description: string;
+  price: number;
+  images: Record<string, string>;
+  imageProps?: Record<string, ImageProps>;
+}
+
+export type Design = PrerenderedDesign | OverlayDesign;
+
+export function isPrerenderedDesign(
+  design: Design,
+): design is PrerenderedDesign {
+  return "colors" in design;
+}
+
+export const designs: Record<string, Design[]> = {
   "designer-custom-t-shirt": [
     {
       id: "personalised-person",
@@ -22,9 +52,7 @@ export const designs = {
         "This is a T-shirt that has a person printed on it. You can change how it looks if you want.",
       price: 29.99,
       images: { Blue: "Blue.png", Pink: "Pink.png" },
-      imageProps: {
-        // Uses defaults
-      },
+      imageProps: {},
     },
   ],
   "known-prints-t-shirt": [
@@ -38,21 +66,9 @@ export const designs = {
         "What started as a real warning turned into a charming joke: beware of flying cats dropping in from walls and rooftops.\n" +
         "Only in Japan does even a caution sign feel this cute and chaotic.",
       price: 29.99,
-      images: { Original: "cats.png", Back: "cats.png" },
-      imageProps: {
-        Original: {
-          overlayThreshold: 0.46,
-          topMargin: "38%",
-          leftMargin: "27%",
-        },
-        Back: {
-          overlayThreshold: 0.42,
-          topMargin: "36%",
-          leftMargin: "31.5%",
-          baseImage: "back.png",
-        },
-      },
+      colors: ["white", "black", "sand"],
+      placements: ["front", "back"],
     },
   ],
   cup: [],
-} as const;
+};

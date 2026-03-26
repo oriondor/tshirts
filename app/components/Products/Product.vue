@@ -27,9 +27,15 @@ const minPrice = computed(() => {
     <img :src="image" />
     <orio-view-text type="title" size="large">{{ name }}</orio-view-text>
     <client-only>
-      <orio-view-text type="subtitle">
+      <orio-view-text type="subtitle" class="product-price">
         From €{{ formatDecimal(minPrice) }}
       </orio-view-text>
     </client-only>
   </card>
 </template>
+
+<style scoped>
+.product-price {
+  opacity: 0.6;
+}
+</style>

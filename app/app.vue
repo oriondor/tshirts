@@ -18,7 +18,7 @@ onMounted(() => {
   <NuxtLayout>
     <Navigation />
     <div class="content">
-      <NuxtPage />
+      <NuxtPage :transition="{ name: 'page', mode: 'out-in' }" />
     </div>
   </NuxtLayout>
 </template>
@@ -58,5 +58,25 @@ button {
   max-width: 100%;
   min-height: calc(100vh);
   padding-block: 2rem;
+}
+
+/* Page transitions */
+.page-enter-active {
+  transition:
+    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.page-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
+.page-leave-to {
+  opacity: 0;
 }
 </style>

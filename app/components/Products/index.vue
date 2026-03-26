@@ -5,9 +5,10 @@ import { products } from "@/assets/configs/products";
 <template>
   <orio-animated-container v-slot="{ play }">
     <products-product
-      v-for="product in products"
+      v-for="(product, i) in products"
       :key="product.id"
       v-bind="product"
+      v-reveal="{ delay: i * 80 }"
       @mouseenter="play"
     />
   </orio-animated-container>

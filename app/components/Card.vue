@@ -43,6 +43,10 @@ function onAnimationEnd(event: AnimationEvent) {
   cursor: pointer;
 }
 
+.card :deep(.orio-view-text) {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
 .card:hover :deep(img) {
   opacity: 0.92;
   transform: scale(1.02);

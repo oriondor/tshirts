@@ -85,7 +85,7 @@ const currentImageProps = computed(() => ({
 
     <orio-view-text type="title" size="large">{{ design.name }}</orio-view-text>
     <client-only>
-      <orio-view-text type="subtitle">
+      <orio-view-text type="subtitle" class="design-price">
         €{{ formatDecimal(design.price) }}
       </orio-view-text>
     </client-only>
@@ -114,8 +114,20 @@ const currentImageProps = computed(() => ({
   width: 100%;
   height: auto;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  mix-blend-mode: plus-lighter;
+  transition:
+    opacity 0.3s ease,
+    mix-blend-mode 0.3s ease;
   pointer-events: none;
+}
+
+.design-price {
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.design-card:hover .design-price {
+  opacity: 1;
 }
 
 .design-card:hover .main-image {
@@ -124,5 +136,6 @@ const currentImageProps = computed(() => ({
 
 .design-card:hover .hover-image {
   opacity: 1;
+  mix-blend-mode: normal;
 }
 </style>

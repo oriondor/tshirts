@@ -33,18 +33,26 @@ const { loggedIn } = useUserSession();
       <div class="logo-container"><logo @click="navigateTo('/')" /></div>
 
       <div class="nav-buttons" :class="{ 'mobile-open': isMobileMenuOpen }">
-        <orio-nav-button variant="subdued" @click="navigateTo('/')">
+        <orio-nav-button
+          variant="subdued"
+          underline
+          @click="navigateTo('/')"
+        >
           Products
         </orio-nav-button>
-        <orio-nav-button variant="subdued" @click="navigateTo('/print-guide')">
+        <orio-nav-button
+          variant="subdued"
+          underline
+          @click="navigateTo('/print-guide')"
+        >
           Print guide
         </orio-nav-button>
         <div class="mobile-auth-buttons">
           <orio-view-separator />
-          <orio-button v-if="loggedIn" @click="navigateTo('/profile')">
+          <orio-button v-if="loggedIn" fill @click="navigateTo('/profile')">
             Profile
           </orio-button>
-          <orio-button v-else @click="navigateTo('/profile')">
+          <orio-button v-else fill @click="navigateTo('/profile')">
             Login / Sign up
           </orio-button>
         </div>

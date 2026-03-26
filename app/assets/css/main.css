@@ -18,18 +18,24 @@
   --foot-height: 4rem;
 }
 
-/* Apple-style heading typography */
+/* Bold heading typography */
 h1, h2, h3, h4, h5, h6,
 .heading {
-  letter-spacing: -0.025em;
+  letter-spacing: 0.06em;
   line-height: 1.08;
   font-weight: 600;
+  text-transform: uppercase;
 }
 
 /* Body text refinement */
 p, span, a, li, label {
   line-height: 1.47;
   font-weight: 400;
+}
+
+/* Faded text hierarchy */
+.text-faded {
+  opacity: 0.6;
 }
 
 @media (max-width: 768px) {
@@ -40,4 +46,14 @@ p, span, a, li, label {
 
 .badge {
   letter-spacing: normal;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

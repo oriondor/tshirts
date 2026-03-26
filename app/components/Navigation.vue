@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { useWindowScroll } from "@vueuse/core";
-
 const isMobileMenuOpen = ref(false);
-const { y: scrollY } = useWindowScroll();
-const isScrolled = computed(() => scrollY.value > 0);
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -13,7 +9,7 @@ const { loggedIn } = useUserSession();
 </script>
 
 <template>
-  <div class="navigation" :class="{ scrolled: isScrolled }">
+  <div class="navigation">
     <div class="navigation-inner">
       <button
         class="burger-menu"
@@ -79,22 +75,25 @@ const { loggedIn } = useUserSession();
 .navigation {
   width: 100%;
   height: var(--nav-height);
-  background-color: var(--color-bg-1);
+  background-color: var(--color-bg-1-solid);
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: 0 2px 8px transparent;
-  transition: box-shadow 0.2s ease;
+  border-bottom: 0.5px solid transparent;
+  transition: border-color 0.3s ease;
 }
 
-.navigation.scrolled {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+@container scroll-state(scrolled: top) {
+  .navigation {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+  }
 }
 
 .navigation-inner {
   margin: auto;
   max-width: 60rem;
-  padding: 1rem;
+  padding: 0 1rem;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -166,7 +165,8 @@ const { loggedIn } = useUserSession();
     max-width: 500px;
     flex-direction: column;
     align-items: flex-start;
-    background-color: var(--color-bg-1);
+    --color-bg-1: #f3f5f7;
+    background-color: #f3f5f7;
     padding: 2rem 1rem;
     gap: 0.75rem;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);

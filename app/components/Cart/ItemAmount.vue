@@ -38,6 +38,12 @@ const total = computed(() => modelValue.value * (props.price ?? 0));
   max-width: 6rem;
 }
 
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
   .amount-field {
     flex: 1 1 0;

@@ -1,15 +1,35 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Inter:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 
-  letter-spacing: 1.5px;
+  letter-spacing: -0.01em;
 
-  --color-bg-1: #f3f5f7;
+  --color-bg-1: rgba(243, 245, 247, 0.72);
   --color-bg-2: #e9e7f1;
+  --color-bg-1-solid: #f3f5f7;
 
-  --nav-height: 6.25rem;
+  --nav-height: 4rem;
   --foot-height: 4rem;
+}
+
+/* Apple-style heading typography */
+h1, h2, h3, h4, h5, h6,
+.heading {
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  font-weight: 600;
+}
+
+/* Body text refinement */
+p, span, a, li, label {
+  line-height: 1.47;
+  font-weight: 400;
 }
 
 @media (max-width: 768px) {

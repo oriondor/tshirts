@@ -24,7 +24,7 @@ onMounted(() => {
       <orio-switch-button
         v-for="option in options"
         :model-value="modelValue === option"
-        size="lg"
+        size="md"
         @update:model-value="modelValue = option"
       >
         {{ option }}

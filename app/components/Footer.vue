@@ -11,10 +11,13 @@
   width: 100%;
   height: var(--foot-height);
   background-color: var(--color-bg-1);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   position: fixed;
   bottom: 0;
   left: 0;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+  z-index: 2;
 }
 
 .footer-inner {

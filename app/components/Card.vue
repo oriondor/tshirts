@@ -34,6 +34,7 @@ function onAnimationEnd(event: AnimationEvent) {
 .card {
   padding: 1rem;
   width: 23rem;
+  max-width: 100%;
   height: max-content;
   display: flex;
   flex-direction: column;
@@ -43,7 +44,8 @@ function onAnimationEnd(event: AnimationEvent) {
 }
 
 .card:hover :deep(img) {
-  opacity: 0.85;
+  opacity: 0.92;
+  transform: scale(1.02);
 }
 
 .card.flipping {
@@ -63,9 +65,10 @@ function onAnimationEnd(event: AnimationEvent) {
 }
 
 :deep(img) {
-  max-width: 100%;
+  width: 100%;
   aspect-ratio: 1/1;
-  height: 100%;
-  transition: opacity 0.2s ease;
+  max-height: 70vh;
+  object-fit: contain;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 </style>

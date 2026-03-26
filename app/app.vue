@@ -2,6 +2,16 @@
 const { setMode, setTheme } = useTheme();
 setMode("light");
 setTheme("inverse");
+
+onMounted(() => {
+  document.addEventListener(
+    "touchmove",
+    (e) => {
+      if (e.touches.length > 1) e.preventDefault();
+    },
+    { passive: false },
+  );
+});
 </script>
 
 <template>
@@ -14,6 +24,11 @@ setTheme("inverse");
 </template>
 
 <style>
+html {
+  overflow-x: clip;
+  container-type: scroll-state;
+}
+
 html,
 body,
 #__nuxt {
@@ -29,11 +44,19 @@ body,
   touch-action: manipulation;
 }
 
+/* Smooth transitions for interactive elements */
+a,
+button {
+  transition:
+    color 0.3s ease,
+    opacity 0.3s ease;
+}
+
 .content {
   margin: auto;
   width: 70rem;
   max-width: 100%;
-  min-height: calc(100vh - var(--nav-height));
+  min-height: calc(100vh);
   padding-block: 2rem;
 }
 </style>

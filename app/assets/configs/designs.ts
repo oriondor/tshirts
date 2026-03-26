@@ -69,6 +69,19 @@ export const designs: Record<string, Design[]> = {
       colors: ["white", "black", "sand"],
       placements: ["front", "back"],
     },
+    {
+      id: "champignon",
+      merchandiseId: "52399291203912",
+      name: "Champignon",
+      productId: "known-prints-t-shirt",
+      description:
+        "Some legends are born from greatness. Others… from mushrooms. 🍄\n" +
+        "This design proudly celebrates the most unexpected champion of them all — the champignon.\n" +
+        "Part parody, part culinary glory, it’s a tribute to anyone who knows that sometimes the real winners grow quietly in the forest.",
+      price: 29.99,
+      colors: ["white", "black", "chocolate", "natural"],
+      placements: ["front"],
+    },
   ],
   cup: [],
 };

@@ -22,16 +22,7 @@ const expanded = ref(false);
       <cart-item-description :design :properties="modelValue.properties" />
       <cart-item-amount v-model="modelValue.quantity" :price="design.price">
         <template #actions>
-          <orio-button variant="subdued" @click="expanded = !expanded">
-            <template #icon>
-              <orio-icon
-                name="chevron-down"
-                :size="24"
-                :class="{ rotated: expanded }"
-              />
-            </template>
-            Show more
-          </orio-button>
+          <cart-show-more class="desktop" v-model="expanded" />
           <orio-button variant="subdued" @click="emit('remove')">
             <template #icon>
               <orio-icon name="delete" :size="24" color="var(--color-danger)" />
@@ -40,6 +31,7 @@ const expanded = ref(false);
         </template>
       </cart-item-amount>
     </div>
+    <cart-show-more class="mobile" v-model="expanded" />
     <div class="cart-item-details">
       <cart-properties-view
         :product-id="modelValue.productId as ProductId"
@@ -50,6 +42,10 @@ const expanded = ref(false);
 </template>
 
 <style scoped>
+.mobile {
+  display: none;
+}
+
 .cart-item {
   width: 100%;
   display: flex;
@@ -84,5 +80,15 @@ const expanded = ref(false);
 
 :deep(svg:not(.rotated)) {
   transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .mobile {
+    display: block;
+    width: 100%;
+  }
+  .desktop {
+    display: none;
+  }
 }
 </style>

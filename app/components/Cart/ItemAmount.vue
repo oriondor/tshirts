@@ -30,12 +30,13 @@ const total = computed(() => modelValue.value * (props.price ?? 0));
 .item-amount {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
+  flex: 1;
 }
 
 .amount-field {
-  max-width: 6rem;
+  width: 5rem;
 }
 
 .actions {
@@ -45,21 +46,12 @@ const total = computed(() => modelValue.value * (props.price ?? 0));
 }
 
 @media (max-width: 768px) {
-  .amount-field {
-    flex: 1 1 0;
-    max-width: none;
+  .item-amount {
+    max-width: 13rem;
   }
 
   .amount-view {
     flex: 1 1 0;
-  }
-
-  .actions {
-    flex: 1 0 100%;
-  }
-
-  .actions :deep(button) {
-    width: 100%;
   }
 }
 </style>

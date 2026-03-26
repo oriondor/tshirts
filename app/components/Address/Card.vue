@@ -71,7 +71,6 @@ function handleClick() {
       <div class="address-actions">
         <orio-button
           variant="subdued"
-          size="small"
           icon="map-pin"
           @click.stop="emit('set-default')"
         >
@@ -79,7 +78,6 @@ function handleClick() {
         </orio-button>
         <orio-button
           variant="subdued"
-          size="small"
           icon="edit"
           @click.stop="emit('duplicate', $event)"
         >
@@ -87,7 +85,6 @@ function handleClick() {
         </orio-button>
         <orio-button
           variant="subdued"
-          size="small"
           icon="delete"
           @click.stop="emit('delete', $event)"
         >

@@ -152,48 +152,50 @@ const galleryImages = computed(() => {
 </script>
 
 <template>
-  <div v-if="design" class="design">
-    <orio-gallery-carousel
-      v-model:active-image="currentImage"
-      size=":500"
-      class="item-images"
-      :images="galleryImages"
-      appearance="minimal"
-    >
-      <template v-if="!prerendered" #image="{ image }">
-        <designs-overlay-image
-          :base="getBaseImage(properties.variant as string)"
-          :overlay="image"
-          :params="getImageProps(properties.variant as string)"
-        />
-      </template>
-    </orio-gallery-carousel>
-    <div class="item-information">
-      <div class="text-information">
-        <orio-view-text type="title" size="large">
-          {{ design.name }}
-        </orio-view-text>
-        <client-only>
-          <orio-view-text type="italics" size="large">
-            €{{ formatDecimal(design.price) }}
+  <div>
+    <div v-if="design" class="design">
+      <orio-gallery-carousel v-reveal
+        v-model:active-image="currentImage"
+        size=":500"
+        class="item-images"
+        :images="galleryImages"
+        appearance="minimal"
+      >
+        <template v-if="!prerendered" #image="{ image }">
+          <designs-overlay-image
+            :base="getBaseImage(properties.variant as string)"
+            :overlay="image"
+            :params="getImageProps(properties.variant as string)"
+          />
+        </template>
+      </orio-gallery-carousel>
+      <div v-reveal="{ delay: 100 }" class="item-information">
+        <div class="text-information">
+          <orio-view-text type="title" size="large">
+            {{ design.name }}
           </orio-view-text>
-        </client-only>
-        <orio-view-text type="subtitle">
-          {{ design.description }}
-        </orio-view-text>
+          <client-only>
+            <orio-view-text type="italics" size="large">
+              €{{ formatDecimal(design.price) }}
+            </orio-view-text>
+          </client-only>
+          <orio-view-text type="subtitle">
+            {{ design.description }}
+          </orio-view-text>
+        </div>
+        <Properties v-model="properties" :design :product-id :errors />
       </div>
-      <Properties v-model="properties" :design :product-id :errors />
     </div>
+    <Footer v-if="design">
+      <cart-item-description :design :properties />
+      <cart-item-amount v-model="amount" :price="design.price">
+        <template #actions>
+          <orio-button @click="addToCart"> Add to cart </orio-button>
+        </template>
+      </cart-item-amount>
+    </Footer>
+    <orio-empty-state v-if="!design" icon="search" title="Design not found" />
   </div>
-  <Footer v-if="design">
-    <cart-item-description :design :properties />
-    <cart-item-amount v-model="amount" :price="design.price">
-      <template #actions>
-        <orio-button @click="addToCart"> Add to cart </orio-button>
-      </template>
-    </cart-item-amount>
-  </Footer>
-  <orio-empty-state v-if="!design" icon="search" title="Design not found" />
 </template>
 
 <style scoped>

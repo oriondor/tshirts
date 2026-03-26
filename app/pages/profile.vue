@@ -103,7 +103,8 @@ async function handleLogout() {
             </template>
             <template v-else>
               <div class="edit-form">
-                <orio-input layout="inner"
+                <orio-input
+                  layout="inner"
                   v-model="editName"
                   placeholder="Your name"
                   class="name-input"
@@ -186,8 +187,8 @@ async function handleLogout() {
           <orio-button
             variant="secondary"
             :disabled="loggingOut"
+            fill
             @click="handleLogout"
-            class="logout-button"
           >
             {{ loggingOut ? "Logging out..." : "Log out" }}
           </orio-button>
@@ -331,10 +332,6 @@ async function handleLogout() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-:deep(.logout-button) {
-  width: 100%;
 }
 
 .auth-container {

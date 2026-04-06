@@ -20,6 +20,8 @@ export interface PrerenderedDesign {
   price: number;
   colors: string[];
   placements: string[];
+  excludeProperties?: string[];
+  defaultPlacement?: string;
 }
 
 export interface OverlayDesign {
@@ -31,6 +33,7 @@ export interface OverlayDesign {
   price: number;
   images: Record<string, string>;
   imageProps?: Record<string, ImageProps>;
+  excludeProperties?: string[];
 }
 
 export type Design = PrerenderedDesign | OverlayDesign;
@@ -59,7 +62,7 @@ export const designs: Record<string, Design[]> = {
     {
       id: "flying-cats",
       merchandiseId: "52399291203912",
-      name: "Japanese style beware of cats t-shirt",
+      name: "Beware of cats",
       productId: "known-prints-t-shirt",
       description:
         "Eventually, someone noticed that cats here don't just walk — they launch. 🐈💨\n" +
@@ -94,6 +97,8 @@ export const designs: Record<string, Design[]> = {
       price: 29.99,
       colors: ["black"],
       placements: ["front", "back"],
+      excludeProperties: ["placement"],
+      defaultPlacement: "front",
     },
     {
       id: "sushi_chopsticks",
@@ -107,6 +112,8 @@ export const designs: Record<string, Design[]> = {
       price: 29.99,
       colors: ["fgreen", "maroon", "purple"],
       placements: ["front", "back"],
+      excludeProperties: ["placement"],
+      defaultPlacement: "front",
     },
     {
       id: "sakura",
@@ -123,7 +130,9 @@ export const designs: Record<string, Design[]> = {
         "Flowers in full bloom.",
       price: 29.99,
       colors: ["white", "lblue", "charcoal", "lpink"],
-      placements: ["front", "back"],
+      placements: ["back", "front"],
+      excludeProperties: ["placement"],
+      defaultPlacement: "back",
     },
   ],
   cup: [],

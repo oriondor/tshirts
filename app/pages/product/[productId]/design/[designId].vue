@@ -47,8 +47,14 @@ const properties = ref<Record<string, string | File[]>>({
   files: [],
 });
 
+const excluded = design.value?.excludeProperties ?? [];
 const urlSyncKeys = (product.value?.properties ?? [])
-  .filter((p) => p.component && p.component !== "FilesUpload")
+  .filter(
+    (p) =>
+      p.component &&
+      p.component !== "FilesUpload" &&
+      !excluded.includes(p.name),
+  )
   .map((p) => p.name);
 
 useUrlSync(properties, urlSyncKeys);
@@ -61,13 +67,13 @@ const availableValidations = [
     model: name,
     id: "name",
     validator: isFilled,
-    message: t('design.nameRequired'),
+    message: t("design.nameRequired"),
   },
   {
     model: files,
     id: "files",
     validator: isFilled,
-    message: t('design.uploadRequired'),
+    message: t("design.uploadRequired"),
   },
 ];
 
@@ -109,8 +115,13 @@ function updateCurrentImage() {
     const color = (
       (properties.value["product-color"] as string) || ""
     ).toLowerCase();
+    const defaultPlacement = isPrerenderedDesign(design.value)
+      ? design.value.defaultPlacement
+      : undefined;
     const placement = (
-      (properties.value.placement as string) || ""
+      (properties.value.placement as string) ||
+      defaultPlacement ||
+      ""
     ).toLowerCase();
     if (color && placement) {
       currentImage.value = getPrerenderedImagePath(color, placement);
@@ -155,7 +166,8 @@ const galleryImages = computed(() => {
 <template>
   <div>
     <div v-if="design" class="design">
-      <orio-gallery-carousel v-reveal
+      <orio-gallery-carousel
+        v-reveal
         v-model:active-image="currentImage"
         size=":500"
         class="item-images"
@@ -191,11 +203,17 @@ const galleryImages = computed(() => {
       <cart-item-description :design :properties />
       <cart-item-amount v-model="amount" :price="design.price">
         <template #actions>
-          <orio-button @click="addToCart"> {{ t('cart.addToCart') }} </orio-button>
+          <orio-button @click="addToCart">
+            {{ t("cart.addToCart") }}
+          </orio-button>
         </template>
       </cart-item-amount>
     </Footer>
-    <orio-empty-state v-if="!design" icon="search" :title="t('product.designNotFound')" />
+    <orio-empty-state
+      v-if="!design"
+      icon="search"
+      :title="t('product.designNotFound')"
+    />
   </div>
 </template>
 

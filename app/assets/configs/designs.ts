@@ -82,6 +82,49 @@ export const designs: Record<string, Design[]> = {
       colors: ["white", "black", "chocolate", "natural"],
       placements: ["front"],
     },
+    {
+      id: "chopsticks",
+      merchandiseId: "52399291203912",
+      name: "Chopsticks",
+      productId: "known-prints-t-shirt",
+      description:
+        "Two sticks. Infinite skill ceiling. 🥢\n" +
+        "A minimal homage to one of humanity's most elegant inventions — the chopstick.\n" +
+        "Whether you're a seasoned pro or someone who still secretly wants a fork, this design is for anyone who respects the craft.",
+      price: 29.99,
+      colors: ["black"],
+      placements: ["front", "back"],
+    },
+    {
+      id: "sushi_chopsticks",
+      merchandiseId: "52399291203912",
+      name: "Sushi & Chopsticks",
+      productId: "known-prints-t-shirt",
+      description:
+        "The ultimate power couple. 🍣🥢\n" +
+        "Raw fish, precision rice, and two wooden sticks that somehow make it all work.\n" +
+        "A love letter to Japan's greatest export — worn by those who know the difference between a California roll and the real thing.",
+      price: 29.99,
+      colors: ["fgreen", "maroon", "purple"],
+      placements: ["front", "back"],
+    },
+    {
+      id: "sakura",
+      merchandiseId: "52399291203912",
+      name: "Sakura",
+      productId: "known-prints-t-shirt",
+      description:
+        "Cherry blossoms, cherry blossoms,\n" +
+        "In fields and villages\n" +
+        "As far as you can see.\n" +
+        "Is it a mist, or clouds?\n" +
+        "Fragrant in the morning sun.\n" +
+        "Cherry blossoms, cherry blossoms,\n" +
+        "Flowers in full bloom.",
+      price: 29.99,
+      colors: ["white", "lblue", "charcoal", "lpink"],
+      placements: ["front", "back"],
+    },
   ],
   cup: [],
 };

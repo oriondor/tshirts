@@ -33,7 +33,7 @@ function onAnimationEnd(event: AnimationEvent) {
 <style scoped>
 .card {
   padding: 1rem;
-  width: 23rem;
+  width: 18rem;
   max-width: 100%;
   height: max-content;
   display: flex;
@@ -73,6 +73,8 @@ function onAnimationEnd(event: AnimationEvent) {
   aspect-ratio: 1/1;
   max-height: 70vh;
   object-fit: contain;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
 }
 </style>

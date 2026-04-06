@@ -9,6 +9,7 @@ const props = withDefaults(defineProps<Props>(), {
   title: "Addresses",
 });
 
+const { t } = useI18n();
 const selectedId = defineModel<string | null>("selectedId");
 
 const {
@@ -101,7 +102,7 @@ const isSelectable = computed(() => props.mode === "order");
     <div class="header">
       <h2>{{ title }}</h2>
       <orio-button variant="subdued" iocn="plus" @click="handleAddClick">
-        Add
+        {{ t('common.add') }}
       </orio-button>
     </div>
 
@@ -110,11 +111,11 @@ const isSelectable = computed(() => props.mode === "order");
     <template v-else>
       <orio-empty-state
         v-if="addresses.length === 0"
-        title="No saved addresses"
+        :title="t('address.noSaved')"
         size="small"
       >
         <template #action>
-          <orio-button @click="handleAddClick">Add Address</orio-button>
+          <orio-button @click="handleAddClick">{{ t('address.addAddress') }}</orio-button>
         </template>
       </orio-empty-state>
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const expanded = defineModel();
+const { t } = useI18n();
 </script>
 
 <template>
@@ -11,7 +12,7 @@ const expanded = defineModel();
         :class="{ rotated: expanded }"
       />
     </template>
-    Show more
+    {{ t('showMore') }}
   </orio-button>
 </template>
 

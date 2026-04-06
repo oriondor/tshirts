@@ -4,6 +4,7 @@ interface Props {
 }
 
 defineProps<Props>();
+const { t } = useI18n();
 </script>
 
 <template>
@@ -11,12 +12,12 @@ defineProps<Props>();
     <orio-badge>
       <template #wrapping>
         <orio-nav-button @click="navigateTo('/admin/orders')">
-          Orders
+          {{ t('profile.orders') }}
         </orio-nav-button>
       </template>
       {{ paidOrdersCount }}
     </orio-badge>
-    <orio-nav-button @click="navigateTo('/admin/users')">Users</orio-nav-button>
+    <orio-nav-button @click="navigateTo('/admin/users')">{{ t('admin.users') }}</orio-nav-button>
   </div>
 </template>
 

@@ -7,6 +7,8 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
+const { t } = useI18n();
+
 const maxFiles = 6;
 
 const modelValue = defineModel<File[]>({ default: () => [] });
@@ -51,12 +53,12 @@ onUnmounted(() => {
         <div v-if="!modelValue.length" class="empty">
           <template v-if="!disabled">
             <div>
-              {{ isOverDropZone ? "Drop" : "Upload" }} up to
-              {{ maxFiles }} images here
+              {{ isOverDropZone ? t('upload.drop') : t('upload.upload') }}
+              {{ t('upload.upToImages', { count: maxFiles }) }}
             </div>
-            <orio-button>Add images</orio-button>
+            <orio-button>{{ t('upload.addImages') }}</orio-button>
           </template>
-          <div v-else>No images</div>
+          <div v-else>{{ t('upload.noImages') }}</div>
         </div>
       </div>
     </orio-upload>

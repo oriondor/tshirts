@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {
-  statusLabels,
   statusColors,
   formatDate,
   formatPrice,
@@ -10,6 +9,7 @@ definePageMeta({
   middleware: "admin",
 });
 
+const { t } = useI18n();
 const { fetchOrders, loading, error } = useAdmin();
 
 const orders = ref<
@@ -33,15 +33,15 @@ onMounted(async () => {
 <template>
   <div class="admin-orders-page">
     <div class="admin-container">
-      <NuxtLink to="/admin" class="back-link">Back to Admin</NuxtLink>
+      <NuxtLink to="/admin" class="back-link">{{ t('admin.backToAdmin') }}</NuxtLink>
 
-      <orio-view-text type="title" size="large">All Orders</orio-view-text>
+      <orio-view-text type="title" size="large">{{ t('admin.allOrders') }}</orio-view-text>
 
-      <div v-if="loading" class="loading">Loading orders...</div>
+      <div v-if="loading" class="loading">{{ t('orders.loadingOrders') }}</div>
 
       <div v-else-if="error" class="error">{{ error }}</div>
 
-      <div v-else-if="orders.length === 0" class="empty">No orders found.</div>
+      <div v-else-if="orders.length === 0" class="empty">{{ t('admin.noOrdersFound') }}</div>
 
       <div v-else class="orders-list">
         <NuxtLink
@@ -62,7 +62,7 @@ onMounted(async () => {
 
           <div class="order-details">
             <orio-view-text type="text">
-              {{ order.itemCount }} item{{ order.itemCount !== 1 ? "s" : "" }}
+              {{ order.itemCount }} {{ order.itemCount !== 1 ? t('orders.itemPlural') : t('orders.item') }}
             </orio-view-text>
             <orio-view-text type="title">
               {{ formatPrice(order.totalPrice, order.currency) }}
@@ -73,7 +73,7 @@ onMounted(async () => {
             class="order-status"
             :style="{ backgroundColor: statusColors[order.status] }"
           >
-            {{ statusLabels[order.status] }}
+            {{ t(`status.${order.status}`) }}
           </span>
         </NuxtLink>
       </div>

@@ -11,6 +11,8 @@ const emit = defineEmits<{
   confirm: [];
 }>();
 
+const { t } = useI18n();
+
 function handleConfirm() {
   emit("confirm");
 }
@@ -27,13 +29,13 @@ function handleCancel() {
     @update:show="modalProps['onUpdate:show']"
   >
     <div class="modal-content">
-      <orio-view-text type="title">Delete Address?</orio-view-text>
-      <p class="message">Are you sure you want to delete this address?</p>
+      <orio-view-text type="title">{{ t('address.deleteTitle') }}</orio-view-text>
+      <p class="message">{{ t('address.deleteConfirm') }}</p>
       <div class="actions">
         <orio-button variant="secondary" @click="handleCancel">
-          Cancel
+          {{ t('common.cancel') }}
         </orio-button>
-        <orio-button @click="handleConfirm">Delete</orio-button>
+        <orio-button @click="handleConfirm">{{ t('common.delete') }}</orio-button>
       </div>
     </div>
   </orio-modal>

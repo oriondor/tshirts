@@ -2,6 +2,7 @@
 import type { User } from "~/types/user";
 import type { Order } from "~/composables/useCheckout";
 
+const { t } = useI18n();
 const { loggedIn, user, fetch: fetchSession, clear } = useUserSession();
 const { fetchOrders } = useCheckout();
 
@@ -95,7 +96,7 @@ async function handleLogout() {
             <div class="avatar">{{ userInitial }}</div>
             <template v-if="!isEditing">
               <orio-view-text type="title" size="large">
-                {{ typedUser.name || "User" }}
+                {{ typedUser.name || t('common.user') }}
               </orio-view-text>
               <orio-view-text type="subtitle">
                 {{ typedUser.email }}
@@ -106,7 +107,7 @@ async function handleLogout() {
                 <orio-input
                   layout="inner"
                   v-model="editName"
-                  placeholder="Your name"
+                  :placeholder="t('profile.yourName')"
                   class="name-input"
                 />
                 <div class="edit-actions">
@@ -115,10 +116,10 @@ async function handleLogout() {
                     :disabled="saving"
                     @click="cancelEditing"
                   >
-                    Cancel
+                    {{ t('common.cancel') }}
                   </orio-button>
                   <orio-button :disabled="saving" @click="saveProfile">
-                    {{ saving ? "Saving..." : "Save" }}
+                    {{ saving ? t('common.saving') : t('common.save') }}
                   </orio-button>
                 </div>
               </div>
@@ -128,28 +129,28 @@ async function handleLogout() {
           <div class="profile-sections">
             <div class="section">
               <div class="section-header">
-                <orio-view-text type="title">Account</orio-view-text>
+                <orio-view-text type="title">{{ t('profile.account') }}</orio-view-text>
                 <orio-button
                   v-if="!isEditing"
                   variant="subdued"
                   icon="edit"
                   @click="startEditing"
                 >
-                  Edit
+                  {{ t('common.edit') }}
                 </orio-button>
               </div>
               <div class="info-grid">
                 <div class="info-item">
                   <orio-view-text type="subtitle" size="small">
-                    Name
+                    {{ t('profile.name') }}
                   </orio-view-text>
                   <orio-view-text type="title">
-                    {{ typedUser.name || "Not set" }}
+                    {{ typedUser.name || t('common.notSet') }}
                   </orio-view-text>
                 </div>
                 <div class="info-item">
                   <orio-view-text type="subtitle" size="small">
-                    Email
+                    {{ t('profile.email') }}
                   </orio-view-text>
                   <orio-view-text type="title">
                     {{ typedUser.email }}
@@ -163,19 +164,19 @@ async function handleLogout() {
         <div class="details">
           <NuxtLink to="/orders" class="section section-link">
             <div class="section-header">
-              <orio-view-text type="title">Orders</orio-view-text>
+              <orio-view-text type="title">{{ t('profile.orders') }}</orio-view-text>
               <orio-icon name="chevron-right" />
             </div>
             <div class="orders-summary">
               <orio-view-text v-if="ordersLoading" type="title" size="large">
-                Loading...
+                {{ t('common.loading') }}
               </orio-view-text>
               <orio-view-text v-else type="title" size="large">
                 {{ orders.length }}
-                {{ orders.length === 1 ? "order" : "orders" }}
+                {{ orders.length === 1 ? t('profile.order') : t('profile.orderPlural') }}
               </orio-view-text>
               <orio-view-text type="subtitle">
-                View order history
+                {{ t('profile.viewOrderHistory') }}
               </orio-view-text>
             </div>
           </NuxtLink>
@@ -190,7 +191,7 @@ async function handleLogout() {
             fill
             @click="handleLogout"
           >
-            {{ loggingOut ? "Logging out..." : "Log out" }}
+            {{ loggingOut ? t('profile.loggingOut') : t('profile.logOut') }}
           </orio-button>
         </div>
       </div>

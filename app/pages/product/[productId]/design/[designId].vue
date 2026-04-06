@@ -23,6 +23,7 @@ const route = useRoute();
 const productId = route.params.productId as ProductId;
 const designId = route.params.designId as string;
 
+const { t } = useI18n();
 const { formatDecimal } = useDecimalFormatter();
 
 const { addItem } = useCart();
@@ -60,13 +61,13 @@ const availableValidations = [
     model: name,
     id: "name",
     validator: isFilled,
-    message: "Name cannot be empty",
+    message: t('design.nameRequired'),
   },
   {
     model: files,
     id: "files",
     validator: isFilled,
-    message: "Upload at least one image",
+    message: t('design.uploadRequired'),
   },
 ];
 
@@ -190,11 +191,11 @@ const galleryImages = computed(() => {
       <cart-item-description :design :properties />
       <cart-item-amount v-model="amount" :price="design.price">
         <template #actions>
-          <orio-button @click="addToCart"> Add to cart </orio-button>
+          <orio-button @click="addToCart"> {{ t('cart.addToCart') }} </orio-button>
         </template>
       </cart-item-amount>
     </Footer>
-    <orio-empty-state v-if="!design" icon="search" title="Design not found" />
+    <orio-empty-state v-if="!design" icon="search" :title="t('product.designNotFound')" />
   </div>
 </template>
 

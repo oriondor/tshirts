@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {
   type Order,
-  statusLabels,
   statusColors,
   formatDate,
   formatPrice,
 } from "~/composables/useCheckout";
 
+const { t } = useI18n();
 const { loggedIn } = useUserSession();
 const { fetchOrders, loading, error } = useCheckout();
 const orders = ref<Order[]>([]);
@@ -30,18 +30,18 @@ watch(loggedIn, async (isLoggedIn) => {
   <div class="orders-page">
     <div class="orders-container">
       <orio-view-text type="title" size="large" class="page-title">
-        My Orders
+        {{ t('orders.myOrders') }}
       </orio-view-text>
 
       <template v-if="!loggedIn">
         <div class="auth-required">
-          <p>Please log in to view your orders.</p>
-          <NuxtLink to="/profile" class="login-link">Go to Login</NuxtLink>
+          <p>{{ t('common.loginRequired') }}</p>
+          <NuxtLink to="/profile" class="login-link">{{ t('common.goToLogin') }}</NuxtLink>
         </div>
       </template>
 
       <template v-else-if="loading">
-        <div class="loading">Loading orders...</div>
+        <div class="loading">{{ t('orders.loadingOrders') }}</div>
       </template>
 
       <template v-else-if="error">
@@ -50,8 +50,8 @@ watch(loggedIn, async (isLoggedIn) => {
 
       <template v-else-if="orders.length === 0">
         <div class="empty">
-          <p>You haven't placed any orders yet.</p>
-          <NuxtLink to="/" class="shop-link">Start Shopping</NuxtLink>
+          <p>{{ t('orders.noOrders') }}</p>
+          <NuxtLink to="/" class="shop-link">{{ t('orders.startShopping') }}</NuxtLink>
         </div>
       </template>
 
@@ -65,13 +65,13 @@ watch(loggedIn, async (isLoggedIn) => {
           >
             <div class="order-header">
               <orio-view-text type="title">
-                Order #{{ order.id.slice(0, 8) }}
+                {{ t('orders.orderNumber', { id: order.id.slice(0, 8) }) }}
               </orio-view-text>
               <span
                 class="order-status"
                 :style="{ backgroundColor: statusColors[order.status] }"
               >
-                {{ statusLabels[order.status] }}
+                {{ t(`status.${order.status}`) }}
               </span>
             </div>
             <div class="order-details">
@@ -79,7 +79,7 @@ watch(loggedIn, async (isLoggedIn) => {
                 {{ formatDate(order.createdAt) }}
               </orio-view-text>
               <orio-view-text type="subtitle" size="small">
-                {{ order.itemCount }} item(s)
+                {{ order.itemCount }} {{ order.itemCount === 1 ? t('orders.item') : t('orders.itemPlural') }}
               </orio-view-text>
               <orio-view-text type="title" class="order-total">
                 {{ formatPrice(order.totalPrice, order.currency) }}

@@ -8,6 +8,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const { t } = useI18n();
 
 const productConfig = computed(() => {
   return products.find((p) => p.id === props.productId);
@@ -44,7 +45,7 @@ const files = computed(() => {
     />
     <div v-if="files.length" class="files-section">
       <orio-view-text type="subtitle" size="small">
-        Uploaded images
+        {{ t('upload.uploadedImages') }}
       </orio-view-text>
       <properties-files-upload :model-value="files" disabled />
     </div>

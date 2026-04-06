@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t } = useI18n();
 const { items, removeItem, isLoaded, load, total, clear } = useCart();
 const { createOrder, error: orderError, loading: orderLoading } = useCheckout();
 const { loggedIn } = useUserSession();
@@ -38,18 +39,18 @@ onMounted(() => {
         v-model="items[index]"
         @remove="removeItem(index)"
       />
-      <div v-if="!items.length" class="empty">Your cart is empty</div>
+      <div v-if="!items.length" class="empty">{{ t('cart.empty') }}</div>
 
       <div v-if="loggedIn && items.length" class="shipping-section">
         <orio-view-separator />
         <address-manager
           v-model:selected-id="selectedAddressId"
           mode="order"
-          title="Shipping Address"
+          :title="t('cart.shippingAddress')"
         />
       </div>
     </orio-animated-container>
-    <div v-else>Loading...</div>
+    <div v-else>{{ t('common.loading') }}</div>
     <Footer>
       <div class="subtotal">
         <orio-view-text
@@ -66,9 +67,9 @@ onMounted(() => {
           size="small"
           class="address-hint"
         >
-          Select a shipping address to checkout
+          {{ t('cart.selectAddress') }}
         </orio-view-text>
-        <orio-view-text type="title">Subtotal:</orio-view-text>
+        <orio-view-text type="title">{{ t('cart.subtotal') }}</orio-view-text>
         <cart-item-amount-view :total />
         <orio-button
           v-if="loggedIn"
@@ -76,7 +77,7 @@ onMounted(() => {
           :disabled="!canCheckout || orderLoading"
           @click="processOrder"
         >
-          {{ orderLoading ? "PROCESSING..." : "CHECKOUT" }}
+          {{ orderLoading ? t('cart.processing') : t('cart.checkout') }}
         </orio-button>
         <orio-button
           v-else
@@ -84,7 +85,7 @@ onMounted(() => {
           variant="secondary"
           icon="user"
         >
-          LOG IN TO CHECKOUT
+          {{ t('cart.loginToCheckout') }}
         </orio-button>
       </div>
     </Footer>

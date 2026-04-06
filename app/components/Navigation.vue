@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n();
+
 const isMobileMenuOpen = ref(false);
 
 const toggleMobileMenu = () => {
@@ -14,7 +16,7 @@ const { loggedIn } = useUserSession();
       <button
         class="burger-menu"
         @click="toggleMobileMenu"
-        aria-label="Toggle menu"
+        :aria-label="t('nav.toggleMenu')"
       >
         <svg
           width="24"
@@ -38,22 +40,22 @@ const { loggedIn } = useUserSession();
           underline
           @click="navigateTo('/')"
         >
-          Products
+          {{ t('nav.products') }}
         </orio-nav-button>
         <orio-nav-button
           variant="subdued"
           underline
           @click="navigateTo('/print-guide')"
         >
-          Print guide
+          {{ t('nav.printGuide') }}
         </orio-nav-button>
         <div class="mobile-auth-buttons">
           <orio-view-separator />
           <orio-button v-if="loggedIn" fill @click="navigateTo('/profile')">
-            Profile
+            {{ t('nav.profile') }}
           </orio-button>
           <orio-button v-else fill @click="navigateTo('/profile')">
-            Login / Sign up
+            {{ t('nav.loginSignup') }}
           </orio-button>
         </div>
       </div>

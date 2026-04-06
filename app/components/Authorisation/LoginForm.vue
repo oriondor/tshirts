@@ -8,6 +8,7 @@ const form = reactive({
   email: "",
   password: "",
 });
+const { t } = useI18n();
 const error = ref("");
 const loading = ref(false);
 const needsVerification = ref(false);
@@ -19,19 +20,19 @@ const { checkValidity, errors } = useValidation([
     model: toRef(form, "email"),
     id: "email",
     validator: isFilled,
-    message: "Email is required",
+    message: t('auth.emailRequired'),
   },
   {
     model: toRef(form, "email"),
     id: "email",
     validator: isEmail,
-    message: "Email is incorrect",
+    message: t('auth.emailIncorrect'),
   },
   {
     model: toRef(form, "password"),
     id: "password",
     validator: isFilled,
-    message: "Password is required",
+    message: t('auth.passwordRequired'),
   },
 ]);
 
@@ -76,7 +77,7 @@ async function handleResendVerification() {
 
 <template>
   <form class="login-form" @submit.prevent="handleSubmit">
-    <orio-view-text type="title">Login</orio-view-text>
+    <orio-view-text type="title">{{ t('auth.login') }}</orio-view-text>
 
     <div v-if="error" class="error-message">
       {{ error }}
@@ -87,30 +88,32 @@ async function handleResendVerification() {
           href="#"
           @click.prevent="handleResendVerification"
         >
-          {{ resendLoading ? "Sending..." : "Resend verification email" }}
+          {{ resendLoading ? t('auth.sendingVerification') : t('auth.resendVerification') }}
         </a>
-        <span v-else>Verification email sent!</span>
+        <span v-else>{{ t('auth.verificationSent') }}</span>
       </template>
     </div>
 
-    <orio-input layout="inner"
+    <orio-input
+      layout="inner"
       v-model="form.email"
       type="email"
-      label="Email"
-      placeholder="your@email.com"
+      :label="t('auth.emailLabel')"
+      :placeholder="t('auth.emailPlaceholder')"
       :error="errors.email"
     />
 
-    <orio-input layout="inner"
+    <orio-input
+      layout="inner"
       v-model="form.password"
       type="password"
-      label="Password"
-      placeholder="Your password"
+      :label="t('auth.passwordLabel')"
+      :placeholder="t('auth.passwordPlaceholder')"
       :error="errors.password"
     />
 
-    <orio-button type="submit" :disabled="loading">
-      {{ loading ? "Logging in..." : "Login" }}
+    <orio-button type="submit" :disabled="loading" fill>
+      {{ loading ? t('auth.loggingIn') : t('auth.login') }}
     </orio-button>
 
     <orio-view-separator />
@@ -118,8 +121,8 @@ async function handleResendVerification() {
     <AuthorisationOAuthButton provider="google" />
 
     <orio-view-text type="subtitle" class="switch-text">
-      Don't have an account?
-      <a href="#" @click.prevent="emit('switchToSignup')">Sign up</a>
+      {{ t('auth.noAccount') }}
+      <a href="#" @click.prevent="emit('switchToSignup')">{{ t('auth.signupLink') }}</a>
     </orio-view-text>
   </form>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface Props {
   options: string[];
-  label: string;
+  label?: string;
 }
 const props = defineProps<Props>();
 
@@ -27,7 +27,9 @@ onMounted(() => {
         size="md"
         @update:model-value="modelValue = option"
       >
-        {{ option }}
+        <slot :option="option">
+          {{ option }}
+        </slot>
       </orio-switch-button>
     </div>
   </orio-control-element>

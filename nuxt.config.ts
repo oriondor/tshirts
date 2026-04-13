@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["orio-ui", "nuxt-auth-utils"],
+  modules: ["orio-ui", "nuxt-auth-utils", "@nuxt/image"],
   css: ["@/assets/css/main.css"],
   app: {
     head: {

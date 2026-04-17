@@ -3,6 +3,7 @@ import type { AddressFormData } from "~/types/address";
 
 const modelValue = defineModel<AddressFormData>({ required: true });
 
+const { t } = useI18n();
 const { checkValidity, errors, changeRules } = useValidation();
 
 watch(
@@ -13,31 +14,31 @@ watch(
         model: toRef(modelValue.value, "recipientName"),
         id: "recipientName",
         validator: isFilled,
-        message: "Recipient name is required",
+        message: t('address.recipientRequired'),
       },
       {
         model: toRef(modelValue.value, "street"),
         id: "street",
         validator: isFilled,
-        message: "Street is required",
+        message: t('address.streetRequired'),
       },
       {
         model: toRef(modelValue.value, "streetNumber"),
         id: "streetNumber",
         validator: isFilled,
-        message: "Street number is required",
+        message: t('address.streetNumberRequired'),
       },
       {
         model: toRef(modelValue.value, "postalCode"),
         id: "postalCode",
         validator: isFilled,
-        message: "Postal code is required",
+        message: t('address.postalCodeRequired'),
       },
       {
         model: toRef(modelValue.value, "city"),
         id: "city",
         validator: isFilled,
-        message: "City is required",
+        message: t('address.cityRequired'),
       },
     ]);
   },
@@ -49,74 +50,74 @@ defineExpose({ checkValidity });
 
 <template>
   <div class="address-form">
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.recipientName"
-      label="Recipient Name"
-      placeholder="Full name"
+      :label="t('address.recipientName')"
+      :placeholder="t('address.fullName')"
       :error="errors.recipientName"
     />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.phone"
-      label="Phone (optional)"
-      placeholder="+49 123 456789"
+      :label="t('address.phoneOptional')"
+      :placeholder="t('address.phonePlaceholder')"
       type="tel"
     />
 
     <div class="form-row">
-      <orio-input
+      <orio-input layout="inner"
         v-model="modelValue.street"
-        label="Street"
-        placeholder="Street name"
+        :label="t('address.street')"
+        :placeholder="t('address.streetPlaceholder')"
         :error="errors.street"
         class="street-input"
       />
-      <orio-input
+      <orio-input layout="inner"
         v-model="modelValue.streetNumber"
-        label="Nr."
-        placeholder="123"
+        :label="t('address.streetNumber')"
+        :placeholder="t('address.streetNumberPlaceholder')"
         :error="errors.streetNumber"
         class="number-input"
       />
     </div>
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.additionalInfo"
-      label="Additional Info (optional)"
-      placeholder="Apartment, floor, etc."
+      :label="t('address.additionalInfo')"
+      :placeholder="t('address.additionalInfoPlaceholder')"
     />
 
     <div class="form-row">
-      <orio-input
+      <orio-input layout="inner"
         v-model="modelValue.postalCode"
-        label="Postal Code"
-        placeholder="12345"
+        :label="t('address.postalCode')"
+        :placeholder="t('address.postalCodePlaceholder')"
         :error="errors.postalCode"
         class="postal-input"
       />
-      <orio-input
+      <orio-input layout="inner"
         v-model="modelValue.city"
-        label="City"
-        placeholder="City"
+        :label="t('address.city')"
+        :placeholder="t('address.city')"
         :error="errors.city"
         class="city-input"
       />
     </div>
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.country"
-      label="Country"
-      placeholder="Country"
+      :label="t('address.country')"
+      :placeholder="t('address.country')"
     />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="modelValue.label"
-      label="Label (optional)"
-      placeholder="e.g., Home, Work"
+      :label="t('address.labelOptional')"
+      :placeholder="t('address.labelPlaceholder')"
     />
 
     <orio-check-box v-model="modelValue.isDefault">
-      Set as default address
+      {{ t('address.setAsDefault') }}
     </orio-check-box>
   </div>
 </template>

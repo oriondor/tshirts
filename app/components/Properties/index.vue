@@ -21,10 +21,10 @@ const productConfig = computed(() => {
 });
 
 const propertyComponents = computed(() => {
+  const excluded = props.design?.excludeProperties ?? [];
   const properties = productConfig.value?.properties || [];
-  // Filter out invalid properties without a component
   return properties
-    .filter((prop) => prop.component)
+    .filter((prop) => prop.component && !excluded.includes(prop.name))
     .map((prop) => {
       const { component, name, ...componentProps } = prop;
       const resolvedComponent = propertyModules[`./${component}.vue`]?.default;

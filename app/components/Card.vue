@@ -33,20 +33,23 @@ function onAnimationEnd(event: AnimationEvent) {
 <style scoped>
 .card {
   padding: 1rem;
-  width: 23rem;
+  width: 18rem;
+  max-width: 100%;
   height: max-content;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  background-color: var(--color-bg-1);
-  border-radius: var(--border-radius-lg);
+  gap: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.25s ease;
 }
 
-.card:hover {
-  background-color: var(--color-bg-2);
+.card :deep(.orio-view-text) {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.card:hover :deep(img) {
+  opacity: 0.92;
+  transform: scale(1.02);
 }
 
 .card.flipping {
@@ -66,9 +69,12 @@ function onAnimationEnd(event: AnimationEvent) {
 }
 
 :deep(img) {
-  max-width: 100%;
-  border-radius: var(--border-radius-lg);
+  width: 100%;
   aspect-ratio: 1/1;
-  height: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
 }
 </style>

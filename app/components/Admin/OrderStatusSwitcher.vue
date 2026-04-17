@@ -12,14 +12,16 @@ const emit = defineEmits<{
   updated: [status: OrderStatus];
 }>();
 
-const statusOptions: { id: OrderStatus; label: string }[] = [
-  { id: "unpaid", label: "Unpaid" },
-  { id: "paid", label: "Paid" },
-  { id: "processing", label: "Processing" },
-  { id: "shipped", label: "Shipped" },
-  { id: "delivered", label: "Delivered" },
-  { id: "cancelled", label: "Cancelled" },
-];
+const { t } = useI18n();
+
+const statusOptions = computed<{ id: OrderStatus; label: string }[]>(() => [
+  { id: "unpaid", label: t('status.unpaid') },
+  { id: "paid", label: t('status.paid') },
+  { id: "processing", label: t('status.processing') },
+  { id: "shipped", label: t('status.shipped') },
+  { id: "delivered", label: t('status.delivered') },
+  { id: "cancelled", label: t('status.cancelled') },
+]);
 
 const selectedStatus = ref<{ id: OrderStatus; label: string } | null>(null);
 const loading = ref(false);
@@ -31,7 +33,7 @@ watch(
   () => props.currentStatus,
   (status) => {
     selectedStatus.value =
-      statusOptions.find((opt) => opt.id === status) ?? null;
+      statusOptions.value.find((opt) => opt.id === status) ?? null;
   },
   { immediate: true },
 );
@@ -47,11 +49,11 @@ const transitionMessage = computed(() => {
   const to = selectedStatus.value.id;
 
   if (from === "paid" && to === "processing") {
-    return "User will receive notification about order started to be processing";
+    return t('admin.notifyProcessing');
   }
 
   if (from === "processing" && to === "shipped") {
-    return "User will receive notification that order is shipped";
+    return t('admin.notifyShipped');
   }
 
   return null;
@@ -61,15 +63,15 @@ const confirmationMessage = computed(() => {
   if (!selectedStatus.value) return "";
 
   const fromLabel =
-    statusOptions.find((opt) => opt.id === props.currentStatus)?.label ??
+    statusOptions.value.find((opt) => opt.id === props.currentStatus)?.label ??
     props.currentStatus;
   const toLabel = selectedStatus.value.label;
 
   if (transitionMessage.value) {
-    return `Are you sure you want to switch status from ${fromLabel} to ${toLabel} and notify user about changes?`;
+    return t('admin.statusChangeNotify', { from: fromLabel, to: toLabel });
   }
 
-  return `Are you sure you want to switch status from ${fromLabel} to ${toLabel}?`;
+  return t('admin.statusChange', { from: fromLabel, to: toLabel });
 });
 
 function handleSaveClick(event: MouseEvent) {
@@ -106,18 +108,18 @@ function handleCancel() {
 
 <template>
   <orio-banner>
-    <orio-view-text type="title">Order status</orio-view-text>
+    <orio-view-text type="title">{{ t('admin.orderStatus') }}</orio-view-text>
     <div class="selector-row">
       <orio-selector
         v-model="selectedStatus"
         :options="statusOptions"
         field="id"
         option-name="label"
-        placeholder="Select status"
+        :placeholder="t('admin.selectStatus')"
       />
 
       <orio-button :disabled="!hasChanges || loading" @click="handleSaveClick">
-        Save
+        {{ t('common.save') }}
       </orio-button>
     </div>
 
@@ -133,7 +135,7 @@ function handleCancel() {
       <orio-modal
         :show="modalProps.show"
         :origin="modalProps.origin"
-        title="Confirm Status Change"
+        :title="t('admin.confirmStatusChange')"
         @update:show="modalProps['onUpdate:show']"
       >
         <orio-view-text>{{ confirmationMessage }}</orio-view-text>
@@ -141,10 +143,10 @@ function handleCancel() {
         <template #footer>
           <div class="modal-footer">
             <orio-button variant="secondary" @click="handleCancel">
-              Cancel
+              {{ t('common.cancel') }}
             </orio-button>
             <orio-button :disabled="loading" @click="confirmStatusChange">
-              {{ loading ? "Saving..." : "Confirm" }}
+              {{ loading ? t('common.saving') : t('common.confirm') }}
             </orio-button>
           </div>
         </template>

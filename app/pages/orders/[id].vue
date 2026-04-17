@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Order } from "~/composables/useCheckout";
 
+const { t } = useI18n();
 const route = useRoute();
 const { loggedIn } = useUserSession();
 const { fetchOrder, loading, error } = useCheckout();
@@ -53,17 +54,17 @@ watch(loggedIn, async (isLoggedIn) => {
 <template>
   <div class="order-detail-page">
     <div class="order-container">
-      <NuxtLink to="/orders" class="back-link">Back to Orders</NuxtLink>
+      <NuxtLink to="/orders" class="back-link">{{ t('orders.backToOrders') }}</NuxtLink>
 
       <template v-if="!loggedIn">
         <div class="auth-required">
-          <p>Please log in to view this order.</p>
-          <NuxtLink to="/profile" class="login-link">Go to Login</NuxtLink>
+          <p>{{ t('common.loginRequiredOrder') }}</p>
+          <NuxtLink to="/profile" class="login-link">{{ t('common.goToLogin') }}</NuxtLink>
         </div>
       </template>
 
       <template v-else-if="loading">
-        <div class="loading">Loading order...</div>
+        <div class="loading">{{ t('orders.loadingOrder') }}</div>
       </template>
 
       <template v-else-if="error">
@@ -71,7 +72,7 @@ watch(loggedIn, async (isLoggedIn) => {
       </template>
 
       <template v-else-if="!order">
-        <div class="not-found">Order not found.</div>
+        <div class="not-found">{{ t('orders.orderNotFound') }}</div>
       </template>
 
       <div class="order-info" v-else>
@@ -104,10 +105,10 @@ watch(loggedIn, async (isLoggedIn) => {
               :disabled="paymentLoading"
               @click="handlePayNow"
             >
-              {{ paymentLoading ? "Creating checkout..." : "Pay Now" }}
+              {{ paymentLoading ? t('orders.creatingCheckout') : t('orders.payNow') }}
             </button>
             <orio-view-text type="subtitle" size="small" class="payment-note">
-              You will be redirected to Shopify to complete your payment
+              {{ t('orders.shopifyRedirect') }}
             </orio-view-text>
           </div>
         </order-summary>

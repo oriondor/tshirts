@@ -2,8 +2,15 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["orio-ui", "nuxt-auth-utils"],
+  modules: ["orio-ui", "nuxt-auth-utils", "@nuxt/image"],
   css: ["@/assets/css/main.css"],
+  app: {
+    head: {
+      meta: [
+        { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" },
+      ],
+    },
+  },
   runtimeConfig: {
     session: {
       maxAge: 60 * 60 * 24 * 7, // 1 week

@@ -7,11 +7,13 @@ interface Props {
 }
 
 defineProps<Props>();
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="order-items">
-    <orio-view-text type="title" class="section-title">Items</orio-view-text>
+    <orio-view-text type="title" class="section-title">{{ t('orders.sectionItems') }}</orio-view-text>
     <order-item-card v-for="item in items" :key="item.id" :item :currency />
   </div>
 </template>

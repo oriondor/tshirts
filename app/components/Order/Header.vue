@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import {
-  statusLabels,
   statusColors,
   formatDate,
 } from "~/composables/useCheckout";
+
+const { t } = useI18n();
 
 interface Props {
   id: string;
@@ -18,17 +19,17 @@ defineProps<Props>();
   <div class="order-header">
     <div class="order-title">
       <orio-view-text type="title" size="large">
-        Order #{{ id.slice(0, 8) }}
+        {{ t('orders.orderNumber', { id: id.slice(0, 8) }) }}
       </orio-view-text>
       <span
         class="order-status"
         :style="{ backgroundColor: statusColors[status] }"
       >
-        {{ statusLabels[status] }}
+        {{ t(`status.${status}`) }}
       </span>
     </div>
     <orio-view-text type="subtitle">
-      Placed on {{ formatDate(createdAt) }}
+      {{ t('orders.placedOn', { date: formatDate(createdAt) }) }}
     </orio-view-text>
     <slot />
   </div>

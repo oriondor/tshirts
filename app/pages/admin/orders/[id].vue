@@ -3,6 +3,7 @@ definePageMeta({
   middleware: "admin",
 });
 
+const { t } = useI18n();
 const route = useRoute();
 const { fetchOrder, loading, error } = useAdmin();
 const order = ref<Awaited<ReturnType<typeof fetchOrder>>>(null);
@@ -16,13 +17,13 @@ onMounted(async () => {
 <template>
   <div class="admin-order-page">
     <div class="admin-container">
-      <NuxtLink to="/admin/orders" class="back-link">Back to Orders</NuxtLink>
+      <NuxtLink to="/admin/orders" class="back-link">{{ t('orders.backToOrders') }}</NuxtLink>
 
-      <div v-if="loading" class="loading">Loading order...</div>
+      <div v-if="loading" class="loading">{{ t('orders.loadingOrder') }}</div>
 
       <div v-else-if="error" class="error">{{ error }}</div>
 
-      <div v-else-if="!order" class="not-found">Order not found.</div>
+      <div v-else-if="!order" class="not-found">{{ t('orders.orderNotFound') }}</div>
 
       <div class="order-info" v-else>
         <order-header
@@ -32,7 +33,7 @@ onMounted(async () => {
         >
           <div v-if="order.user" class="user-info">
             <orio-view-text type="subtitle" size="small">
-              Customer: {{ order.user.name || order.user.email }}
+              {{ t('orders.customer') }} {{ order.user.name || order.user.email }}
             </orio-view-text>
             <orio-view-text v-if="order.user.name" type="text" size="small">
               {{ order.user.email }}

@@ -10,6 +10,7 @@ const form = reactive({
   password: "",
   confirmPassword: "",
 });
+const { t } = useI18n();
 const error = ref("");
 const loading = ref(false);
 const signupComplete = ref(false);
@@ -19,25 +20,25 @@ const { checkValidity, errors } = useValidation([
     model: toRef(form, "email"),
     id: "email",
     validator: isFilled,
-    message: "Email is required",
+    message: t('auth.emailRequired'),
   },
   {
     model: toRef(form, "email"),
     id: "email",
     validator: isEmail,
-    message: "Email is incorrect",
+    message: t('auth.emailIncorrect'),
   },
   {
     model: toRef(form, "password"),
     id: "password",
     validator: (model) => (isRef(model) ? model.value : model).length >= 8,
-    message: "Password must be at least 8 characters",
+    message: t('auth.passwordMinLength'),
   },
   {
     model: toRef(form, "confirmPassword"),
     id: "confirmPassword",
     validator: () => form.password === form.confirmPassword,
-    message: "Passwords don't match",
+    message: t('auth.passwordsNoMatch'),
   },
 ]);
 
@@ -67,50 +68,50 @@ async function handleSubmit() {
 
 <template>
   <div v-if="signupComplete" class="verification-sent">
-    <orio-view-text type="title">Check your email</orio-view-text>
+    <orio-view-text type="title">{{ t('auth.checkEmail') }}</orio-view-text>
     <orio-view-text type="text">
-      We've sent a verification link to <strong>{{ form.email }}</strong>
+      {{ t('auth.verificationLinkSent') }} <strong>{{ form.email }}</strong>
     </orio-view-text>
     <orio-view-text type="subtitle" class="switch-text">
-      Didn't receive it?
-      <a href="#" @click.prevent="emit('switchToLogin')">Try logging in</a>
-      or check your spam folder.
+      {{ t('auth.didntReceive') }}
+      <a href="#" @click.prevent="emit('switchToLogin')">{{ t('auth.tryLoggingIn') }}</a>
+      {{ t('auth.orCheckSpam') }}
     </orio-view-text>
   </div>
 
   <form v-else class="signup-form" @submit.prevent="handleSubmit">
-    <orio-view-text type="title">Sign Up</orio-view-text>
+    <orio-view-text type="title">{{ t('auth.signup') }}</orio-view-text>
 
     <div v-if="error" class="error-message">{{ error }}</div>
 
-    <orio-input v-model="form.name" label="Name" placeholder="Your name" />
+    <orio-input layout="inner" v-model="form.name" :label="t('auth.nameLabel')" :placeholder="t('auth.namePlaceholder')" />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="form.email"
       type="email"
-      label="Email"
-      placeholder="your@email.com"
+      :label="t('auth.emailLabel')"
+      :placeholder="t('auth.emailPlaceholder')"
       :error="errors.email"
     />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="form.password"
       type="password"
-      label="Password"
-      placeholder="Min. 8 characters"
+      :label="t('auth.passwordLabel')"
+      :placeholder="t('auth.minChars')"
       :error="errors.password"
     />
 
-    <orio-input
+    <orio-input layout="inner"
       v-model="form.confirmPassword"
       type="password"
-      label="Confirm Password"
-      placeholder="Repeat password"
+      :label="t('auth.confirmPassword')"
+      :placeholder="t('auth.repeatPassword')"
       :error="errors.confirmPassword"
     />
 
     <orio-button type="submit" :disabled="loading">
-      {{ loading ? "Creating account..." : "Create Account" }}
+      {{ loading ? t('auth.creatingAccount') : t('auth.createAccount') }}
     </orio-button>
 
     <orio-view-separator />
@@ -118,8 +119,8 @@ async function handleSubmit() {
     <AuthorisationOAuthButton provider="google" />
 
     <orio-view-text type="subtitle" class="switch-text">
-      Already have an account?
-      <a href="#" @click.prevent="emit('switchToLogin')">Login</a>
+      {{ t('auth.hasAccount') }}
+      <a href="#" @click.prevent="emit('switchToLogin')">{{ t('auth.loginLink') }}</a>
     </orio-view-text>
   </form>
 </template>

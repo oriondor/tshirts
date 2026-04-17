@@ -2,18 +2,20 @@
 definePageMeta({
   middleware: "admin",
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="admin-users-page">
     <div class="admin-container">
-      <NuxtLink to="/admin" class="back-link">Back to Admin</NuxtLink>
+      <NuxtLink to="/admin" class="back-link">{{ t('admin.backToAdmin') }}</NuxtLink>
 
-      <orio-view-text type="title" size="large">Users</orio-view-text>
+      <orio-view-text type="title" size="large">{{ t('admin.users') }}</orio-view-text>
 
       <orio-empty-state class="empty-state">
-        <template #title>Coming Soon</template>
-        <template #description>User management will be available here.</template>
+        <template #title>{{ t('admin.comingSoon') }}</template>
+        <template #description>{{ t('admin.userManagement') }}</template>
       </orio-empty-state>
     </div>
   </div>

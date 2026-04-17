@@ -59,21 +59,20 @@ export const products = [
     available: true,
     properties: [
       {
-        name: "variant",
-        component: "Variant",
-        label: "Variant",
+        name: "placement",
+        component: "Placement",
+        label: "Side",
+      },
+      {
+        name: "product-color",
+        component: "Color",
+        label: "T-shirt color",
       },
       {
         name: "size",
         component: "SwitchSelect",
         options: ["XS", "S", "M", "L", "XL", "XXL"],
         label: "Size",
-      },
-      {
-        name: "product-color",
-        component: "SwitchSelect",
-        options: ["White", "Black", "Grey"],
-        label: "T-shirt color",
       },
     ],
   },

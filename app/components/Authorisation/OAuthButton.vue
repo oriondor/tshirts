@@ -6,6 +6,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const { t } = useI18n();
 
 function handleClick() {
   window.location.href = `/api/auth/${props.provider}`;
@@ -13,8 +14,8 @@ function handleClick() {
 </script>
 
 <template>
-  <orio-button class="oauth-btn" variant="secondary" @click="handleClick">
-    Continue with {{ capitalCase(provider) }}
+  <orio-button class="oauth-btn" variant="secondary" fill @click="handleClick">
+    {{ t('auth.continueWith', { provider: capitalCase(provider) }) }}
   </orio-button>
 </template>
 

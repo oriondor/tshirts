@@ -4,11 +4,13 @@ interface Props {
 }
 
 defineProps<Props>();
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="order-notes">
-    <orio-view-text type="title" class="section-title">Notes</orio-view-text>
+    <orio-view-text type="title" class="section-title">{{ t('orders.sectionNotes') }}</orio-view-text>
     <orio-view-text type="text">{{ notes }}</orio-view-text>
   </div>
 </template>

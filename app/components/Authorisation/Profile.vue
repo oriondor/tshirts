@@ -11,6 +11,7 @@ const emit = defineEmits<{
   logout: [];
 }>();
 
+const { t } = useI18n();
 const loading = ref(false);
 
 async function handleLogout() {
@@ -35,7 +36,7 @@ async function handleLogout() {
       </div>
       <div class="profile-info">
         <orio-view-text type="title" size="small">
-          {{ user.name || "User" }}
+          {{ user.name || t('common.user') }}
         </orio-view-text>
         <orio-view-text type="subtitle">{{ user.email }}</orio-view-text>
       </div>
@@ -44,7 +45,7 @@ async function handleLogout() {
     <orio-view-separator />
 
     <orio-button variant="secondary" :disabled="loading" @click="handleLogout">
-      {{ loading ? "Logging out..." : "Logout" }}
+      {{ loading ? t('profile.loggingOut') : t('profile.logout') }}
     </orio-button>
   </div>
 </template>

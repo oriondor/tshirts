@@ -8,18 +8,19 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const { t } = useI18n();
 const { getImageUrl } = useCheckout();
 
-const propertyLabels: Record<string, string> = {
-  size: "Size",
-  productColor: "Color",
-  variant: "Variant",
-  name: "Name",
-  secondaryText: "Secondary Text",
-};
+const propertyLabels = computed<Record<string, string>>(() => ({
+  size: t('orderItem.size'),
+  productColor: t('orderItem.color'),
+  variant: t('orderItem.variant'),
+  name: t('orderItem.name'),
+  secondaryText: t('orderItem.secondaryText'),
+}));
 
 function getItemProperties() {
-  return Object.entries(propertyLabels)
+  return Object.entries(propertyLabels.value)
     .filter(([key]) => props.item[key as keyof OrderItem])
     .map(([key, label]) => ({
       label,
@@ -56,7 +57,7 @@ function getItemSubtotal(): string {
 
       <div v-if="item.specialRequest" class="special-request">
         <orio-view-text type="subtitle" size="small">
-          Special Request
+          {{ t('orderItem.specialRequest') }}
         </orio-view-text>
         <orio-view-text type="text">{{ item.specialRequest }}</orio-view-text>
       </div>
@@ -71,7 +72,7 @@ function getItemSubtotal(): string {
 
     <div v-if="item.images && item.images.length > 0" class="item-images">
       <orio-view-text type="subtitle" size="small">
-        Uploaded Images
+        {{ t('orderItem.uploadedImages') }}
       </orio-view-text>
       <div class="images-grid">
         <a

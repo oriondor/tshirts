@@ -44,14 +44,17 @@ export interface OrderItemImage {
   sortOrder: number;
 }
 
-export const statusLabels: Record<string, string> = {
-  unpaid: "Unpaid",
-  paid: "Paid",
-  processing: "Processing",
-  shipped: "Shipped",
-  delivered: "Delivered",
-  cancelled: "Cancelled",
-};
+export function useStatusLabels(): Record<string, string> {
+  const { t } = useI18n();
+  return {
+    unpaid: t('status.unpaid'),
+    paid: t('status.paid'),
+    processing: t('status.processing'),
+    shipped: t('status.shipped'),
+    delivered: t('status.delivered'),
+    cancelled: t('status.cancelled'),
+  };
+}
 
 export const statusColors: Record<string, string> = {
   unpaid: "var(--color-alert)",
@@ -89,6 +92,7 @@ export function useCheckout() {
 
     const {
       variant,
+      placement,
       size,
       "product-color": productColor,
       name,
@@ -108,6 +112,7 @@ export function useCheckout() {
       quantity,
       unitPrice,
       variant,
+      placement,
       size,
       productColor,
       name,

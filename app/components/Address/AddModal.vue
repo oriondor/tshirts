@@ -15,6 +15,7 @@ const emit = defineEmits<{
   submit: [data: AddressFormData];
 }>();
 
+const { t } = useI18n();
 const addressForm = useTemplateRef("addressForm");
 
 const defaultData: AddressFormData = {
@@ -56,7 +57,7 @@ watch(
   <orio-modal
     :show="modalProps.show"
     :origin="modalProps.origin"
-    :title="isDuplicate ? 'Duplicate Address' : 'Add Address'"
+    :title="isDuplicate ? t('address.duplicateAddress') : t('address.addAddress')"
     @update:show="modalProps['onUpdate:show']"
   >
     <div class="form-container">
@@ -66,10 +67,10 @@ watch(
     <template #footer>
       <div class="footer-content">
         <orio-button variant="secondary" type="button" @click="handleCancel">
-          Cancel
+          {{ t('common.cancel') }}
         </orio-button>
         <orio-button @click="handleSubmit">
-          {{ isDuplicate ? "Save as New" : "Add Address" }}
+          {{ isDuplicate ? t('address.saveAsNew') : t('address.addAddress') }}
         </orio-button>
       </div>
     </template>

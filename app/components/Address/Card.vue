@@ -16,6 +16,7 @@ const emit = defineEmits<{
   delete: [event: MouseEvent];
 }>();
 
+const { t } = useI18n();
 const { formatAddressLines } = useAddresses();
 
 const addressLines = computed(() => formatAddressLines(props.address));
@@ -57,7 +58,7 @@ function handleClick() {
             {{ address.label }}
           </orio-badge>
           <orio-badge v-if="address.isDefault" variant="primary">
-            Default
+            {{ t('address.default') }}
           </orio-badge>
         </div>
         <div v-if="selectable" class="radio-indicator">
@@ -71,27 +72,24 @@ function handleClick() {
       <div class="address-actions">
         <orio-button
           variant="subdued"
-          size="small"
           icon="map-pin"
           @click.stop="emit('set-default')"
         >
-          Set default
+          {{ t('address.setDefault') }}
         </orio-button>
         <orio-button
           variant="subdued"
-          size="small"
           icon="edit"
           @click.stop="emit('duplicate', $event)"
         >
-          Duplicate
+          {{ t('address.duplicate') }}
         </orio-button>
         <orio-button
           variant="subdued"
-          size="small"
           icon="delete"
           @click.stop="emit('delete', $event)"
         >
-          Delete
+          {{ t('common.delete') }}
         </orio-button>
       </div>
     </template>

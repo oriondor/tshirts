@@ -3,6 +3,7 @@ definePageMeta({
   middleware: "admin",
 });
 
+const { t } = useI18n();
 const { fetchOrders, loading } = useAdmin();
 const paidCount = ref(0);
 
@@ -15,13 +16,13 @@ onMounted(async () => {
 <template>
   <div class="admin-page">
     <div class="admin-container">
-      <orio-view-text type="title" size="large">Admin Panel</orio-view-text>
+      <orio-view-text type="title" size="large">{{ t('admin.adminPanel') }}</orio-view-text>
       <orio-view-text type="subtitle">
-        Welcome to the admin dashboard
+        {{ t('admin.welcomeDashboard') }}
       </orio-view-text>
 
       <admin-navigation v-if="!loading" :paid-orders-count="paidCount" />
-      <div v-else class="loading">Loading...</div>
+      <div v-else class="loading">{{ t('common.loading') }}</div>
     </div>
   </div>
 </template>

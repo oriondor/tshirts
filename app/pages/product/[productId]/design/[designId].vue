@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ValidationRule } from "orio-ui/runtime";
 import type { ProductId } from "~/types/products";
+import { isPrerenderedDesign } from "~/assets/configs/designs";
 
 function generateId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -11,7 +12,6 @@ function generateId(): string {
       "crypto.randomUUID is not available. Ensure the site is served over HTTPS.",
     );
   }
-  // Fallback for non-secure contexts in development (HTTP on non-localhost)
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0;
     const v = c === "x" ? r : (r & 0x3) | 0x8;
@@ -23,12 +23,41 @@ const route = useRoute();
 const productId = route.params.productId as ProductId;
 const designId = route.params.designId as string;
 
+const { t } = useI18n();
 const { formatDecimal } = useDecimalFormatter();
 
 const { addItem } = useCart();
 
-const { design, product, getImagePath, getBaseImage, getImageProps } =
-  useDesign(productId, designId);
+const {
+  design,
+  product,
+  prerendered,
+  getImagePath,
+  getBaseImage,
+  getImageProps,
+  getPrerenderedImagePath,
+  allPrerenderedImages,
+  allImagePaths,
+} = useDesign(productId, designId);
+
+const amount = ref(1);
+
+const properties = ref<Record<string, string | File[]>>({
+  name: "",
+  files: [],
+});
+
+const excluded = design.value?.excludeProperties ?? [];
+const urlSyncKeys = (product.value?.properties ?? [])
+  .filter(
+    (p) =>
+      p.component &&
+      p.component !== "FilesUpload" &&
+      !excluded.includes(p.name),
+  )
+  .map((p) => p.name);
+
+useUrlSync(properties, urlSyncKeys);
 
 const name = computed(() => properties.value.name);
 const files = computed(() => properties.value.files);
@@ -38,27 +67,19 @@ const availableValidations = [
     model: name,
     id: "name",
     validator: isFilled,
-    message: "Name cannot be empty",
+    message: t("design.nameRequired"),
   },
   {
     model: files,
     id: "files",
     validator: isFilled,
-    message: "Upload at least one image",
+    message: t("design.uploadRequired"),
   },
 ];
 
 const { checkValidity, errors, changeRules } = useValidation();
 
-const amount = ref(1);
-
-const properties = ref<Record<string, string | File[]>>({
-  name: "",
-  files: [],
-});
-
 function setDefaults() {
-  // Only reset text fields and files, but keep sizes, design and t-shirt color in place...
   properties.value = {
     ...properties.value,
     name: "",
@@ -83,17 +104,46 @@ function addToCart() {
   setDefaults();
 }
 
-const currentImage = ref(getImagePath(properties.value.variant as string));
+// --- Image management ---
+
+// For pre-rendered: switch active image when color/placement changes
+const currentImage = ref("");
+
+function updateCurrentImage() {
+  if (!design.value) return;
+  if (prerendered.value) {
+    const color = (
+      (properties.value["product-color"] as string) || ""
+    ).toLowerCase();
+    const defaultPlacement = isPrerenderedDesign(design.value)
+      ? design.value.defaultPlacement
+      : undefined;
+    const placement = (
+      (properties.value.placement as string) ||
+      defaultPlacement ||
+      ""
+    ).toLowerCase();
+    if (color && placement) {
+      currentImage.value = getPrerenderedImagePath(color, placement);
+    }
+  } else {
+    currentImage.value = getImagePath(properties.value.variant as string);
+  }
+}
 
 watch(
-  () => properties.value.variant,
-  () => {
-    currentImage.value = getImagePath(properties.value.variant as string);
-  },
+  () => [
+    properties.value["product-color"],
+    properties.value.placement,
+    properties.value.variant,
+  ],
+  updateCurrentImage,
 );
 
+// Set initial image once properties are hydrated from URL
 onMounted(() => {
-  // Add validation rules
+  nextTick(updateCurrentImage);
+
   const addRules: ValidationRule[] = [];
   const productRulesIds =
     product.value?.properties
@@ -104,22 +154,27 @@ onMounted(() => {
   });
   changeRules(addRules);
 });
+
+// Gallery images
+const galleryImages = computed(() => {
+  if (!design.value) return [];
+  if (prerendered.value) return allPrerenderedImages.value;
+  return allImagePaths.value;
+});
 </script>
 
 <template>
-  <div v-if="design">
-    <div class="design">
+  <div>
+    <div v-if="design" class="design">
       <orio-gallery-carousel
+        v-reveal
         v-model:active-image="currentImage"
-        size="400:"
+        size=":500"
         class="item-images"
-        :images="
-          Object.values(design.images).map(
-            (image: string) => `/designs/${productId}/${designId}/${image}`,
-          )
-        "
+        :images="galleryImages"
+        appearance="minimal"
       >
-        <template #image="{ image }">
+        <template v-if="!prerendered" #image="{ image }">
           <designs-overlay-image
             :base="getBaseImage(properties.variant as string)"
             :overlay="image"
@@ -127,7 +182,7 @@ onMounted(() => {
           />
         </template>
       </orio-gallery-carousel>
-      <div class="item-information">
+      <div v-reveal="{ delay: 100 }" class="item-information">
         <div class="text-information">
           <orio-view-text type="title" size="large">
             {{ design.name }}
@@ -144,14 +199,21 @@ onMounted(() => {
         <Properties v-model="properties" :design :product-id :errors />
       </div>
     </div>
-    <Footer>
+    <Footer v-if="design">
       <cart-item-description :design :properties />
       <cart-item-amount v-model="amount" :price="design.price">
         <template #actions>
-          <orio-button @click="addToCart"> Add to cart </orio-button>
+          <orio-button @click="addToCart">
+            {{ t("cart.addToCart") }}
+          </orio-button>
         </template>
       </cart-item-amount>
     </Footer>
+    <orio-empty-state
+      v-if="!design"
+      icon="search"
+      :title="t('product.designNotFound')"
+    />
   </div>
 </template>
 
@@ -159,7 +221,6 @@ onMounted(() => {
 .design {
   display: flex;
   gap: 1.5rem;
-  padding-block: 2rem;
   padding-inline: 1rem;
   padding-bottom: var(--foot-height);
   align-items: flex-start;
@@ -169,6 +230,7 @@ onMounted(() => {
 .item-images {
   position: sticky;
   top: calc(var(--nav-height) + 2rem);
+  overflow: hidden;
 }
 
 .item-information {

@@ -7,13 +7,14 @@ interface Props {
 
 defineProps<Props>();
 
+const { t } = useI18n();
 const { formatAddressLines } = useAddresses();
 </script>
 
 <template>
   <div class="order-address">
     <orio-view-text type="title" class="section-title">
-      Shipping Address
+      {{ t('orders.sectionShippingAddress') }}
     </orio-view-text>
     <div class="address-content">
       <orio-view-text

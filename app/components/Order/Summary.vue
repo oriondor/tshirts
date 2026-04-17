@@ -7,12 +7,14 @@ interface Props {
 }
 
 defineProps<Props>();
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="order-summary">
     <div class="summary-row">
-      <orio-view-text type="title" size="large">Total</orio-view-text>
+      <orio-view-text type="title" size="large">{{ t('orders.total') }}</orio-view-text>
       <orio-view-text type="title" size="large">
         {{ formatPrice(totalPrice, currency) }}
       </orio-view-text>

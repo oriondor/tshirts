@@ -19,8 +19,10 @@ const total = computed(() => modelValue.value * (props.price ?? 0));
       :max="100"
       class="amount-field"
     />
-    <cart-item-amount-view :total />
-    <slot name="actions" />
+    <cart-item-amount-view :total class="amount-view" />
+    <div class="actions">
+      <slot name="actions" />
+    </div>
   </div>
 </template>
 
@@ -28,11 +30,28 @@ const total = computed(() => modelValue.value * (props.price ?? 0));
 .item-amount {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
+  flex: 1;
 }
 
 .amount-field {
-  max-width: 6rem;
+  width: 5rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .item-amount {
+    max-width: 13rem;
+  }
+
+  .amount-view {
+    flex: 1 1 0;
+  }
 }
 </style>

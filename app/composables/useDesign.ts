@@ -3,6 +3,7 @@ import {
   designs,
   defaultImageProps,
   isPrerenderedDesign,
+  isCanvasDesign,
   type Design,
   type ImageProps,
 } from "~/assets/configs/designs";
@@ -21,6 +22,10 @@ export function useDesign(productId: ProductId, designId: string) {
 
   const prerendered = computed(() =>
     design.value ? isPrerenderedDesign(design.value) : false,
+  );
+
+  const canvasMode = computed(() =>
+    design.value ? isCanvasDesign(design.value) : false,
   );
 
   // --- Pre-rendered design helpers ---
@@ -93,6 +98,7 @@ export function useDesign(productId: ProductId, designId: string) {
     product,
     exists,
     prerendered,
+    canvasMode,
     // Pre-rendered
     getPrerenderedImagePath,
     availableColors,

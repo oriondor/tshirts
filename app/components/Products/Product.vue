@@ -26,16 +26,24 @@ const minPrice = computed(() => {
 <template>
   <card @flip-complete="navigateTo(`/product/${id}`)">
     <img :src="image" />
-    <orio-view-text type="title" size="large">{{ name }}</orio-view-text>
+    <orio-view-text type="title" size="medium" class="title">
+      {{ name }}
+    </orio-view-text>
     <client-only>
       <orio-view-text type="subtitle" class="product-price">
-        {{ t('product.from') }} €{{ formatDecimal(minPrice) }}
+        {{ t("product.from") }} €{{ formatDecimal(minPrice) }}
       </orio-view-text>
     </client-only>
   </card>
 </template>
 
 <style scoped>
+img {
+  object-fit: cover;
+}
+.title {
+  text-transform: uppercase;
+}
 .product-price {
   opacity: 0.6;
 }

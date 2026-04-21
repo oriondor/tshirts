@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ValidationRule } from "orio-ui/runtime";
+import type { ValidationRule } from "orio-ui";
 import type { ProductId } from "~/types/products";
-import { isPrerenderedDesign } from "~/assets/configs/designs";
+import { isPrerenderedDesign, isCanvasDesign } from "~/assets/configs/designs";
 
 function generateId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -32,6 +32,7 @@ const {
   design,
   product,
   prerendered,
+  canvasMode,
   getImagePath,
   getBaseImage,
   getImageProps,
@@ -165,8 +166,17 @@ const galleryImages = computed(() => {
 
 <template>
   <div>
+    <orio-tooltip> test <template #content>test</template> </orio-tooltip>
     <div v-if="design" class="design">
+      <designs-canvas
+        v-if="canvasMode && design.canvas"
+        v-reveal
+        :config="design.canvas"
+        :active-side="properties.side as string"
+        class="item-images"
+      />
       <orio-gallery-carousel
+        v-else
         v-reveal
         v-model:active-image="currentImage"
         size=":500"

@@ -11,6 +11,17 @@ export const defaultImageProps: Required<ImageProps> = {
   leftMargin: "30%",
 };
 
+export interface CanvasSide {
+  label: string;
+  setupImage: string;
+}
+
+export interface CanvasConfig {
+  width: number;
+  height: number;
+  sides: CanvasSide[];
+}
+
 export interface PrerenderedDesign {
   id: string;
   merchandiseId: string;
@@ -22,6 +33,7 @@ export interface PrerenderedDesign {
   placements: string[];
   excludeProperties?: string[];
   defaultPlacement?: string;
+  canvas?: CanvasConfig;
 }
 
 export interface OverlayDesign {
@@ -34,6 +46,7 @@ export interface OverlayDesign {
   images: Record<string, string>;
   imageProps?: Record<string, ImageProps>;
   excludeProperties?: string[];
+  canvas?: CanvasConfig;
 }
 
 export type Design = PrerenderedDesign | OverlayDesign;
@@ -42,6 +55,10 @@ export function isPrerenderedDesign(
   design: Design,
 ): design is PrerenderedDesign {
   return "colors" in design;
+}
+
+export function isCanvasDesign(design: Design): boolean {
+  return !!design.canvas;
 }
 
 export const designs: Record<string, Design[]> = {
@@ -133,6 +150,26 @@ export const designs: Record<string, Design[]> = {
       placements: ["back", "front"],
       excludeProperties: ["placement"],
       defaultPlacement: "back",
+    },
+  ],
+  "fully-custom-t-shirt": [
+    {
+      id: "customize",
+      merchandiseId: "52399291203912",
+      name: "Fully customisable T-Shirt",
+      productId: "fully-custom-t-shirt",
+      description:
+        "Design your own t-shirt from scratch. Draw, add text, drop images — make it truly yours.",
+      price: 34.99,
+      images: {},
+      canvas: {
+        width: 500,
+        height: 500,
+        sides: [
+          { label: "Front", setupImage: "/designs/fully-custom/customize/schematic.png" },
+          { label: "Back", setupImage: "/designs/fully-custom/customize/schematic.png" },
+        ],
+      },
     },
   ],
   cup: [],

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AddressFormData } from "~/types/address";
-import type { ModalProps } from "orio-ui/runtime";
+import type { ModalProps } from "orio-ui";
 import AddressForm from "./Form.vue";
 
 interface Props {

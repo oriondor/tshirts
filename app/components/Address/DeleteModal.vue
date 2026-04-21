@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ModalProps } from "orio-ui/runtime";
+import type { ModalProps } from "orio-ui";
 
 interface Props {
   modalProps: ModalProps;

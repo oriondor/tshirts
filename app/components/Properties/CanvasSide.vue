@@ -22,6 +22,7 @@ onMounted(() => {
 
 <template>
   <properties-switch-select
+    v-model="modelValue"
     :options="sides"
     v-bind="{ ...props, ...$attrs }"
   />

@@ -1,7 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Inter:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter",
+    "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -16,10 +18,17 @@
 
   --nav-height: 4rem;
   --foot-height: 4rem;
+
+  --border-color: var(--color-accent);
 }
 
 /* Bold heading typography */
-h1, h2, h3, h4, h5, h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 .heading {
   letter-spacing: 0.06em;
   line-height: 1.08;
@@ -28,7 +37,11 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* Body text refinement */
-p, span, a, li, label {
+p,
+span,
+a,
+li,
+label {
   line-height: 1.47;
   font-weight: 400;
 }
@@ -50,7 +63,9 @@ p, span, a, li, label {
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

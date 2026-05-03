@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type { ValidationRule } from "orio-ui";
 import type { ProductId } from "~/types/products";
-import { isPrerenderedDesign, isCanvasDesign } from "~/assets/configs/designs";
+import {
+  isPrerenderedDesign,
+  isSchematicDesign,
+} from "~/assets/configs/designs";
 
 function generateId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -32,10 +35,8 @@ const {
   design,
   product,
   prerendered,
-  canvasMode,
+  schematicMode,
   getImagePath,
-  getBaseImage,
-  getImageProps,
   getPrerenderedImagePath,
   allPrerenderedImages,
   allImagePaths,
@@ -166,32 +167,36 @@ const galleryImages = computed(() => {
 
 <template>
   <div>
-    <orio-tooltip> test <template #content>test</template> </orio-tooltip>
+    <orio-button
+      variant="subdued"
+      icon="arrow-left"
+      @click="navigateTo(`/product/${productId}`)"
+    >
+      {{ t("common.back") }}
+    </orio-button>
     <div v-if="design" class="design">
-      <designs-canvas
-        v-if="canvasMode && design.canvas"
+      <designs-tshirt-schematic
+        v-if="schematicMode && isSchematicDesign(design) && design.canvas"
         v-reveal
-        :config="design.canvas"
+        :svg-path="
+          design.schematic.svgPath.replace(
+            '{side}',
+            ((properties.side as string) ?? 'front').toLowerCase(),
+          )
+        "
+        :color="(properties['product-color'] as string) ?? '#ffffff'"
+        :canvas-config="design.canvas"
         :active-side="properties.side as string"
         class="item-images"
       />
-      <orio-gallery-carousel
+      <designs-gallery
         v-else
         v-reveal
         v-model:active-image="currentImage"
-        size=":500"
-        class="item-images"
         :images="galleryImages"
-        appearance="minimal"
-      >
-        <template v-if="!prerendered" #image="{ image }">
-          <designs-overlay-image
-            :base="getBaseImage(properties.variant as string)"
-            :overlay="image"
-            :params="getImageProps(properties.variant as string)"
-          />
-        </template>
-      </orio-gallery-carousel>
+        class="item-images"
+      />
+
       <div v-reveal="{ delay: 100 }" class="item-information">
         <div class="text-information">
           <orio-view-text type="title" size="large">
@@ -244,6 +249,7 @@ const galleryImages = computed(() => {
 }
 
 .item-information {
+  padding-block-start: 2rem;
   display: flex;
   flex-direction: column;
   flex: 1;

@@ -3,7 +3,7 @@ import {
   designs,
   defaultImageProps,
   isPrerenderedDesign,
-  isCanvasDesign,
+  isSchematicDesign,
   type Design,
   type ImageProps,
 } from "~/assets/configs/designs";
@@ -24,8 +24,8 @@ export function useDesign(productId: ProductId, designId: string) {
     design.value ? isPrerenderedDesign(design.value) : false,
   );
 
-  const canvasMode = computed(() =>
-    design.value ? isCanvasDesign(design.value) : false,
+  const schematicMode = computed(() =>
+    design.value ? isSchematicDesign(design.value) : false,
   );
 
   // --- Pre-rendered design helpers ---
@@ -98,7 +98,7 @@ export function useDesign(productId: ProductId, designId: string) {
     product,
     exists,
     prerendered,
-    canvasMode,
+    schematicMode,
     // Pre-rendered
     getPrerenderedImagePath,
     availableColors,

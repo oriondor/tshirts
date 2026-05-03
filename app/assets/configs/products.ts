@@ -96,8 +96,8 @@ export const products = [
       },
       {
         name: "product-color",
-        component: "SwitchSelect",
-        options: ["White", "Black", "Grey"],
+        component: "ColorSwatch",
+        options: ["#ffffff", "#222222", "#5c3a1e", "#2d5a3d"],
         label: "T-shirt color",
       },
     ],

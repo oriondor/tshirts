@@ -85,12 +85,27 @@ export const designs: Record<string, Design[]> = {
       imageProps: {},
     },
   ],
-  "known-prints-t-shirt": [
+  "tshirts-silly": [
+    {
+      id: "champignon",
+      merchandiseId: "52399291203912",
+      name: "Champignon",
+      productId: "tshirts-silly",
+      description:
+        "Some legends are born from greatness. Others… from mushrooms. 🍄\n" +
+        "This design proudly celebrates the most unexpected champion of them all — the champignon.\n" +
+        "Part parody, part culinary glory, it’s a tribute to anyone who knows that sometimes the real winners grow quietly in the forest.",
+      price: 29.99,
+      colors: ["white", "black", "chocolate", "natural"],
+      placements: ["front"],
+    },
+  ],
+  "tshirts-japanese": [
     {
       id: "flying-cats",
       merchandiseId: "52399291203912",
       name: "Beware of cats",
-      productId: "known-prints-t-shirt",
+      productId: "tshirts-japanese",
       description:
         "Eventually, someone noticed that cats here don't just walk — they launch. 🐈💨\n" +
         "What started as a real warning turned into a charming joke: beware of flying cats dropping in from walls and rooftops.\n" +
@@ -100,23 +115,10 @@ export const designs: Record<string, Design[]> = {
       placements: ["front", "back"],
     },
     {
-      id: "champignon",
-      merchandiseId: "52399291203912",
-      name: "Champignon",
-      productId: "known-prints-t-shirt",
-      description:
-        "Some legends are born from greatness. Others… from mushrooms. 🍄\n" +
-        "This design proudly celebrates the most unexpected champion of them all — the champignon.\n" +
-        "Part parody, part culinary glory, it’s a tribute to anyone who knows that sometimes the real winners grow quietly in the forest.",
-      price: 29.99,
-      colors: ["white", "black", "chocolate", "natural"],
-      placements: ["front"],
-    },
-    {
       id: "chopsticks",
       merchandiseId: "52399291203912",
       name: "Chopsticks",
-      productId: "known-prints-t-shirt",
+      productId: "tshirts-japanese",
       description:
         "Two sticks. Infinite skill ceiling. 🥢\n" +
         "A minimal homage to one of humanity's most elegant inventions — the chopstick.\n" +
@@ -131,7 +133,7 @@ export const designs: Record<string, Design[]> = {
       id: "sushi_chopsticks",
       merchandiseId: "52399291203912",
       name: "Sushi & Chopsticks",
-      productId: "known-prints-t-shirt",
+      productId: "tshirts-japanese",
       description:
         "The ultimate power couple. 🍣🥢\n" +
         "Raw fish, precision rice, and two wooden sticks that somehow make it all work.\n" +
@@ -146,7 +148,7 @@ export const designs: Record<string, Design[]> = {
       id: "sakura",
       merchandiseId: "52399291203912",
       name: "Sakura",
-      productId: "known-prints-t-shirt",
+      productId: "tshirts-japanese",
       description:
         "Cherry blossoms, cherry blossoms,\n" +
         "In fields and villages\n" +
@@ -162,6 +164,7 @@ export const designs: Record<string, Design[]> = {
       defaultPlacement: "back",
     },
   ],
+  "tshirts-cars": [],
   "fully-custom-t-shirt": [
     {
       id: "customize",

@@ -148,7 +148,7 @@ const tools = shallowRef([
   width: v-bind("toPercent(canvasConfig.area.w, VIEW_BOX_W)");
   height: v-bind("toPercent(canvasConfig.area.h, VIEW_BOX_H)");
   overflow: hidden;
-  border: 1px dashed var(--border-color);
+  border: 1px dashed rgb(186, 184, 185);
   border-radius: var(--border-radius-md);
 }
 

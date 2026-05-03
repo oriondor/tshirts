@@ -5,7 +5,7 @@ export const products = [
     description:
       "Select from one or more predefined designs to create your personalized t-shirt",
     basePrice: 29.99,
-    available: true,
+    available: false,
     properties: [
       {
         name: "variant",
@@ -107,7 +107,7 @@ export const products = [
     name: "Cup",
     description: "Sample desriotipn",
     basePrice: 15,
-    available: true,
+    available: false,
     properties: [],
   },
 ] as const;

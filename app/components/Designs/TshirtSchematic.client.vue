@@ -104,7 +104,6 @@ const tools = shallowRef([
 
 <template>
   <div class="schematic-wrapper">
-    <CanvasToolbar :canvas="canvasName" />
     <div ref="svgContainer" class="svg-canvas-container">
       <div ref="container" class="tshirt-schematic" v-html="svgContent" />
       <div class="canvas-overlay">
@@ -122,6 +121,7 @@ const tools = shallowRef([
         </orio-canvas>
       </div>
     </div>
+    <CanvasToolbar :canvas="canvasName" />
   </div>
 </template>
 
@@ -129,6 +129,8 @@ const tools = shallowRef([
 .schematic-wrapper {
   width: 100%;
   max-width: v-bind(maxWidth);
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .svg-canvas-container {

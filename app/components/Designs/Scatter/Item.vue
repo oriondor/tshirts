@@ -87,7 +87,9 @@ const link = `/product/${design.productId}/design/${design.id}`;
     <img v-if="prerendered" :src="image" :alt="design.name" draggable="false" />
     <span class="label">
       {{ design.name }}
-      <span class="price">€{{ formatDecimal(design.price) }}</span>
+      <client-only>
+        <span class="price">€{{ formatDecimal(design.price) }}</span>
+      </client-only>
     </span>
   </nuxt-link>
 </template>

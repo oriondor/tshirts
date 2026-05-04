@@ -145,6 +145,49 @@ export const designs: Record<string, Design[]> = {
       defaultPlacement: "front",
     },
     {
+      id: "simple-fish",
+      merchandiseId: "52399291203912",
+      name: "Simple Fish",
+      productId: "tshirts-japanese",
+      description:
+        "A single fish, drawn in one breath. 🐟\n" +
+        "Inspired by sumi-e — the Japanese art of ink painting where less says everything.\n" +
+        "No scales, no fuss, just the quiet confidence of a line that knows exactly where it's going.",
+      price: 29.99,
+      colors: ["white", "ash", "dheather", "lblue", "natural", "sand", "sgrey"],
+      placements: ["back"],
+      excludeProperties: ["placement"],
+      defaultPlacement: "back",
+    },
+    {
+      id: "fuji-simple",
+      merchandiseId: "52399291203912",
+      name: "Mount Fuji",
+      productId: "tshirts-japanese",
+      description:
+        "One mountain. One nation's soul. 🗻\n" +
+        "Fuji-san stands quietly above everything — sacred, symmetrical, and impossibly serene.\n" +
+        "A minimal tribute to the peak that has watched over Japan for centuries, pared down to its purest form.",
+      price: 29.99,
+      colors: ["white", "ash", "dheather", "natural", "sand", "sgrey"],
+      placements: ["front", "back"],
+    },
+    {
+      id: "honour-and-courage",
+      merchandiseId: "52399291203912",
+      name: "Honour & Courage",
+      productId: "tshirts-japanese",
+      description:
+        "The two virtues that built a code. ⚔️\n" +
+        "Honour (名誉) and courage (勇気) — the heart of bushidō, carried by samurai for a thousand years.\n" +
+        "Worn by those who still believe character matters more than convenience.",
+      price: 29.99,
+      colors: ["white", "ash", "dheather", "sand"],
+      placements: ["front"],
+      excludeProperties: ["placement"],
+      defaultPlacement: "front",
+    },
+    {
       id: "sakura",
       merchandiseId: "52399291203912",
       name: "Sakura",
@@ -180,7 +223,7 @@ export const designs: Record<string, Design[]> = {
       },
       canvas: {
         sides: [{ label: "Front" }, { label: "Back" }],
-        area: { x: 550, y: 500, w: 950, h: 800 },
+        area: { x: 550, y: 500, w: 950, h: 1100 },
       },
     },
   ],

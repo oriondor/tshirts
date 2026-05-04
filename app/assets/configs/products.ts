@@ -1,11 +1,11 @@
 export const products = [
   {
     id: "designer-custom-t-shirt", // Never change it, it can break a db relation
-    name: "Designer custom T-Shirt",
+    name: "Our prints, your content",
     description:
       "Select from one or more predefined designs to create your personalized t-shirt",
     basePrice: 29.99,
-    available: true,
+    available: false,
     properties: [
       {
         name: "variant",
@@ -52,9 +52,9 @@ export const products = [
     ],
   },
   {
-    id: "known-prints-t-shirt", // Never change it, it can break a db relation
-    name: "Awesome prints T-Shirt",
-    description: "Check out our cool prints",
+    id: "tshirts-silly", // Never change it, it can break a db relation
+    name: "Silly t-shirts",
+    description: "Goofy prints to make you smile",
     basePrice: 29.99,
     available: true,
     properties: [
@@ -77,11 +77,87 @@ export const products = [
     ],
   },
   {
+    id: "tshirts-japanese", // Never change it, it can break a db relation
+    name: "Japanese t-shirts",
+    description: "Designs inspired by Japan",
+    basePrice: 29.99,
+    available: true,
+    properties: [
+      {
+        name: "placement",
+        component: "Placement",
+        label: "Side",
+      },
+      {
+        name: "product-color",
+        component: "Color",
+        label: "T-shirt color",
+      },
+      {
+        name: "size",
+        component: "SwitchSelect",
+        options: ["XS", "S", "M", "L", "XL", "XXL"],
+        label: "Size",
+      },
+    ],
+  },
+  {
+    id: "tshirts-cars", // Never change it, it can break a db relation
+    name: "Car t-shirts",
+    description: "For people who love cars",
+    basePrice: 29.99,
+    available: true,
+    properties: [
+      {
+        name: "placement",
+        component: "Placement",
+        label: "Side",
+      },
+      {
+        name: "product-color",
+        component: "Color",
+        label: "T-shirt color",
+      },
+      {
+        name: "size",
+        component: "SwitchSelect",
+        options: ["XS", "S", "M", "L", "XL", "XXL"],
+        label: "Size",
+      },
+    ],
+  },
+  {
+    id: "fully-custom-t-shirt", // Never change it, it can break a db relation
+    name: "Fully customisable",
+    description: "Design your own t-shirt from scratch",
+    basePrice: 34.99,
+    available: true,
+    properties: [
+      {
+        name: "side",
+        component: "CanvasSide",
+        label: "Side",
+      },
+      {
+        name: "size",
+        component: "SwitchSelect",
+        options: ["XS", "S", "M", "L", "XL", "XXL"],
+        label: "Size",
+      },
+      {
+        name: "product-color",
+        component: "ColorSwatch",
+        options: ["#ffffff", "#222222", "#5c3a1e", "#2d5a3d"],
+        label: "T-shirt color",
+      },
+    ],
+  },
+  {
     id: "cup",
     name: "Cup",
     description: "Sample desriotipn",
     basePrice: 15,
-    available: true,
+    available: false,
     properties: [],
   },
 ] as const;

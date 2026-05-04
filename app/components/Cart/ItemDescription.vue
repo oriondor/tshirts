@@ -30,6 +30,7 @@ const previewImage = computed(() => {
     const placement = (
       (props.properties.placement as string) || "front"
     ).toLowerCase();
+    if (!color) return "";
     return getPrerenderedImagePath(color, placement);
   }
   return getImagePath(props.properties.variant as string);

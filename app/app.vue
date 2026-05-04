@@ -56,8 +56,6 @@ button {
   margin: auto;
   width: 70rem;
   max-width: 100%;
-  min-height: calc(100vh);
-  padding-block: 2rem;
 }
 
 /* Page transitions */

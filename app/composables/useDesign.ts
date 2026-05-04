@@ -3,6 +3,7 @@ import {
   designs,
   defaultImageProps,
   isPrerenderedDesign,
+  isSchematicDesign,
   type Design,
   type ImageProps,
 } from "~/assets/configs/designs";
@@ -23,6 +24,10 @@ export function useDesign(productId: ProductId, designId: string) {
     design.value ? isPrerenderedDesign(design.value) : false,
   );
 
+  const schematicMode = computed(() =>
+    design.value ? isSchematicDesign(design.value) : false,
+  );
+
   // --- Pre-rendered design helpers ---
 
   function getPrerenderedImagePath(color: string, placement: string) {
@@ -38,6 +43,10 @@ export function useDesign(productId: ProductId, designId: string) {
   const availablePlacements = computed(() => {
     const d = design.value;
     if (!d || !isPrerenderedDesign(d)) return [];
+    // When placement isn't user-selectable, only the default has a real asset
+    if (d.excludeProperties?.includes("placement") && d.defaultPlacement) {
+      return [d.defaultPlacement];
+    }
     return d.placements;
   });
 
@@ -45,7 +54,7 @@ export function useDesign(productId: ProductId, designId: string) {
     const d = design.value;
     if (!d || !isPrerenderedDesign(d)) return [];
     return d.colors.flatMap((color) =>
-      d.placements.map((placement) =>
+      availablePlacements.value.map((placement) =>
         getPrerenderedImagePath(color, placement),
       ),
     );
@@ -93,6 +102,7 @@ export function useDesign(productId: ProductId, designId: string) {
     product,
     exists,
     prerendered,
+    schematicMode,
     // Pre-rendered
     getPrerenderedImagePath,
     availableColors,

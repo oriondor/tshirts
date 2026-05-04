@@ -11,6 +11,20 @@ export const defaultImageProps: Required<ImageProps> = {
   leftMargin: "30%",
 };
 
+export interface CanvasSide {
+  label: string;
+}
+
+export interface SchematicConfig {
+  svgPath: string;
+}
+
+export interface CanvasConfig {
+  sides: CanvasSide[];
+  /** Print area in SVG viewBox coordinates */
+  area: { x: number; y: number; w: number; h: number };
+}
+
 export interface PrerenderedDesign {
   id: string;
   merchandiseId: string;
@@ -22,6 +36,7 @@ export interface PrerenderedDesign {
   placements: string[];
   excludeProperties?: string[];
   defaultPlacement?: string;
+  canvas?: CanvasConfig;
 }
 
 export interface OverlayDesign {
@@ -34,6 +49,8 @@ export interface OverlayDesign {
   images: Record<string, string>;
   imageProps?: Record<string, ImageProps>;
   excludeProperties?: string[];
+  canvas?: CanvasConfig;
+  schematic?: SchematicConfig;
 }
 
 export type Design = PrerenderedDesign | OverlayDesign;
@@ -42,6 +59,16 @@ export function isPrerenderedDesign(
   design: Design,
 ): design is PrerenderedDesign {
   return "colors" in design;
+}
+
+export function isCanvasDesign(design: Design): boolean {
+  return !!design.canvas;
+}
+
+export function isSchematicDesign(
+  design: Design,
+): design is OverlayDesign & { schematic: SchematicConfig } {
+  return "schematic" in design && !!design.schematic;
 }
 
 export const designs: Record<string, Design[]> = {
@@ -58,12 +85,27 @@ export const designs: Record<string, Design[]> = {
       imageProps: {},
     },
   ],
-  "known-prints-t-shirt": [
+  "tshirts-silly": [
+    {
+      id: "champignon",
+      merchandiseId: "52399291203912",
+      name: "Champignon",
+      productId: "tshirts-silly",
+      description:
+        "Some legends are born from greatness. Others… from mushrooms. 🍄\n" +
+        "This design proudly celebrates the most unexpected champion of them all — the champignon.\n" +
+        "Part parody, part culinary glory, it’s a tribute to anyone who knows that sometimes the real winners grow quietly in the forest.",
+      price: 29.99,
+      colors: ["white", "black", "chocolate", "natural"],
+      placements: ["front"],
+    },
+  ],
+  "tshirts-japanese": [
     {
       id: "flying-cats",
       merchandiseId: "52399291203912",
       name: "Beware of cats",
-      productId: "known-prints-t-shirt",
+      productId: "tshirts-japanese",
       description:
         "Eventually, someone noticed that cats here don't just walk — they launch. 🐈💨\n" +
         "What started as a real warning turned into a charming joke: beware of flying cats dropping in from walls and rooftops.\n" +
@@ -73,23 +115,10 @@ export const designs: Record<string, Design[]> = {
       placements: ["front", "back"],
     },
     {
-      id: "champignon",
-      merchandiseId: "52399291203912",
-      name: "Champignon",
-      productId: "known-prints-t-shirt",
-      description:
-        "Some legends are born from greatness. Others… from mushrooms. 🍄\n" +
-        "This design proudly celebrates the most unexpected champion of them all — the champignon.\n" +
-        "Part parody, part culinary glory, it’s a tribute to anyone who knows that sometimes the real winners grow quietly in the forest.",
-      price: 29.99,
-      colors: ["white", "black", "chocolate", "natural"],
-      placements: ["front"],
-    },
-    {
       id: "chopsticks",
       merchandiseId: "52399291203912",
       name: "Chopsticks",
-      productId: "known-prints-t-shirt",
+      productId: "tshirts-japanese",
       description:
         "Two sticks. Infinite skill ceiling. 🥢\n" +
         "A minimal homage to one of humanity's most elegant inventions — the chopstick.\n" +
@@ -104,7 +133,7 @@ export const designs: Record<string, Design[]> = {
       id: "sushi_chopsticks",
       merchandiseId: "52399291203912",
       name: "Sushi & Chopsticks",
-      productId: "known-prints-t-shirt",
+      productId: "tshirts-japanese",
       description:
         "The ultimate power couple. 🍣🥢\n" +
         "Raw fish, precision rice, and two wooden sticks that somehow make it all work.\n" +
@@ -116,10 +145,53 @@ export const designs: Record<string, Design[]> = {
       defaultPlacement: "front",
     },
     {
+      id: "simple-fish",
+      merchandiseId: "52399291203912",
+      name: "Simple Fish",
+      productId: "tshirts-japanese",
+      description:
+        "A single fish, drawn in one breath. 🐟\n" +
+        "Inspired by sumi-e — the Japanese art of ink painting where less says everything.\n" +
+        "No scales, no fuss, just the quiet confidence of a line that knows exactly where it's going.",
+      price: 29.99,
+      colors: ["white", "ash", "dheather", "lblue", "natural", "sand", "sgrey"],
+      placements: ["back"],
+      excludeProperties: ["placement"],
+      defaultPlacement: "back",
+    },
+    {
+      id: "fuji-simple",
+      merchandiseId: "52399291203912",
+      name: "Mount Fuji",
+      productId: "tshirts-japanese",
+      description:
+        "One mountain. One nation's soul. 🗻\n" +
+        "Fuji-san stands quietly above everything — sacred, symmetrical, and impossibly serene.\n" +
+        "A minimal tribute to the peak that has watched over Japan for centuries, pared down to its purest form.",
+      price: 29.99,
+      colors: ["white", "ash", "dheather", "natural", "sand", "sgrey"],
+      placements: ["front", "back"],
+    },
+    {
+      id: "honour-and-courage",
+      merchandiseId: "52399291203912",
+      name: "Honour & Courage",
+      productId: "tshirts-japanese",
+      description:
+        "The two virtues that built a code. ⚔️\n" +
+        "Honour (名誉) and courage (勇気) — the heart of bushidō, carried by samurai for a thousand years.\n" +
+        "Worn by those who still believe character matters more than convenience.",
+      price: 29.99,
+      colors: ["white", "ash", "dheather", "sand"],
+      placements: ["front"],
+      excludeProperties: ["placement"],
+      defaultPlacement: "front",
+    },
+    {
       id: "sakura",
       merchandiseId: "52399291203912",
       name: "Sakura",
-      productId: "known-prints-t-shirt",
+      productId: "tshirts-japanese",
       description:
         "Cherry blossoms, cherry blossoms,\n" +
         "In fields and villages\n" +
@@ -133,6 +205,26 @@ export const designs: Record<string, Design[]> = {
       placements: ["back", "front"],
       excludeProperties: ["placement"],
       defaultPlacement: "back",
+    },
+  ],
+  "tshirts-cars": [],
+  "fully-custom-t-shirt": [
+    {
+      id: "customize",
+      merchandiseId: "52399291203912",
+      name: "Fully customisable T-Shirt",
+      productId: "fully-custom-t-shirt",
+      description:
+        "Design your own t-shirt from scratch. Draw, add text, drop images — make it truly yours.",
+      price: 34.99,
+      images: {},
+      schematic: {
+        svgPath: "/designs/fully-custom/customize/{side}.svg",
+      },
+      canvas: {
+        sides: [{ label: "Front" }, { label: "Back" }],
+        area: { x: 550, y: 500, w: 950, h: 1100 },
+      },
     },
   ],
   cup: [],

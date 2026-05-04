@@ -7,12 +7,14 @@ import {
   type PrerenderedDesign,
 } from "~/assets/configs/designs";
 
-const { design, x, y, rotation, size } = defineProps<{
+const { design, x, y, rotation, size, color, placement } = defineProps<{
   design: Design;
   x: number;
   y: number;
   rotation: number;
   size: number;
+  color?: string;
+  placement?: string;
 }>();
 
 const { formatDecimal } = useDecimalFormatter();
@@ -47,8 +49,8 @@ const image = computed(() => {
   if (prerendered) {
     const d = design as PrerenderedDesign;
     return getPrerenderedImagePath(
-      d.colors[0],
-      d.defaultPlacement ?? d.placements[0],
+      color ?? d.colors[0],
+      placement ?? d.defaultPlacement ?? d.placements[0],
     );
   }
   const variant = Object.keys(

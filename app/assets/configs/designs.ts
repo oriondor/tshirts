@@ -1,3 +1,16 @@
+export type DesignTag =
+  | "japanese"
+  | "food"
+  | "nature"
+  | "humor"
+  | "minimal"
+  | "colorful"
+  | "cute"
+  | "street"
+  | "poetic"
+  | "custom"
+  | "personalized";
+
 export interface ImageProps {
   overlayThreshold?: number;
   topMargin?: string;
@@ -37,6 +50,7 @@ export interface PrerenderedDesign {
   excludeProperties?: string[];
   defaultPlacement?: string;
   canvas?: CanvasConfig;
+  tags?: DesignTag[];
 }
 
 export interface OverlayDesign {
@@ -51,6 +65,7 @@ export interface OverlayDesign {
   excludeProperties?: string[];
   canvas?: CanvasConfig;
   schematic?: SchematicConfig;
+  tags?: DesignTag[];
 }
 
 export type Design = PrerenderedDesign | OverlayDesign;
@@ -83,6 +98,7 @@ export const designs: Record<string, Design[]> = {
       price: 29.99,
       images: { Blue: "Blue.png", Pink: "Pink.png" },
       imageProps: {},
+      tags: ["custom", "personalized"],
     },
   ],
   "tshirts-silly": [
@@ -113,6 +129,21 @@ export const designs: Record<string, Design[]> = {
       price: 29.99,
       colors: ["white", "black", "sand"],
       placements: ["front", "back"],
+      tags: ["japanese", "cute", "street"],
+    },
+    {
+      id: "champignon",
+      merchandiseId: "52399291203912",
+      name: "Champignon",
+      productId: "known-prints-t-shirt",
+      description:
+        "Some legends are born from greatness. Others… from mushrooms. 🍄\n" +
+        "This design proudly celebrates the most unexpected champion of them all — the champignon.\n" +
+        "Part parody, part culinary glory, it’s a tribute to anyone who knows that sometimes the real winners grow quietly in the forest.",
+      price: 29.99,
+      colors: ["white", "black", "chocolate", "natural"],
+      placements: ["front"],
+      tags: ["food", "humor", "nature"],
     },
     {
       id: "chopsticks",
@@ -128,6 +159,7 @@ export const designs: Record<string, Design[]> = {
       placements: ["front", "back"],
       excludeProperties: ["placement"],
       defaultPlacement: "front",
+      tags: ["japanese", "food", "minimal"],
     },
     {
       id: "sushi_chopsticks",
@@ -143,6 +175,7 @@ export const designs: Record<string, Design[]> = {
       placements: ["front", "back"],
       excludeProperties: ["placement"],
       defaultPlacement: "front",
+      tags: ["japanese", "food", "colorful"],
     },
     {
       id: "simple-fish",
@@ -205,6 +238,7 @@ export const designs: Record<string, Design[]> = {
       placements: ["back", "front"],
       excludeProperties: ["placement"],
       defaultPlacement: "back",
+      tags: ["japanese", "nature", "poetic"],
     },
   ],
   "tshirts-cars": [],

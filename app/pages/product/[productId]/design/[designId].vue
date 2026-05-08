@@ -42,6 +42,14 @@ const {
   allImagePaths,
 } = useDesign(productId, designId);
 
+const { relatedDesigns, hasRelated } = useUpsell({
+  currentDesignId: designId,
+  tags: computed(() => design.value?.tags ?? []),
+  limit: 3,
+});
+
+const toastDesign = ref<import("~/assets/configs/designs").Design | null>(null);
+
 const amount = ref(1);
 
 const properties = ref<Record<string, string | File[]>>({
@@ -103,6 +111,9 @@ function addToCart() {
     price: design.value.price,
     properties: properties.value,
   });
+  if (relatedDesigns.value.length > 0) {
+    toastDesign.value = relatedDesigns.value[0];
+  }
   setDefaults();
 }
 
@@ -214,6 +225,22 @@ const galleryImages = computed(() => {
         <Properties v-model="properties" :design :product-id :errors />
       </div>
     </div>
+    <upsell-section
+      v-if="hasRelated"
+      :title="t('upsell.youMightAlsoLike')"
+      :subtitle="t('upsell.completeCollection')"
+      variant="grid"
+    >
+      <template #default="{ play }">
+        <designs-design
+          v-for="(d, i) in relatedDesigns"
+          :key="d.id"
+          :design="d"
+          v-reveal="{ delay: i * 80 }"
+          @mouseenter="play"
+        />
+      </template>
+    </upsell-section>
     <Footer v-if="design">
       <cart-item-description :design :properties />
       <cart-item-amount v-model="amount" :price="design.price">
@@ -229,6 +256,13 @@ const galleryImages = computed(() => {
       icon="search"
       :title="t('product.designNotFound')"
     />
+    <client-only>
+      <upsell-toast
+        v-if="toastDesign"
+        :design="toastDesign"
+        @dismiss="toastDesign = null"
+      />
+    </client-only>
   </div>
 </template>
 

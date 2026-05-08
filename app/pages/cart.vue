@@ -1,10 +1,30 @@
 <script setup lang="ts">
+import { designs as designsConfig } from "~/assets/configs/designs";
+
 const { t } = useI18n();
 const { items, removeItem, isLoaded, load, total, clear } = useCart();
 const { createOrder, error: orderError, loading: orderLoading } = useCheckout();
 const { loggedIn } = useUserSession();
 
 const selectedAddressId = ref<string | null>(null);
+
+const allDesignsFlat = Object.values(designsConfig).flat();
+
+const cartDesignIds = computed(() =>
+  items.value.map(({ designId }) => designId),
+);
+const cartTags = computed(() =>
+  items.value.flatMap(({ designId }) => {
+    const design = allDesignsFlat.find(({ id }) => id === designId);
+    return design?.tags ?? [];
+  }),
+);
+
+const { relatedDesigns: cartUpsellDesigns } = useUpsell({
+  excludeDesignIds: cartDesignIds,
+  tags: cartTags,
+  limit: 4,
+});
 
 const canCheckout = computed(
   () =>
@@ -39,7 +59,16 @@ onMounted(() => {
         v-model="items[index]"
         @remove="removeItem(index)"
       />
-      <div v-if="!items.length" class="empty">{{ t('cart.empty') }}</div>
+      <div v-if="!items.length" class="empty">{{ t("cart.empty") }}</div>
+
+      <upsell-section
+        v-if="cartUpsellDesigns.length && items.length"
+        :title="t('upsell.addAnother')"
+        :subtitle="t('upsell.sameQuality')"
+        variant="carousel"
+      >
+        <upsell-card v-for="d in cartUpsellDesigns" :key="d.id" :design="d" />
+      </upsell-section>
 
       <div v-if="loggedIn && items.length" class="shipping-section">
         <orio-view-separator />
@@ -50,7 +79,7 @@ onMounted(() => {
         />
       </div>
     </orio-animated-container>
-    <div v-else>{{ t('common.loading') }}</div>
+    <div v-else>{{ t("common.loading") }}</div>
     <Footer>
       <div class="subtotal">
         <orio-view-text
@@ -67,9 +96,9 @@ onMounted(() => {
           size="small"
           class="address-hint"
         >
-          {{ t('cart.selectAddress') }}
+          {{ t("cart.selectAddress") }}
         </orio-view-text>
-        <orio-view-text type="title">{{ t('cart.subtotal') }}</orio-view-text>
+        <orio-view-text type="title">{{ t("cart.subtotal") }}</orio-view-text>
         <cart-item-amount-view :total />
         <orio-button
           v-if="loggedIn"
@@ -77,7 +106,7 @@ onMounted(() => {
           :disabled="!canCheckout || orderLoading"
           @click="processOrder"
         >
-          {{ orderLoading ? t('cart.processing') : t('cart.checkout') }}
+          {{ orderLoading ? t("cart.processing") : t("cart.checkout") }}
         </orio-button>
         <orio-button
           v-else
@@ -85,7 +114,7 @@ onMounted(() => {
           variant="secondary"
           icon="user"
         >
-          {{ t('cart.loginToCheckout') }}
+          {{ t("cart.loginToCheckout") }}
         </orio-button>
       </div>
     </Footer>

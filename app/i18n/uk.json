@@ -187,5 +187,13 @@
     "nameRequired": "Ім'я не може бути порожнім",
     "uploadRequired": "Завантажте хоча б одне зображення"
   },
+  "upsell": {
+    "youMightAlsoLike": "Вам також може сподобатись",
+    "completeCollection": "Більше з тієї ж серії",
+    "addAnother": "Додати ще один принт?",
+    "sameQuality": "Та ж якість, та ж ціна \u2014 поєднайте їх",
+    "pairItWith": "Поєднайте з {name}?",
+    "viewDesign": "Переглянути"
+  },
   "showMore": "Показати більше"
 }

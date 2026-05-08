@@ -187,5 +187,13 @@
     "nameRequired": "Name cannot be empty",
     "uploadRequired": "Upload at least one image"
   },
+  "upsell": {
+    "youMightAlsoLike": "You might also like",
+    "completeCollection": "More from the same series",
+    "addAnother": "Add another print?",
+    "sameQuality": "Same quality, same price \u2014 pair them up",
+    "pairItWith": "Pair it with {name}?",
+    "viewDesign": "View"
+  },
   "showMore": "Show more"
 }
